@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <application
@@ -16,11 +16,32 @@
         <activity
             android:name="com.example.billsplit.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.billsplit.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.billsplit.EventsActivity"
+            android:label="@string/title_activity_events" >
+        </activity>
+        <activity
+            android:name="com.example.billsplit.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:parentActivityName="com.example.billsplit.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.billsplit.LoginActivity" />
+        </activity>
+        <activity
+            android:name="com.example.billsplit.EventsListFragment"
+            android:label="@string/title_activity_events_list_fragment" >
         </activity>
     </application>
 
