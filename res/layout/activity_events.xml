@@ -16,7 +16,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:text="@string/btn_create_event_text" />
+        android:text="@string/btn_create_event_text"
+        android:onClick="btn_create_event_Clicked" />
 
     <fragment
         android:id="@+id/events_list"

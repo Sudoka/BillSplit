@@ -43,6 +43,14 @@
             android:name="com.example.billsplit.EventsListFragment"
             android:label="@string/title_activity_events_list_fragment" >
         </activity>
+        <activity
+            android:name="com.example.billsplit.EventMainActivity"
+            android:label="@string/title_activity_event_main"
+            android:parentActivityName="com.example.billsplit.EventsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.billsplit.EventsActivity" />
+        </activity>
     </application>
 
 </manifest>

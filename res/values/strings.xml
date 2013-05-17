@@ -8,5 +8,6 @@
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="btn_create_event_text">Create New Event</string>
     <string name="title_activity_events_list_fragment">EventsListFragment</string>
+    <string name="title_activity_event_main">EventMainActivity</string>
 
 </resources>

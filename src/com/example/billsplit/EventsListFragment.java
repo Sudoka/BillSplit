@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class EventsListFragment extends ListFragment {
 
+	String [] items;
 	/*@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 	        Bundle savedInstanceState) {
@@ -22,8 +25,8 @@ public class EventsListFragment extends ListFragment {
 	 @Override
 	    public void onActivityCreated(Bundle savedInstanceState) {
 	        super.onActivityCreated(savedInstanceState);
-		String[] items = { "Apartment Rent", "Camping Trip", "Dinner", "Party", "Event X", "Event Y", "Event Z" };
-		
+		String []itemsTmp  = { "Apartment Rent", "Camping Trip", "Dinner", "Party", "Event X", "Event Y", "Event Z" };
+		items = itemsTmp;
 		setListAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, items));
 		
@@ -32,5 +35,17 @@ public class EventsListFragment extends ListFragment {
           //      R.layout.simple_list_item, R.id.item_text, items));
 
 	}
+	 
+	 @Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			// TODO: go to next screen when item is selected
+					
+			String ID = items[position];
+			
+			Intent intent = new Intent(getActivity(), EventMainActivity.class);
+			intent.putExtra(EventMainActivity.ARG_ID, ID);
+			startActivity(intent);
+			
+		}
 	
 }
