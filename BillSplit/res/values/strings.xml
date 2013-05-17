@@ -9,5 +9,6 @@
     <string name="btn_create_event_text">Create New Event</string>
     <string name="title_activity_events_list_fragment">EventsListFragment</string>
     <string name="title_activity_event_main">EventMainActivity</string>
+    <string name="title_activity_blank">Blank</string>
 
 </resources>

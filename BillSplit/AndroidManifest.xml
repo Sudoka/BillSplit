@@ -51,6 +51,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.billsplit.EventsActivity" />
         </activity>
+        <activity
+            android:name="com.example.billsplit.Blank"
+            android:label="@string/title_activity_blank" >
+        </activity>
     </application>
 
 </manifest>
