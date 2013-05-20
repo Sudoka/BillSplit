@@ -1,35 +1,6 @@
 package com.example.billsplit;
 import java.util.ArrayList;
 
-/*OCR TEST 
- */
-import org.apache.http.HttpHost;
-
-import org.apache.http.HttpResponse;
-
-import org.apache.http.client.methods.HttpGet;
-
-import org.apache.http.client.methods.HttpPost;
-
-import org.apache.http.client.params.ClientPNames;
-
-import org.apache.http.client.params.CookiePolicy;
-
-import org.apache.http.conn.params.ConnRoutePNames;
-
-import org.apache.http.entity.StringEntity;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import org.apache.http.params.BasicHttpParams;
-
-import org.apache.http.params.HttpConnectionParams;
-
-import org.apache.http.params.HttpParams;
-
-import org.apache.http.util.EntityUtils;
-/*
- */
 
 public class DataCapture {
   public class Item{
