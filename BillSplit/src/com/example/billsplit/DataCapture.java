@@ -3,19 +3,6 @@ import java.util.ArrayList;
 
 
 public class DataCapture {
-  public class Item{
-    private float cost;
-    private String name;
-    
-    public float getCost(){
-      return cost;
-    }
-    
-    public String getName(){
-      return name;
-    }
-  }
-  
   private ArrayList<Item> itemList;
   public void DataCapture(){
     itemList = new ArrayList<Item>();
