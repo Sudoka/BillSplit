@@ -55,6 +55,10 @@
             android:name="com.example.billsplit.Blank"
             android:label="@string/title_activity_blank" >
         </activity>
+        <activity
+            android:name="com.example.billsplit.BogusActivity"
+            android:label="@string/title_activity_bogus" >
+        </activity>
     </application>
 
 </manifest>
