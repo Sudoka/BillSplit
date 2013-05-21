@@ -5,7 +5,7 @@ import java.util.*;
 public class Event {
 	private String creatorGID;
 	private String name;
-	private ArrayList<Particpant> participants;
+	private ArrayList<Participant> participants;
 	private ArrayList<BalanceChange> txns;
 	private String category;
 	private Date dateCreated;
@@ -16,13 +16,13 @@ public class Event {
 	 *           name != null
 	 */
 	public Event(String creatorGID, String name){
-		assert(creatorGID != null && name != null)
+		assert(creatorGID != null && name != null);
 		this.creatorGID = creatorGID;
 		this.name = name;
-		participants = new ArrayList<Partiicpant>();
-		txns = new ArrayList<BalanceChange> txns;
+		participants = new ArrayList<Participant>();
+		txns = new ArrayList<BalanceChange>();
 		category = "None";
-		dateCreated = Date();
+		dateCreated = new Date();
 		lastModified = dateCreated;
 	}
 	
@@ -35,10 +35,10 @@ public class Event {
 		assert(creatorGID != null && name != null && category != null);
 		this.creatorGID = creatorGID;
 		this.name = name;
-		participants = new ArrayList<Partiicpant>();
+		participants = new ArrayList<Participant>();
 		txns = new ArrayList<BalanceChange>();
 		this.category = category;
-		dateCreated = Date();
+		dateCreated = new Date();
 		lastModified = dateCreated;
 	}
 	
@@ -50,7 +50,7 @@ public class Event {
 		return creatorGID;
 	}
 	
-	public Collection<Partiicpant> getParticpants(){
+	public Collection<Participant> getParticpants(){
 		return (Collection) participants;
 	}
 	
@@ -84,7 +84,7 @@ public class Event {
 	}
 	
 	public Collection<BalanceChange> getBalanceChanges(){
-		return (Collection) txns;
+		return (Collection<BalanceChange>) txns;
 	}
 	
 	public String getCategory(){
@@ -93,7 +93,7 @@ public class Event {
 	
 	public void addBalanceChange(BalanceChange newBalanceChange){
 		assert(newBalanceChange != null);
-		txns.add(newBalanceCHange);
+		txns.add(newBalanceChange);
 		return;
 	}
 	
@@ -103,12 +103,12 @@ public class Event {
 	 * start_date would mean "get all dates from beginning of event."
 	 *  requires: beginDate be before endDate.
 	 */
-	public Collection<BalanceChanges> getBalanceChangesByDate(Date beginDate, Date endDate){
+	public Collection<BalanceChange> getBalanceChangesByDate(Date beginDate, Date endDate){
 		assert(beginDate.before(endDate));
-		ArrayList<BalanceChanges> matching = new ArrayList<BalanceChanges>();
+		ArrayList<BalanceChange> matching = new ArrayList<BalanceChange>();
 		if(beginDate == null){
 			if(endDate == null){
-				return (Collection) txns;
+				return (Collection<BalanceChange>) txns;
 			}else{
 				for(BalanceChange b : txns){
 					if(endDate.after(b.getDate())){
@@ -130,7 +130,7 @@ public class Event {
 				}
 			}
 		}
-		return (Collection) matching;
+		return (Collection<BalanceChange>) matching;
 	}
 	
 	/*
@@ -174,7 +174,7 @@ public class Event {
 	}
 	
 	public void removeParticipant(Participant ParticipantToRemove){
-		assert(isParticipant(ParticipantToRemove));
+		assert(isParticipant(ParticipantToRemove.getName()));
 		participants.remove(ParticipantToRemove);
 		return;
 	}
