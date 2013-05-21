@@ -3,6 +3,7 @@
 
 #Also ignoring stuff in the /bin dir
 bin/*
+gen/*
 
 # Compiled source #
 ###################
