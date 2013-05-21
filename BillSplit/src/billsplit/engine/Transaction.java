@@ -1,8 +1,9 @@
-package com.example.billsplit;
+package billsplit.engine;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+
 
 public class Transaction extends BalanceChange {
 	private Hashtable<Participant,Item> paymentMatrix;

@@ -1,4 +1,4 @@
-package com.example.billsplit;
+package billsplit.ui;
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.example.billsplit;
+package billsplit.engine;
 
 public class Participant {
 	private Account associatedAccount;

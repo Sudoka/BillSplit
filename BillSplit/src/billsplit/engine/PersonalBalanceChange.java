@@ -1,4 +1,5 @@
-package com.example.billsplit;
+package billsplit.engine;
+
 
 public class PersonalBalanceChange {
 	public double amount;

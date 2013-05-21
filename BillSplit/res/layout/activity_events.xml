@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/events_list"
-        android:name="com.example.billsplit.EventsListFragment"
+        android:name="billsplit.ui.EventsListFragment"
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:layout_below="@id/btn_create_event"

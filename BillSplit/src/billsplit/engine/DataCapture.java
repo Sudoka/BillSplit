@@ -1,5 +1,6 @@
-package com.example.billsplit;
+package billsplit.engine;
 import java.util.ArrayList;
+
 
 
 public class DataCapture {

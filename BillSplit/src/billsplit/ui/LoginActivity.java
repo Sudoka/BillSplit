@@ -1,4 +1,6 @@
-package com.example.billsplit;
+package billsplit.ui;
+
+import com.example.billsplit.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

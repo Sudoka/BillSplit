@@ -1,6 +1,7 @@
-package com.example.billsplit;
+package billsplit.engine;
 
 import java.util.*;
+
 
 public class Event {
 	private String creatorGID;

@@ -1,43 +1,39 @@
-package com.example.billsplit;
+package billsplit.ui;
+
+import com.example.billsplit.R;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.support.v4.app.NavUtils;
+import android.annotation.TargetApi;
+import android.os.Build;
 
-public class EventMainActivity extends Activity {
+public class TutorialActivity extends Activity {
 
-	public static final String ARG_ID = "ID_ARG";
-	String EventID;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_event_main);
+		setContentView(R.layout.activity_tutorial);
 		// Show the Up button in the action bar.
-		
-		EventID = (String) getIntent().getSerializableExtra(ARG_ID);
-		
-		TextView txtID =  (TextView) findViewById(R.id.txtID);
-		txtID.setText(EventID);
 		setupActionBar();
 	}
 
 	/**
-	 * Set up the {@link android.app.ActionBar}.
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.event_main, menu);
+		getMenuInflater().inflate(R.menu.tutorial, menu);
 		return true;
 	}
 
