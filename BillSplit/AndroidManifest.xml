@@ -59,6 +59,14 @@
             android:name="com.example.billsplit.BogusActivity"
             android:label="@string/title_activity_bogus" >
         </activity>
+        <activity
+            android:name="com.example.billsplit.TransactionActivity"
+            android:label="@string/title_activity_transaction"
+            android:parentActivityName="com.example.billsplit.EventMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.billsplit.EventMainActivity" />
+        </activity>
     </application>
 
 </manifest>
