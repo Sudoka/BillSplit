@@ -22,6 +22,10 @@ public class Account {
 	private ArrayList<String> settings=null;
 	private static Account currentAccount=null;
 	
+	/*
+	 * Account for a known GID
+	 */
+	
 	public Account(String GID, String name) {
 		this.GID = GID;
 		this.name = name;
@@ -29,6 +33,10 @@ public class Account {
 		pastRelations = new ArrayList<Account>();
 		settings = new ArrayList<String>();
 	}
+	
+	/*
+	 * Account for an unknown contact
+	 */
 	
 	public Account() {
 		GID = "unknown";
@@ -38,7 +46,9 @@ public class Account {
 		settings = new ArrayList<String>();
 	}
 	
-	//This method should be called when the user creates a new account in the first-time use scenario
+	/*
+	 * This method should be called when the user creates a new account in the first-time use scenario
+	 * */
 	public Account createNewAccount(String GID, String name) {
 		Account newAccount = new Account(GID, name); 
 		Account.currentAccount = newAccount;
@@ -50,6 +60,7 @@ public class Account {
 		events.add(newEvent);
 		return newEvent;
 	}
+	
 	/*
 	 * The methods below return all events sorted by various parameters (TODO - comparators not implemented yet)  
 	 * */
