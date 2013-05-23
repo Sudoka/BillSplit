@@ -11,6 +11,46 @@ import java.util.*;
 
 public class Account {
 
+    private String GID;
+	private ArrayList<Event> events=null;
+	private String name;
+	private double netBalance;
+	private double totalOwedToYou;
+	private double balance;
+	private double totalYouOwe;
+	private ArrayList<Account> pastRelations=null;
+	private ArrayList<String> settings=null;
+	private static Account currentAccount=null;
+	
+	public Account(String GID, String name) {
+		this.GID = GID;
+		this.name = name;
+		events = new ArrayList<Event>();
+		pastRelations = new ArrayList<Account>();
+		settings = new ArrayList<String>();
+	}
+	
+	public Account() {
+		GID = "unknown";
+		name = "Account";
+		events = new ArrayList<Event>();
+		pastRelations = new ArrayList<Account>();
+		settings = new ArrayList<String>();
+	}
+	
+	//This method should be called when the user creates a new account in the first-time use scenario
+	public Account createNewAccount(String GID, String name) {
+		Account newAccount = new Account(GID, name); 
+		Account.currentAccount = newAccount;
+		return newAccount;
+	}
+	
+	Event createEvent(String c){
+		Event newEvent = new Event(this.GID, c);
+		events.add(newEvent);
+		return newEvent;
+	}
+	
 	double viewTotalBalance() {
 		return balance;
 	}
@@ -22,27 +62,37 @@ public class Account {
 		return totalYouOwe;
 	}
 	
-	Collection<Account> listParticipants() {
+	AbstractList<Account> listParticipants() {
 		updatePastRelations();
 		return pastRelations;
 	}
 	
-	void updatePastRelations() {
-		
-		ArrayList<Account> allParticipants = new ArrayList<Account>();
+	private void updatePastRelations() {
 		
 		for (int i=0; i<events.size(); i++) {
-			ArrayList<Participant> currentParticipants = events.get(i).getParticipants(); 
+			AbstractList<Participant> currentParticipants = events.get(i).getParticipants(); 
 			for (int j=0; j<currentParticipants.size(); j++) {
-				if (pastRelations.contains(events.get(i).getParticipants().get(j))) {
-					
+				Participant currentParticipant = events.get(i).getParticipants().get(j);
+				if (!pastRelations.contains(currentParticipant) && currentParticipant.getAccount() != null) {
+					pastRelations.add(currentParticipant.getAccount());
 				}
 			}
 		}
 	}
 	
-	Collection<BalanceChange> recentActivity() {
+	/* 
+	 * This method returns up to 10 of the last balance changes (if available)
+	 * */
+	AbstractList<BalanceChange> recentActivity() {
+		ArrayList<BalanceChange> activity = new ArrayList<BalanceChange>();
 		
+		int i=10;
+		while (i > 0) {
+			//TODO
+			i--;
+		}
+		
+		return activity;
 	}
 	
 	public static Account getCurrentAccount() {
@@ -51,20 +101,20 @@ public class Account {
 	public static void setCurrentAccount(Account currentAccount) {
 		Account.currentAccount = currentAccount;
 	}
-	public Collection<String> getSettings() {
-		return (Collection<String>) settings;
+	public AbstractList<String> getSettings() {
+		return (AbstractList<String>) settings;
 	}
 	
 	//TODO Assume array list for now; Change later
-	public void setSettings(Collection<String> settings) {
+	public void setSettings(AbstractList<String> settings) {
 		this.settings = (ArrayList<String>) settings;
 	}
-	public Collection<Account> getPastRelations() {
-		return (Collection<Account>) pastRelations;
+	public AbstractList<Account> getPastRelations() {
+		return (AbstractList<Account>) pastRelations;
 	}
 	
 	//TODO Assume array list for now; Change later
-	public void setPastRelations(Collection<Account> pastRelations) {
+	public void setPastRelations(AbstractList<Account> pastRelations) {
 		this.pastRelations = (ArrayList<Account>) pastRelations;
 	}
 	
@@ -92,11 +142,13 @@ public class Account {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Collection<Event> getEvents() {
-		return (Collection) events;
+	public AbstractList<Event> getEvents() {
+		return (AbstractList<Event>) events;
 	}
-	public void setEvents(Collection<Event> events) {
-		this.events = events;
+	
+	//TODO Assume array list for now; Change later
+	public void setEvents(AbstractList<Event> events) {
+		this.events = (ArrayList<Event>) events;
 	}
 
 	
@@ -106,16 +158,5 @@ public class Account {
 	public void setGID(String GID) {
 		this.GID = GID;
 	}
-
-	private String GID;
-	private ArrayList<Event> events=null;
-	private String name;
-	private double netBalance;
-	private double totalOwedToYou;
-	private double totalPaid;
-	private double balance;
-	private double totalYouOwe;
-	private ArrayList<Account> pastRelations=null;
-	private ArrayList<String> settings=null;
-	private static Account currentAccount=null;
+	
 }

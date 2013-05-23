@@ -51,8 +51,9 @@ public class Event {
 		return creatorGID;
 	}
 	
-	public Collection<Participant> getParticipants(){
-		return (Collection<Participant>) participants;
+	//Changed from Collection to AbstractList by Kirill M. on 5/23/13
+	public AbstractList<Participant> getParticipants(){
+		return (AbstractList<Participant>) participants;
 	}
 	
 	/*
