@@ -50,6 +50,40 @@ public class Account {
 		events.add(newEvent);
 		return newEvent;
 	}
+	/*
+	 * The methods below return all events sorted by various parameters (TODO - comparators not implemented yet)  
+	 * */
+	AbstractList<Event> getEventByCreateDate(Date d){
+		return events;
+	}
+	
+	AbstractList<Event> getEventByEditDate(Date d) {
+		return events;
+	}
+
+	AbstractList<Event> getEventByParticipantID(String participantID) {
+		return events;
+	}
+
+	AbstractList<Event> getEventByName(String eventName) {
+		return events;
+	}
+
+	AbstractList<Event> getEventByCreator(String creator) {
+		return events;
+	}
+
+	AbstractList<Event> getEventByCategory(String category) {
+		return events;
+	}
+
+	AbstractList<Event> getAllEventSortedByTotalSpent() {
+		return events;
+	}
+
+	AbstractList<Event> getAllEventSortedByTotalOwed() {
+		return events;
+	}
 	
 	double viewTotalBalance() {
 		return balance;
@@ -81,6 +115,7 @@ public class Account {
 	}
 	
 	/* 
+	 * TODO
 	 * This method returns up to 10 of the last balance changes (if available)
 	 * */
 	AbstractList<BalanceChange> recentActivity() {
