@@ -11,6 +11,40 @@ import java.util.*;
 
 public class Account {
 
+	double viewTotalBalance() {
+		return balance;
+	}
+	double viewTotalOwed() {
+		return totalOwedToYou;
+	}
+	
+	double viewTotalDue() {
+		return totalYouOwe;
+	}
+	
+	Collection<Account> listParticipants() {
+		updatePastRelations();
+		return pastRelations;
+	}
+	
+	void updatePastRelations() {
+		
+		ArrayList<Account> allParticipants = new ArrayList<Account>();
+		
+		for (int i=0; i<events.size(); i++) {
+			ArrayList<Participant> currentParticipants = events.get(i).getParticipants(); 
+			for (int j=0; j<currentParticipants.size(); j++) {
+				if (pastRelations.contains(events.get(i).getParticipants().get(j))) {
+					
+				}
+			}
+		}
+	}
+	
+	Collection<BalanceChange> recentActivity() {
+		
+	}
+	
 	public static Account getCurrentAccount() {
 		return currentAccount;
 	}
@@ -18,23 +52,22 @@ public class Account {
 		Account.currentAccount = currentAccount;
 	}
 	public Collection<String> getSettings() {
-		return settings;
+		return (Collection<String>) settings;
 	}
+	
+	//TODO Assume array list for now; Change later
 	public void setSettings(Collection<String> settings) {
-		this.settings = settings;
+		this.settings = (ArrayList<String>) settings;
 	}
 	public Collection<Account> getPastRelations() {
-		return pastRelations;
+		return (Collection<Account>) pastRelations;
 	}
+	
+	//TODO Assume array list for now; Change later
 	public void setPastRelations(Collection<Account> pastRelations) {
-		this.pastRelations = pastRelations;
+		this.pastRelations = (ArrayList<Account>) pastRelations;
 	}
-	public double getTotalDue() {
-		return totalDue;
-	}
-	public void setTotalDue(double totalDue) {
-		this.totalDue = totalDue;
-	}
+	
 	public double getTotalYouOwe() {
 		return totalYouOwe;
 	}
@@ -42,10 +75,10 @@ public class Account {
 		this.totalYouOwe = totalYouOwe;
 	}
 	public double getTotalOwed() {
-		return totalOwed;
+		return totalOwedToYou;
 	}
-	public void setTotalOwed(double totalOwed) {
-		this.totalOwed = totalOwed;
+	public void setTotalOwed(double totalOwedToYou) {
+		this.totalOwedToYou = totalOwedToYou;
 	}
 	public double getNetBalance() {
 		return netBalance;
@@ -60,7 +93,7 @@ public class Account {
 		this.name = name;
 	}
 	public Collection<Event> getEvents() {
-		return events;
+		return (Collection) events;
 	}
 	public void setEvents(Collection<Event> events) {
 		this.events = events;
@@ -75,15 +108,14 @@ public class Account {
 	}
 
 	private String GID;
-	private Collection<Event> events=null;
+	private ArrayList<Event> events=null;
 	private String name;
 	private double netBalance;
-	private double totalOwed;
+	private double totalOwedToYou;
 	private double totalPaid;
 	private double balance;
 	private double totalYouOwe;
-	private double totalDue;
-	private Collection<Account> pastRelations=null;
-	private Collection<String> settings=null;
+	private ArrayList<Account> pastRelations=null;
+	private ArrayList<String> settings=null;
 	private static Account currentAccount=null;
 }

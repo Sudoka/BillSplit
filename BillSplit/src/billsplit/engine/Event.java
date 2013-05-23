@@ -51,8 +51,8 @@ public class Event {
 		return creatorGID;
 	}
 	
-	public Collection<Participant> getParticpants(){
-		return (Collection) participants;
+	public Collection<Participant> getParticipants(){
+		return (Collection<Participant>) participants;
 	}
 	
 	/*
