@@ -2,14 +2,10 @@ package billsplit.ui;
 
 import com.example.billsplit.R;
 
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
-
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
@@ -63,10 +59,5 @@ public class EventMainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	/** Called when the user clicks the OCR button */
-	public void createTransaction(View view) {
-	    // Do something in response to button
-		Intent intent = new Intent(this, TransactionActivity.class);
-	    startActivity(intent);
-	}
+
 }

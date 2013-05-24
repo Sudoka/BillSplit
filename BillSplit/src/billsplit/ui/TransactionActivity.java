@@ -4,12 +4,9 @@ import com.example.billsplit.R;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.support.v4.app.NavUtils;
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 public class TransactionActivity extends Activity {
 
@@ -54,10 +51,4 @@ public class TransactionActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/** Called when the user clicks the OCR button */
-	public void initiateOCR(View view) {
-	    // Do something in response to button
-		Intent intent = new Intent(this, CaptureActivity.class);
-	    startActivity(intent);
-	}
 }
