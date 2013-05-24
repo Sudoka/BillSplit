@@ -2,11 +2,8 @@ package billsplit.engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class Transaction extends BalanceChange {
 	
@@ -101,10 +98,17 @@ public class Transaction extends BalanceChange {
 		this.matrix.setAmount(p, item, 0.0);
 	}
 	
+	/**
+	 * Literally splits every item cost evenly between all available participants.
+	 * We might want to revisit how useful this even is...
+	 */
 	public void splitAllEvenly() {
-		//for (int i=0;i<participants.size();i++) {
-		//	matrix.get(i)
-		//}
+		ArrayList<Item> items = this.matrix.getItems();
+		ArrayList<Participant> participants = this.matrix.getParticipants();
+		for (int j=0; j<items.size();j++) {
+			Item item = items.get(j);
+			this.setPayers(item, participants); //split item among all participants evenly
+		}
 	}
 	
 	public void clearPayers(Item item) {
