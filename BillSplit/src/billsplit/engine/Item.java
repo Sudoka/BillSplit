@@ -6,7 +6,10 @@ public class Item {
 	private String category;
 	private String details;
 	
-	public Item(String name, float cost) {}
+	public Item(String name, double d) {
+		this.name = name;
+		this.cost = d;
+	}
 	
 	public double getCost() {
 		return this.cost;
