@@ -1,6 +1,6 @@
 package billsplit.ui;
 
-import com.example.billsplit.R;
+import com.billsplit.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -13,7 +13,7 @@ public class TransactionActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_transaction);
+		setContentView(R.layout.activity_new_transaction);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}

@@ -1,6 +1,7 @@
 package billsplit.ui;
 
-import com.example.billsplit.R;
+import billsplit.engine.*;
+import com.billsplit.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -60,7 +61,10 @@ public class LoginActivity extends Activity {
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
+		//mEmailView.setText(mEmail);
+		GlobalAccount acc = (GlobalAccount)getApplication();
+		mEmailView.setText(acc.getMyInternalValue());
+		acc.setMyInternalValue("CHANGED");
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
@@ -75,7 +79,7 @@ public class LoginActivity extends Activity {
 						return false;
 					}
 				});
-
+ 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);

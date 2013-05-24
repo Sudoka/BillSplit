@@ -1,6 +1,8 @@
 package billsplit.ui;
 
-import com.example.billsplit.R;
+import billsplit.engine.GlobalAccount;
+
+import com.billsplit.R;
 
 //import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
@@ -21,13 +23,14 @@ public class EventActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_event_main);
+		setContentView(R.layout.activity_event);
 		// Show the Up button in the action bar.
 		
 		EventID = (String) getIntent().getSerializableExtra(ARG_ID);
 		
 		TextView txtID =  (TextView) findViewById(R.id.txtID);
-		txtID.setText(EventID);
+		GlobalAccount acc = (GlobalAccount)getApplication();
+		txtID.setText(EventID + acc.getMyInternalValue());
 		setupActionBar();
 	}
 
