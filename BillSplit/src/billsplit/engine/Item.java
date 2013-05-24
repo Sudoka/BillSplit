@@ -31,13 +31,20 @@ public class Item {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
+
+	/**
+	 * @return the details
+	 */
 	public String getDetails() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return details;
+	}
+
+	/**
+	 * @param the details to set
+	 */
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	
-	public void setDetails(String details) {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
 		
 }
