@@ -56,7 +56,7 @@ public class TransactionActivity extends Activity {
 
 	/** Called when the user clicks the OCR button */
 	public void initiateOCR(View view) {
-	    // Do something in response to button
+	    
 		Intent intent = new Intent(this, CaptureActivity.class);
 	    startActivity(intent);
 	}
