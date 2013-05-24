@@ -38,6 +38,7 @@ public class Transaction extends BalanceChange {
 	
 	public void removeItem(Item item) {
 		this.matrix.removeItem(item);
+		this.updateTotals();
 	}
 	
 	public boolean addItem(Item item) {
@@ -70,6 +71,7 @@ public class Transaction extends BalanceChange {
 			Participant p = participants.get(j);
 			this.matrix.setAmount(p, item, amtPerPerson);
 		}
+		this.updateTotals();
 	}
 	
 	/**
@@ -96,6 +98,7 @@ public class Transaction extends BalanceChange {
 	 */
 	public void removePayer(Item item, Participant p) {
 		this.matrix.setAmount(p, item, 0.0);
+		this.updateTotals();
 	}
 	
 	/**
@@ -113,12 +116,30 @@ public class Transaction extends BalanceChange {
 	
 	public void resetSplitForItem(Item item) {
 		this.matrix.reset(item);
+		this.updateTotals();
 	}
 	
 	public void resetSplitForParticipant(Participant p) {
 		this.matrix.reset(p);
+		this.updateTotals();
 	}
 	
+	/**
+	 * Call the setAmountForPerson method inherited from balanceChange for each
+	 * participant in this Transaction. Call this method after any changes to
+	 * make sure the overall totals are correct (should be very quick to run).
+	 */
+	private void updateTotals() {
+		for (Participant p : this.participants) {
+			double total = this.matrix.getTotalForParticipant(p);
+			this.setAmountForPerson(p, total);
+		}
+	}
+	
+	/**
+	 * This is a placeholder method for some kind of OCR (or other external)
+	 * input to alter this Transaction object.
+	 */
 	public void fromExternal() {
 		throw new UnsupportedOperationException("Not implemented yet.");
 	}
@@ -280,6 +301,16 @@ class PaymentMatrix {
 			}
 		}
 		return items;
+	}
+	
+	public double getTotalForParticipant(Participant p) {
+		double total = 0.0;
+		ArrayList<Item> purchases = this.getPurchases(p);
+		for (int j=0; j<purchases.size(); j++) {
+			double contrib = this.getAmount(p, purchases.get(j));
+			total += contrib;
+		}
+		return total;
 	}
 	
 	private <T, E> T getKeyByValue(Map<T, E> map, E value) {
