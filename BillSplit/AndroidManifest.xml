@@ -4,9 +4,28 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.screen.landscape" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="billsplit.ui.EventsActivity"
+            android:name="billsplit.ui.CreateSelectEventActivity"
             android:label="@string/title_activity_events" >
         </activity>
         <activity
@@ -44,9 +63,9 @@
             android:label="@string/title_activity_events_list_fragment" >
         </activity>
         <activity
-            android:name="billsplit.ui.EventMainActivity"
+            android:name="billsplit.ui.EventActivity"
             android:label="@string/title_activity_event_main"
-            android:parentActivityName="billsplit.ui.EventsActivity" >
+            android:parentActivityName="billsplit.ui.CreateSelectEventActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.billsplit.EventsActivity" />
@@ -60,12 +79,61 @@
             android:label="@string/title_activity_bogus" >
         </activity>
         <activity
-            android:name="billsplit.ui.TransactionActivity"
+            android:name="billsplit.ui.NewTransactionActivity"
             android:label="@string/title_activity_transaction"
-            android:parentActivityName="billsplit.ui.EventMainActivity" >
+            android:parentActivityName="billsplit.ui.EventActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.billsplit.EventMainActivity" />
+        </activity>
+        <activity
+            android:name="edu.sfsu.cs.orange.ocr.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="edu.sfsu.cs.orange.ocr.HelpActivity"
+            android:screenOrientation="user" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="edu.sfsu.cs.orange.ocr.PreferencesActivity" />
+        <activity
+            android:name="billsplit.ui.ExistingTransactionsActivity"
+            android:label="@string/title_activity_existing_transactions"
+            android:parentActivityName="billsplit.ui.EventActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.EventActivity" />
+        </activity>
+        <activity
+            android:name="billsplit.ui.ItemActivity"
+            android:label="@string/title_activity_item"
+            android:parentActivityName="billsplit.ui.NewTransactionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.NewTransactionActivity" />
+        </activity>
+        <activity
+            android:name="billsplit.ui.EditParticipantActivity"  
+            android:label="@string/title_activity_edit_participant"
+            android:parentActivityName="billsplit.ui.ItemActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.ItemActivity" />
+        </activity>
+        <activity
+            android:name="billsplit.ui.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName="billsplit.ui.NewTransactionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.NewTransactionActivity" />
         </activity>
     </application>
 

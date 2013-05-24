@@ -195,7 +195,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void getStarted_Clicked(View v){
-		Intent events = new Intent(this, EventsActivity.class);
+		Intent events = new Intent(this, CreateSelectEventActivity.class);
         startActivity(events); 
 	}
 	

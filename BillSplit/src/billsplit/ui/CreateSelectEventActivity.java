@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 
-public class EventsActivity extends Activity {
+public class CreateSelectEventActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class EventsActivity extends Activity {
 	{
 		String ID = "[CREATE_NEW]";
 		
-		Intent intent = new Intent(this, EventMainActivity.class);
-		intent.putExtra(EventMainActivity.ARG_ID, ID);
+		Intent intent = new Intent(this, EventActivity.class);
+		intent.putExtra(EventActivity.ARG_ID, ID);
 		startActivity(intent);
 	}
 
