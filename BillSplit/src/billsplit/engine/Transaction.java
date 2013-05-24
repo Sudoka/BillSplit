@@ -290,7 +290,4 @@ class PaymentMatrix {
 	    }
 	    return null;
 	}
-
-
-	
 }
