@@ -9,8 +9,8 @@ import java.lang.UnsupportedOperationException;
 public abstract class BalanceChange {
 	protected Date date;
 	protected String name;
-	protected ArrayList<PersonalBalanceChange> amounts;
-	protected ArrayList<Participant> participants;
+	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
+	protected ArrayList<Participant> participants; //ordered list of participants
 	protected String details;
 	protected String category;
 	
@@ -30,7 +30,7 @@ public abstract class BalanceChange {
 		for (int i=0; i<participants.size(); i++) {
 			Participant p = participants.get(i);
 			double a = amounts.get(i);
-			this.amounts.add(new PersonalBalanceChange(p,a));		
+			this.amounts.put(p, a);		
 		}
 	}
 
@@ -43,37 +43,37 @@ public abstract class BalanceChange {
 	}
 	
 	public int addParticipant(Participant p){
-		this.participants.add(p);
 		int newidx = this.participants.size();
+		this.participants.add(p);
+		this.amounts.put(p, 0.0);
 		return newidx;
 	}
 
 	public void removeParticipant(Participant p){
 		this.participants.remove(p);
+		this.amounts.remove(p);
 	}
 	
+	/** DEPRECATED: see my notes on the contract. I'd like to remove this, since an 'index' of a participant
+	 * no longer matters. Just use getters/setters with the actual Participant object. (note: this method
+	 * still functions until a decision is made; it just calls the other removeParticipant(Participant p) method)
+	 * @param index
+	 */
 	public void removeParticipant(int index){
-		this.participants.remove(index);
+		Participant p = this.participants.get(index);
+		this.removeParticipant(p);
 	}
 	
 	public void setAmountForPerson(Participant p, double amount){
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.amounts.put(p, amount);
 	}
 	
 	public HashMap<Participant,Double> getAmounts(){
-		HashMap<Participant,Double> ret = new HashMap<Participant,Double>();
-		for (int i=0; i<this.participants.size(); i++) {
-			Participant participant = this.participants.get(i);
-			double amt = this.amounts.get(i).amount;
-			ret.put(participant, amt);
-		}
-		return ret;
+		return amounts;
 	}
 	
 	public double getAmount(Participant p){
-		int index = this.participants.indexOf(p);
-		double amount = this.amounts.get(index).amount;
-		return amount;
+		return this.amounts.get(p);
 	}
 	
 	public String getName(){
@@ -100,13 +100,4 @@ public abstract class BalanceChange {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-}
-
-class PersonalBalanceChange {
-	public PersonalBalanceChange(Participant p, double a) {
-		this.amount = a;
-		this.person = p;
-	}
-	public double amount;
-	public Participant person;
 }
