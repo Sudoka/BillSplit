@@ -14,15 +14,22 @@ public abstract class BalanceChange {
 	protected String details;
 	protected String category;
 	
-	protected BalanceChange() {}
+	protected BalanceChange() {
+		//Just call other constructor but with empty starting arrays
+		this(new ArrayList<Participant>(), new ArrayList<Double>());
+	}
 	
-	protected BalanceChange(ArrayList<Participant> participants2,
-			ArrayList<Double> amounts2) {
-		// TODO Auto-generated constructor stub
-		this.participants = participants2;
-		for (int i=0; i<participants2.size(); i++) {
-			Participant p = participants2.get(i);
-			double a = amounts2.get(i);
+	protected BalanceChange(ArrayList<Participant> participants) {
+		//Call other constructor, but with empty amount array
+		this(participants, new ArrayList<Double>());
+	}
+	
+	protected BalanceChange(ArrayList<Participant> participants, ArrayList<Double> amounts) {
+		// The 'real' constructor that all other constructors call
+		this.participants = participants;
+		for (int i=0; i<participants.size(); i++) {
+			Participant p = participants.get(i);
+			double a = amounts.get(i);
 			this.amounts.add(new PersonalBalanceChange(p,a));		
 		}
 	}
@@ -93,4 +100,13 @@ public abstract class BalanceChange {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+}
+
+class PersonalBalanceChange {
+	public PersonalBalanceChange(Participant p, double a) {
+		this.amount = a;
+		this.person = p;
+	}
+	public double amount;
+	public Participant person;
 }
