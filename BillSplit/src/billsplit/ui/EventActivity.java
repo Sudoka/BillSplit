@@ -2,7 +2,7 @@ package billsplit.ui;
 
 import com.example.billsplit.R;
 
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
+//import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
-public class EventMainActivity extends Activity {
+public class EventActivity extends Activity {
 
 	public static final String ARG_ID = "ID_ARG";
 	String EventID;
@@ -66,7 +66,7 @@ public class EventMainActivity extends Activity {
 	/** Called when the user clicks the OCR button */
 	public void createTransaction(View view) {
 	    // Do something in response to button
-		Intent intent = new Intent(this, TransactionActivity.class);
+		Intent intent = new Intent(this, NewTransactionActivity.class);
 	    startActivity(intent);
 	}
 }

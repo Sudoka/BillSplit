@@ -1,14 +1,9 @@
 package billsplit.ui;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,8 +37,8 @@ public class EventsListFragment extends ListFragment {
 					
 			String ID = items[position];
 			
-			Intent intent = new Intent(getActivity(), EventMainActivity.class);
-			intent.putExtra(EventMainActivity.ARG_ID, ID);
+			Intent intent = new Intent(getActivity(), EventActivity.class);
+			intent.putExtra(EventActivity.ARG_ID, ID);
 			startActivity(intent);
 			
 		}

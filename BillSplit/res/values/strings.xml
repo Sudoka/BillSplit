@@ -14,5 +14,9 @@
     <string name="title_activity_transaction">TransactionActivity</string>
     <string name="ocr_button_label">OCR Capture</string>
     <string name="create_new_transaction">New Transaction</string>
+    <string name="title_activity_existing_transactions">ExistingTransactionsActivity</string>
+    <string name="title_activity_item">ItemActivity</string>
+    <string name="title_activity_edit_participant">EditParticipantActivity</string>
+    <string name="title_activity_payment">PaymentActivity</string>
 
 </resources>
