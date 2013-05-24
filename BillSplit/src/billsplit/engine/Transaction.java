@@ -111,8 +111,12 @@ public class Transaction extends BalanceChange {
 		}
 	}
 	
-	public void clearPayers(Item item) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+	public void resetSplitForItem(Item item) {
+		this.matrix.reset(item);
+	}
+	
+	public void resetSplitForParticipant(Participant p) {
+		this.matrix.reset(p);
 	}
 	
 	public void fromExternal() {
