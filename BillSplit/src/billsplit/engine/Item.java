@@ -9,27 +9,27 @@ public class Item {
 	public Item(String name, float cost) {}
 	
 	public double getCost() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.cost;
 	}
 	
 	public void setCost(double cost) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.cost = cost;
 	}
 
 	public String getName() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.name = name;
 	}
 	
 	public String getCategory() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.category;
 	}
 	
 	public void setCategory(String category) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.category = category;
 	}
 	
 	public String getDetails() {

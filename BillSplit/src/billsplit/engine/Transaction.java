@@ -1,47 +1,47 @@
 package billsplit.engine;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
-
 
 public class Transaction extends BalanceChange {
 	private Hashtable<Participant,Item> paymentMatrix;
 	private Hashtable<Item,Participant> itemMatrix;
-	private Date transactionDate;
+	
+	private Hashtable<Participant,Integer> pidLookup;
+	private Hashtable<Item,Integer> itemLookup;
+	
 	private Event eventOwner;
 	private ArrayList<Item> items;
-	private String category;
+	
+	private ArrayList<ArrayList<Double>> matrix;
 	
 	
-	public Transaction(ArrayList<Participant> participants, String name) {}
-	
-	public boolean containsParticipant(Participant p) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+	public Transaction(ArrayList<Participant> participants) {
+		this.participants = participants;
 	}
 	
 	public boolean containsItem(Item item) {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-	
-	public void removeParticipant(Participant p) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		  return this.items.contains(item);
+		  
 	}
 	
 	public ArrayList<Item> getItems() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.items;
 	}
 	
 	public void removeItem(Item item) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.items.remove(item);
+		//todo: also remove from matrices
 	}
 	
-	public boolean removeItem(int itemIndex) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+	public void removeItem(int itemIndex) {
+		this.items.remove(itemIndex);
+		//todo: also remove from matrices
 	}
 	
 	public int addItem(Item item) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.items.add(item);
+		return this.items.size();
 	}
 	
 	public void setPayers(Item item, ArrayList<Participant> participants) {
@@ -57,30 +57,30 @@ public class Transaction extends BalanceChange {
 	}
 	
 	public void splitAllEvenly() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		for (i=0,i<participants.size(),i++) {
+			matrix.get(i)
+		}
 	}
 	
 	public void clearPayers(Item item) {
 		throw new UnsupportedOperationException("Not implemented yet.");
 	}
 	
-	public String getCategory() {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-	
-	public void setCategory(String category) {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-	
-	public String getDetails() {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-	
-	public void setDetails(String details) {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-	
 	public void fromExternal() {
 		throw new UnsupportedOperationException("Not implemented yet.");
+	}
+
+	/**
+	 * @return the eventOwner
+	 */
+	public Event getEventOwner() {
+		return eventOwner;
+	}
+
+	/**
+	 * @param eventOwner the eventOwner to set
+	 */
+	public void setEventOwner(Event eventOwner) {
+		this.eventOwner = eventOwner;
 	}
 }
