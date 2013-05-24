@@ -57,8 +57,8 @@ public class Transaction extends BalanceChange {
 	}
 	
 	public void splitAllEvenly() {
-		for (i=0,i<participants.size(),i++) {
-			matrix.get(i)
+		for (int i=0;i<participants.size();i++) {
+			matrix.get(i);
 		}
 	}
 	
