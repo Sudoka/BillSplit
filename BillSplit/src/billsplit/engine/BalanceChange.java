@@ -54,10 +54,10 @@ public abstract class BalanceChange {
 		this.amounts.remove(p);
 	}
 	
-	/** DEPRECATED: see my notes on the contract. I'd like to remove this, since an 'index' of a participant
+	/** @deprecated "see my notes on the contract for this method." 
+	 * DEPRECATED: see my notes on the contract. I'd like to remove this, since an 'index' of a participant
 	 * no longer matters. Just use getters/setters with the actual Participant object. (note: this method
 	 * still functions until a decision is made; it just calls the other removeParticipant(Participant p) method)
-	 * @param index
 	 */
 	public void removeParticipant(int index){
 		Participant p = this.participants.get(index);
