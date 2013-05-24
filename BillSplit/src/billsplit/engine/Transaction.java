@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class Transaction extends BalanceChange {
@@ -57,16 +59,46 @@ public class Transaction extends BalanceChange {
 	 * The following methods manipulate the actual payers/payees
 	 */
 	
+	/**
+	 * Clear any existing payers set for item, and then evenly split that item
+	 * cost among the specified participants.
+	 * @param item
+	 * @param participants
+	 */
 	public void setPayers(Item item, ArrayList<Participant> participants) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		//todo: check that there are more than 0 participants
+		matrix.reset(item); //remove any other payments on the item as a starting point
+		double amtPerPerson = item.getCost() / participants.size();
+		for (int j=0; j<participants.size(); j++) {
+			Participant p = participants.get(j);
+			this.matrix.setAmount(p, item, amtPerPerson);
+		}
 	}
 	
+	/**
+	 * Using this method ASSUMES that you want to split payment evenly between the 
+	 * participants currently assigned to the item and the new participant p.
+	 * It will reset any custom payment values for all other participants already
+	 * assigned to pay for item to an even split between all involved.
+	 * @param item
+	 * @param p
+	 */
 	public void addPayer(Item item, Participant p) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		ArrayList<Participant> currentPayers = matrix.getPayers(item);
+		currentPayers.add(p);
+		this.setPayers(item, currentPayers); //evenly split btw new set of payers
 	}
 	
+	/**
+	 * Removes a payer from an item. Does NOT adjust the amounts that other payers are 
+	 * paying for that item (call setPayers() again on the remaining payers to redistribute
+	 * the amount evenly between them). Also note, this does not remove that participant
+	 * from the overall transaction; it only zeros their amount for that particular item.
+	 * @param item
+	 * @param p
+	 */
 	public void removePayer(Item item, Participant p) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		this.matrix.setAmount(p, item, 0.0);
 	}
 	
 	public void splitAllEvenly() {
@@ -206,6 +238,51 @@ class PaymentMatrix {
 		
 		return participants;
 	}
+	
+	public void reset(Participant p) {
+		int pid = this.getParticipantID(p);
+		ArrayList<Double> thisRow = m.get(pid);
+		for (int j=0; j<itemMap.size();j++) { thisRow.set(j, Double.valueOf(0.0)); }
+	}
+	
+	public void reset(Item i) {
+		int iid = this.getItemID(i);
+		for (int j=0; j<m.size();j++) {
+			m.get(j).set(iid,0.0); //reset amt to 0
+		}
+	}
+	
+	public ArrayList<Participant> getPayers(Item i) {
+		int iid = this.getItemID(i);
+		ArrayList<Participant> payers = new ArrayList<Participant>();
+		for (int j=0; j<m.size();j++) {
+			if (m.get(j).get(iid) > 0.0) {
+				payers.add(this.getKeyByValue(participantMap, j));
+			}
+		}
+		return payers;
+	}
+	
+	public ArrayList<Item> getPurchases(Participant p) {
+		int pid = this.getParticipantID(p);
+		ArrayList<Item> items = new ArrayList<Item>();
+		for (int j=0; j<itemMap.size();j++) {
+			if (m.get(pid).get(j) > 0.0) {
+				items.add(this.getKeyByValue(itemMap, j));
+			}
+		}
+		return items;
+	}
+	
+	private <T, E> T getKeyByValue(Map<T, E> map, E value) {
+	    for (Entry<T, E> entry : map.entrySet()) {
+	        if (value.equals(entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
+	}
+
 
 	
 }
