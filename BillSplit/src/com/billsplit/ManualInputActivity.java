@@ -1,23 +1,17 @@
-package billsplit.ui;
-
-import com.billsplit.ManualInputActivity;
-import com.billsplit.R;
+package com.billsplit;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.support.v4.app.NavUtils;
-//import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
-public class NewTransactionActivity extends Activity {
+public class ManualInputActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_transaction);
+		setContentView(R.layout.activity_manual_input);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -34,7 +28,7 @@ public class NewTransactionActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.transaction, menu);
+		getMenuInflater().inflate(R.menu.manual_input, menu);
 		return true;
 	}
 
@@ -55,21 +49,4 @@ public class NewTransactionActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/** Called when the user clicks the OCR button */
-	public void initiateOCR(View view) {
-	    // Do something in response to button
-		//Intent intent = new Intent(this, CaptureActivity.class);
-	    //startActivity(intent);
-	}
-	
-	public void btn_done_clicked(View view)
-	{
-		finish();
-	}
-	
-	public void ibtn_keyboard_clicked(View view)
-	{
-		Intent intent = new Intent(this, ManualInputActivity.class);
-		startActivity(intent);
-	}
 }

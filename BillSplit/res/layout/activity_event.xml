@@ -12,5 +12,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+    
+     <Button
+        android:id="@+id/btn_new_transaction"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="@string/btn_new_transaction_text"
+        android:onClick="btn_new_transaction_clicked" />
+     
+        
+      <Button
+        android:id="@+id/btn_existing_transactions"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:text="@string/btn_existing_transactions_text"
+        android:onClick="btn_existing_transactions_clicked" />
 
 </RelativeLayout>

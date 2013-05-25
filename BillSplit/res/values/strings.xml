@@ -17,5 +17,10 @@
     <string name="title_activity_item">ItemActivity</string>
     <string name="title_activity_edit_participant">EditParticipantActivity</string>
     <string name="title_activity_payment">PaymentActivity</string>
+    <string name="btn_new_transaction_text">New Transaction</string>
+    <string name="btn_existing_transactions_text">Existing Transactions</string>
+    <string name="btn_done">Done</string>
+    <string name="title_activity_items_list_fragment">ItemsListFragment</string>
+    <string name="title_activity_manual_input">ManualInputActivity</string>
 
 </resources>

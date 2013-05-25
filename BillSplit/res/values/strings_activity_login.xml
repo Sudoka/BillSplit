@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="title_activity_login">Welcome</string>
+    <string name="title_activity_login">BillSplit</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

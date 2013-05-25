@@ -72,4 +72,14 @@ public class EventActivity extends Activity {
 		Intent intent = new Intent(this, NewTransactionActivity.class);
 	    startActivity(intent);
 	}
+	
+	public void btn_new_transaction_clicked(View view){
+		Intent intent = new Intent(this, NewTransactionActivity.class);
+	    startActivity(intent);
+	}
+	
+	public void btn_existing_transactions_clicked(View view){
+		Intent intent = new Intent(this, ExistingTransactionsActivity.class);
+	    startActivity(intent);
+	}
 }

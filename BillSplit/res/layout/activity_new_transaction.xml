@@ -8,9 +8,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewTransactionActivity" >
 
-    <TextView
+    <ImageButton
+        android:id="@+id/ibtn_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@+id/items_list"
+        android:layout_alignRight="@+id/items_list"
+        android:onClick="ibtn_camera_clicked"
+        android:src="@drawable/ic_camera" />
+
+    <ImageButton
+        android:id="@+id/ibtn_keyboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_below="@+id/items_list"
+		android:layout_alignLeft="@+id/items_list"
+        android:onClick="ibtn_keyboard_clicked"
+        android:src="@drawable/ic_keyboard" />
+    
+    <Button
+        android:id="@+id/btn_done"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="btn_done_clicked"
+        android:layout_below="@+id/ibtn_keyboard"
+        android:text="@string/btn_done" />
+
+    
+
+    <fragment
+        android:id="@+id/items_list"
+        android:name="billsplit.ui.ItemsListFragment"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -4,7 +4,6 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -22,21 +21,17 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name="billsplit.engine.GlobalAccount"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="billsplit.engine.GlobalAccount" >
-        <activity
-            android:name="billsplit.ui.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+        android:theme="@style/AppTheme" >
         <activity
             android:name="billsplit.ui.LoginActivity"
             android:label="@string/title_activity_login"
@@ -117,7 +112,7 @@
                 android:value="billsplit.ui.NewTransactionActivity" />
         </activity>
         <activity
-            android:name="billsplit.ui.EditParticipantActivity"  
+            android:name="billsplit.ui.EditParticipantActivity"
             android:label="@string/title_activity_edit_participant"
             android:parentActivityName="billsplit.ui.ItemActivity" >
             <meta-data
@@ -132,5 +127,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="billsplit.ui.NewTransactionActivity" />
         </activity>
+        <activity
+            android:name="billsplit.ui.ItemsListFragment"
+            android:label="@string/title_activity_items_list_fragment" >
+        </activity>
+        <activity
+            android:name="com.billsplit.ManualInputActivity"
+            android:label="@string/title_activity_manual_input"
+            android:parentActivityName="billsplit.ui.NewTransactionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.NewTransactionActivity" />
+        </activity>
     </application>
+
 </manifest>
