@@ -14,5 +14,6 @@
     <string name="title_activity_transaction">TransactionActivity</string>
     <string name="ocr_button_label">OCR Capture</string>
     <string name="create_new_transaction">New Transaction</string>
+    <string name="data_button_label">Initialize DataCapture</string>
 
 </resources>

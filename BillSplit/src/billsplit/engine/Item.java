@@ -6,10 +6,13 @@ public class Item {
 	private String category;
 	private String details;
 	
-	public Item(String name, float cost) {}
+	public Item(String name, float cost) {
+		this.name = name;
+		this.cost = cost;
+	}
 	
 	public double getCost() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.cost;
 	}
 	
 	public void setCost(double cost) {
@@ -17,7 +20,7 @@ public class Item {
 	}
 
 	public String getName() {
-		throw new UnsupportedOperationException("Not implemented yet.");
+		return this.name;
 	}
 	
 	public void setName(String name) {

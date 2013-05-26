@@ -1,9 +1,7 @@
 package billsplit.ui;
 
 import com.example.billsplit.R;
-
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
-
+ 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
