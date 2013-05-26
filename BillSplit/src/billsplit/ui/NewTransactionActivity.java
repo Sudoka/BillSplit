@@ -1,6 +1,5 @@
 package billsplit.ui;
 
-import com.billsplit.ManualInputActivity;
 import com.billsplit.R;
 
 import android.os.Bundle;

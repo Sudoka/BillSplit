@@ -6,34 +6,48 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".EventActivity" >
+    tools:context=".EventActivity"
+    android:id="@+id/EventMainLayout" >
 
     <TextView android:id="@+id/txtID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-    
-     <Button
-        android:id="@+id/btn_new_transaction"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:text="@string/btn_new_transaction_text"
-        android:onClick="btn_new_transaction_clicked" />
-     
-        
+        android:text="@string/participants" />
+
       <Button
-        android:id="@+id/btn_existing_transactions"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:text="@string/btn_existing_transactions_text"
-        android:onClick="btn_existing_transactions_clicked" />
+          android:id="@+id/btn_existing_transactions"
+          style="?android:attr/buttonStyleSmall"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/picker_participants"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="103dp"
+          android:onClick="btn_existing_transactions_clicked"
+          android:text="@string/btn_existing_transactions_text" />
+
+      <Button
+          android:id="@+id/btn_new_transaction"
+          style="?android:attr/buttonStyleSmall"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/picker_participants"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="19dp"
+          android:onClick="btn_new_transaction_clicked"
+          android:text="@string/btn_new_transaction_text" />
+
+      <NumberPicker
+          android:id="@+id/picker_participants"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/txtID"
+          android:layout_centerHorizontal="true" />
+      
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/participantsContainer"
+        android:animateLayoutChanges="false"/>
 
 </RelativeLayout>
