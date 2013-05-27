@@ -1,4 +1,8 @@
-package com.billsplit;
+package billsplit.ui;
+
+import com.billsplit.R;
+import com.billsplit.R.layout;
+import com.billsplit.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

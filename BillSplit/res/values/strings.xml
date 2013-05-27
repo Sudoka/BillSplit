@@ -23,11 +23,15 @@
     <string name="btn_done">Done</string>
     <string name="title_activity_items_list_fragment">ItemsListFragment</string>
     <string name="title_activity_manual_input">ManualInputActivity</string>
+<<<<<<< HEAD
 =======
     <string name="title_activity_transaction">TransactionActivity</string>
     <string name="ocr_button_label">OCR Capture</string>
     <string name="create_new_transaction">New Transaction</string>
     <string name="data_button_label">Initialize DataCapture</string>
 >>>>>>> tatenda
+=======
+    <string name="participants">Number of Participants:</string>
+>>>>>>> 94f1a2c0a89463c58996e04d846c9dca17d2ecf5
 
 </resources>

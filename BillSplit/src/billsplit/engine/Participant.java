@@ -37,7 +37,6 @@ public class Participant {
 	 */
 	Participant(Account associatedAccount, String name){
 		this.associatedAccount = associatedAccount;
-		this.balance  = balance;
 		this.name = name;
 	}
 	
@@ -73,6 +72,8 @@ public class Participant {
 		return balance;
 	}
 	
-	
+	/*
+	 * kmakarov - Need an anonymous account participant constructor
+	 * */
 
 }
