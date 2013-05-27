@@ -22,5 +22,6 @@
     <string name="btn_done">Done</string>
     <string name="title_activity_items_list_fragment">ItemsListFragment</string>
     <string name="title_activity_manual_input">ManualInputActivity</string>
+    <string name="participants">Number of Participants:</string>
 
 </resources>
