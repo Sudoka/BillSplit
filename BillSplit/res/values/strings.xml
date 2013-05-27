@@ -10,6 +10,7 @@
     <string name="title_activity_events_list_fragment">EventsListFragment</string>
     <string name="title_activity_event">EventMainActivity</string>
     <string name="title_activity_bogus">BogusActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_new_transaction">TransactionActivity</string>
     <string name="ocr_button_label">OCR Capture</string>
     <string name="create_new_transaction">New Transaction</string>
@@ -22,5 +23,11 @@
     <string name="btn_done">Done</string>
     <string name="title_activity_items_list_fragment">ItemsListFragment</string>
     <string name="title_activity_manual_input">ManualInputActivity</string>
+=======
+    <string name="title_activity_transaction">TransactionActivity</string>
+    <string name="ocr_button_label">OCR Capture</string>
+    <string name="create_new_transaction">New Transaction</string>
+    <string name="data_button_label">Initialize DataCapture</string>
+>>>>>>> tatenda
 
 </resources>
