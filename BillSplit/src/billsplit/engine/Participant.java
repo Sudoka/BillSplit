@@ -72,6 +72,8 @@ public class Participant {
 		return balance;
 	}
 	
-	
+	/*
+	 * kmakarov - Need an anonymous account participant constructor
+	 * */
 
 }

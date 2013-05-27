@@ -46,6 +46,14 @@ public class Account {
 		settings = new ArrayList<String>();
 	}
 	
+	public Account(String name) {
+		GID = "unknown";
+		this.name = name;
+		events = new ArrayList<Event>();
+		pastRelations = new ArrayList<Account>();
+		settings = new ArrayList<String>();
+	}
+	
 	/*
 	 * This method should be called when the user creates a new account in the first-time use scenario
 	 * */
@@ -55,10 +63,62 @@ public class Account {
 		return newAccount;
 	}
 	
-	Event createEvent(String c){
-		Event newEvent = new Event(this.GID, c);
+	Event createEvent(String name) {
+		Event newEvent = new Event(this.GID, name);
 		events.add(newEvent);
 		return newEvent;
+	}
+	
+	Event createEvent(String name, String category) {
+		Event newEvent = new Event(this.GID, name, category);
+		events.add(newEvent);
+		return newEvent;
+	}
+	
+	/*
+	 * Test method - returns account. Account.currentAccount is set to the account returned; two test events are created with some activities
+	 */
+	public Account test() {
+		Account newAccount = createNewAccount("address@email.com", "Test Account");
+		
+		//Create participants - accounts first
+		Account partAccount1 = new Account("Manuel");
+		Account partAccount2 = new Account("Tatenda");
+		Account partAccount3 = new Account("Dan");
+		Account partAccount4 = new Account("Kirill");
+		
+		//Creates first event - Trip
+		newAccount.createEvent("Trip", "Short Term");
+		
+		//Add participants
+		newAccount.events.get(0).addParticipant(new Participant(partAccount1));
+		newAccount.events.get(0).addParticipant(new Participant(partAccount2));
+		newAccount.events.get(0).addParticipant(new Participant(partAccount3));
+		newAccount.events.get(0).addParticipant(new Participant(partAccount4));
+		
+		Event firstEvent = newAccount.events.get(0);
+		ArrayList<Participant> firstParts = (ArrayList) firstEvent.getParticipants();
+		
+		//Add activities
+		firstEvent.addBalanceChange(new Transaction(firstParts));
+		firstEvent.addBalanceChange(new Transaction(firstParts));
+		//Could add more activities (transactions or payments here)
+		
+		//Creates second event - Household - and two three activities to it
+		newAccount.createEvent("Household", "Long Term");
+		
+		//Add participants
+		newAccount.events.get(1).addParticipant(new Participant(partAccount1));
+		newAccount.events.get(1).addParticipant(new Participant(partAccount2));
+		
+		Event secondEvent = newAccount.events.get(1);
+		ArrayList<Participant> secondParts = (ArrayList) secondEvent.getParticipants();
+		
+		//Add activities
+		secondEvent.addBalanceChange(new Transaction(secondParts));
+		secondEvent.addBalanceChange(new Transaction(secondParts));
+		
+		return newAccount;
 	}
 	
 	/*
@@ -107,7 +167,11 @@ public class Account {
 		return totalYouOwe;
 	}
 	
-	AbstractList<Account> listParticipants() {
+	/* 
+	 * TODO: Modify to use iterators 
+	 * */
+	
+	Collection<Account> listParticipants() {
 		updatePastRelations();
 		return pastRelations;
 	}
@@ -115,7 +179,7 @@ public class Account {
 	private void updatePastRelations() {
 		
 		for (int i=0; i<events.size(); i++) {
-			AbstractList<Participant> currentParticipants = events.get(i).getParticipants(); 
+			ArrayList<Participant> currentParticipants = (ArrayList) events.get(i).getParticipants(); 
 			for (int j=0; j<currentParticipants.size(); j++) {
 				Participant currentParticipant = events.get(i).getParticipants().get(j);
 				if (!pastRelations.contains(currentParticipant) && currentParticipant.getAccount() != null) {

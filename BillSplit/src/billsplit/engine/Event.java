@@ -51,7 +51,7 @@ public class Event {
 		return creatorGID;
 	}
 	
-	//Changed from Collection to AbstractList by Kirill M. on 5/23/13
+	//Changed from Collection to AbstractList by Kirill M. on 5/23/13 - should be changed back
 	public AbstractList<Participant> getParticipants(){
 		return (AbstractList<Participant>) participants;
 	}
