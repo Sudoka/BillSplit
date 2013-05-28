@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Transaction extends BalanceChange {
-	
+	public static Transaction current;
 	private Event eventOwner;
 	private PaymentMatrix matrix;
 	
