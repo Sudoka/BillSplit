@@ -50,7 +50,7 @@ public class EventActivity extends Activity {
 		numParticipants.setMaxValue(20);
 		numParticipants.setMinValue(1);
 		numParticipants.setValue(2);
-		generateParticipants(2);
+		generateParticipants();
 		numParticipants
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		numParticipants
@@ -71,7 +71,21 @@ public class EventActivity extends Activity {
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 
-						generateParticipants(picker.getValue());
+						if(newVal > oldVal){
+							for(int i=0;i<newVal-oldVal;i++){
+								Event.currentEvent.addParticipant(new Participant("Person"+String.valueOf(Event.currentEvent.getParticipants().size())));
+							}
+						}
+						
+						if(newVal < oldVal){
+							
+							}for(int i=0;i<oldVal-newVal;i++){
+								Participant toBeRemoved = Event.currentEvent.getParticipants().get(Event.currentEvent.getParticipants().size()-1);
+								Event.currentEvent.removeParticipant(toBeRemoved);
+							}
+						
+						//generateParticipants(picker.getValue());
+						generateParticipants();
 					}
 				});
 		EventID = (String) getIntent().getSerializableExtra(ARG_ID);
@@ -96,12 +110,13 @@ public class EventActivity extends Activity {
 		setupActionBar();
 	}
 
-	private void generateParticipants(int newVal) {
+	private void generateParticipants() {
 		layout.removeAllViews();
-		for (int i = 0; i < newVal; i++) {
+		
+		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
 			Button btnPart = new Button(getApplicationContext());
-			btnPart.setText(String.valueOf(i));
+			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override

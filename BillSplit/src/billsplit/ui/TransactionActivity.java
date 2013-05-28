@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import billsplit.engine.DataCapture;
-import edu.sfsu.cs.orange.ocr.CaptureActivity;
+//import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ClipData.Item;
@@ -74,8 +74,8 @@ public class TransactionActivity extends Activity {
 
 	/** Called when the user clicks the OCR button */
 	public void initiateOCR(View view) {	    
-		Intent intent = new Intent(this, CaptureActivity.class);
-	    startActivity(intent);
+		//Intent intent = new Intent(this, CaptureActivity.class);
+	    //startActivity(intent);
 	}
 	public void initializeDataCapture(View view){
 		String itemListString = load("ItemList.txt");
