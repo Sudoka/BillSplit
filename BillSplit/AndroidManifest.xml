@@ -3,8 +3,6 @@
     package="com.billsplit"
     android:versionCode="1"
     android:versionName="1.0" >
-<<<<<<< HEAD
-
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -27,7 +25,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-=======
   <supports-screens android:xlargeScreens="true"
                     android:largeScreens="true"
                     android:normalScreens="true"
@@ -36,15 +33,8 @@
   <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
   <uses-feature android:name="android.hardware.camera"/>
   <uses-feature android:name="android.hardware.screen.landscape"/>
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
-  <uses-permission android:name="android.permission.CAMERA"/>
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  
->>>>>>> tatenda
-    <application
+
+      <application
         android:name="billsplit.engine.GlobalAccount"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -157,23 +147,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="billsplit.ui.NewTransactionActivity" />
         </activity>
-    <activity android:name="edu.sfsu.cs.orange.ocr.CaptureActivity"
-              android:screenOrientation="landscape"
-              android:configChanges="orientation|keyboardHidden|screenSize"
-              android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-              android:windowSoftInputMode="stateAlwaysHidden"              
-              >
-      </activity>
-    <activity android:name="edu.sfsu.cs.orange.ocr.HelpActivity"
-              android:screenOrientation="user">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
-    
-    <activity android:name="edu.sfsu.cs.orange.ocr.PreferencesActivity" />
-
     </application>
 
 </manifest>

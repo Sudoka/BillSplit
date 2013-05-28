@@ -1,20 +1,12 @@
 package billsplit.ui;
 
-<<<<<<< HEAD
 import com.billsplit.R;
-=======
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import billsplit.engine.DataCapture;
-
-import com.example.billsplit.R;
->>>>>>> tatenda
-
 import edu.sfsu.cs.orange.ocr.CaptureActivity;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ClipData.Item;
@@ -33,12 +25,9 @@ public class TransactionActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-<<<<<<< HEAD
 		setContentView(R.layout.activity_new_transaction);
-=======
 		//dataCapture = new DataCapture();
-		setContentView(R.layout.activity_transaction);
->>>>>>> tatenda
+		//setContentView(R.layout.activity_transaction);
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
