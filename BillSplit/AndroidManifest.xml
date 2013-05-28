@@ -3,7 +3,6 @@
     package="com.billsplit"
     android:versionCode="1"
     android:versionName="1.0" >
-
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -26,7 +25,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <application
+  <supports-screens android:xlargeScreens="true"
+                    android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="true" />
+  <uses-feature android:name="android.hardware.camera.autofocus" />
+  <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+  <uses-feature android:name="android.hardware.camera"/>
+  <uses-feature android:name="android.hardware.screen.landscape"/>
+
+      <application
         android:name="billsplit.engine.GlobalAccount"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

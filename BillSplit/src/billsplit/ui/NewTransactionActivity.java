@@ -1,26 +1,55 @@
 package billsplit.ui;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import billsplit.engine.DataCapture;
+import billsplit.engine.Item;
+import billsplit.engine.Transaction;
+
 import com.billsplit.R;
+
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
-//import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 public class NewTransactionActivity extends Activity {
-
+	private static final String TAG = "TransactionActivity";
+	public static DataCapture dataCapture;
+	private boolean isOCRdone;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_transaction);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		isOCRdone = false;
 	}
 
+	//Once we come back from the OCR world, lets read some data from file and add 
+	//it to the list of items in the transaction
+	//TODO: Transaction.current is updated here 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(isOCRdone){
+			ArrayList<Item> newItems = getItemList();
+			for(Item item : newItems){
+				Transaction.current.addItem(item);
+			}
+		}
+	}
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
@@ -53,13 +82,6 @@ public class NewTransactionActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/** Called when the user clicks the OCR button */
-	public void initiateOCR(View view) {
-	    // Do something in response to button
-		//Intent intent = new Intent(this, CaptureActivity.class);
-	    //startActivity(intent);
-	}
 	
 	public void btn_done_clicked(View view)
 	{
@@ -74,9 +96,36 @@ public class NewTransactionActivity extends Activity {
 	
 	public void ibtn_camera_clicked(View view)
 	{
-		//TODO: ADD OCR ACTIVITY CALL HERE
-		//Intent intent = new Intent(this, ManualInputActivity.class);
-		//startActivity(intent);
+		isOCRdone = true;
+		Intent intent = new Intent(this, CaptureActivity.class);
+	    startActivity(intent);
+	}
+	public ArrayList<billsplit.engine.Item> getItemList(){
+		String itemListString = load("ItemList.txt");
+		Log.e(TAG, "itemListString=" + itemListString);
+		dataCapture = new DataCapture(itemListString);
+		
+		//get an item from the dataCapture object
+		return dataCapture.getItemList();
+	}
+	private String load(String filename){
+	    try
+	    {
+	        FileInputStream fis = openFileInput(filename);
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+	        String line = null, input="";
+	        while ((line = reader.readLine()) != null)
+	            input += line;
+	        reader.close();
+	        fis.close();
+	        //toast("File successfully loaded.");
+	        return input;
+	    }
+	    catch (Exception ex)
+	    {
+	        //toast("Error loading file: " + ex.getLocalizedMessage());
+	        return "";
+	    }
 	}
 	
 	

@@ -11,8 +11,8 @@ public class Event {
 	private String category;
 	private Date dateCreated;
 	private Date lastModified;
-	public Event currentEvent;
-	
+
+	public static Event currentEvent;
 	/* 
 	 * requires: creatorGID != null
 	 *           name != null

@@ -1,6 +1,11 @@
 package billsplit.ui;
 
+import java.util.ArrayList;
+
+import billsplit.engine.Event;
 import billsplit.engine.GlobalAccount;
+import billsplit.engine.Participant;
+import billsplit.engine.Transaction;
 
 import com.billsplit.R;
 
@@ -189,6 +194,14 @@ public class EventActivity extends Activity {
 	}
 
 	public void btn_new_transaction_clicked(View view) {
+		//Get a list of participants from the current event
+		ArrayList<Participant> participants = (ArrayList<Participant>) Event.currentEvent.getParticipants();
+		//Create a new transaction
+		Transaction newTransaction = new Transaction(participants);
+		//Set the newTransaction as the current transaction
+		Transaction.current = newTransaction;
+		
+		//Start the new transaction
 		Intent intent = new Intent(this, NewTransactionActivity.class);
 		startActivity(intent);
 	}

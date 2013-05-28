@@ -37,7 +37,6 @@ public class Participant {
 	 */
 	public Participant(Account associatedAccount, String name){
 		this.associatedAccount = associatedAccount;
-		this.balance  = balance;
 		this.name = name;
 	}
 	

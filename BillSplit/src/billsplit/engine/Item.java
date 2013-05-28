@@ -6,9 +6,9 @@ public class Item {
 	private String category;
 	private String details;
 	
-	public Item(String name, double d) {
+	public Item(String name, double cost) {
 		this.name = name;
-		this.cost = d;
+		this.cost = cost;
 	}
 	
 	public double getCost() {
