@@ -57,13 +57,13 @@ public class Account {
 	/*
 	 * This method should be called when the user creates a new account in the first-time use scenario
 	 * */
-	public Account createNewAccount(String GID, String name) {
+	public static Account createNewAccount(String GID, String name) {
 		Account newAccount = new Account(GID, name); 
 		Account.currentAccount = newAccount;
 		return newAccount;
 	}
 	
-	Event createEvent(String name) {
+	public Event createEvent(String name) {
 		Event newEvent = new Event(this.GID, name);
 		events.add(newEvent);
 		return newEvent;
@@ -78,7 +78,7 @@ public class Account {
 	/*
 	 * Test method - returns account. Account.currentAccount is set to the account returned; two test events are created with some activities
 	 */
-	public Account test() {
+	public static Account test() {
 		Account newAccount = createNewAccount("address@email.com", "Test Account");
 		
 		//Create participants - accounts first
@@ -99,24 +99,38 @@ public class Account {
 		Event firstEvent = newAccount.events.get(0);
 		ArrayList<Participant> firstParts = (ArrayList) firstEvent.getParticipants();
 		
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(new Item("Bread1", 10.0));
+		items.add(new Item("Bread2", 20.0));
+		items.add(new Item("Bread3", 30.0));
+		items.add(new Item("Bread4", 40.0));
+		
 		//Add activities
-		firstEvent.addBalanceChange(new Transaction(firstParts));
-		firstEvent.addBalanceChange(new Transaction(firstParts));
+		firstEvent.addBalanceChange(new Transaction(firstParts, items));
+		firstEvent.addBalanceChange(new Transaction(firstParts, items));
 		//Could add more activities (transactions or payments here)
 		
 		//Creates second event - Household - and two three activities to it
 		newAccount.createEvent("Household", "Long Term");
 		
+		ArrayList<Item> items2 = new ArrayList<Item>();
+		items2.add(new Item("Meat1", 10.0));
+		items2.add(new Item("Meat2", 20.0));
+		items2.add(new Item("Meat3", 30.0));
+		items2.add(new Item("Meat4", 40.0));		
+		
+		
 		//Add participants
 		newAccount.events.get(1).addParticipant(new Participant(partAccount1));
 		newAccount.events.get(1).addParticipant(new Participant(partAccount2));
+		
 		
 		Event secondEvent = newAccount.events.get(1);
 		ArrayList<Participant> secondParts = (ArrayList) secondEvent.getParticipants();
 		
 		//Add activities
-		secondEvent.addBalanceChange(new Transaction(secondParts));
-		secondEvent.addBalanceChange(new Transaction(secondParts));
+		secondEvent.addBalanceChange(new Transaction(secondParts, items2));
+		secondEvent.addBalanceChange(new Transaction(secondParts, items2));
 		
 		return newAccount;
 	}
@@ -269,4 +283,7 @@ public class Account {
 		this.GID = GID;
 	}
 	
+	static public void main(String[] args){
+		test();
+	}
 }

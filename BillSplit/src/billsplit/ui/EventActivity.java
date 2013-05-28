@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -58,7 +59,7 @@ public class EventActivity extends Activity {
 						// generateParticipants(picker.getValue());
 					}
 				});
-
+ 
 		numParticipants
 				.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 					@Override
@@ -70,9 +71,23 @@ public class EventActivity extends Activity {
 				});
 		EventID = (String) getIntent().getSerializableExtra(ARG_ID);
 
-		TextView txtID = (TextView) findViewById(R.id.txtID);
-		GlobalAccount acc = (GlobalAccount) getApplication();
-		txtID.setText(EventID + acc.getMyInternalValue());
+		TextView lblName = (TextView) findViewById(R.id.lblName);
+		EditText txtName = (EditText)findViewById(R.id.txtName);
+		if(EventID.compareTo("[CREATE_NEW]")==0){
+			
+			lblName.setVisibility(View.INVISIBLE);
+			txtName.setVisibility(View.VISIBLE);
+		}else
+		{
+			lblName.setText(EventID);
+			lblName.setVisibility(View.VISIBLE);
+			txtName.setVisibility(View.INVISIBLE);
+		}
+		
+		//GlobalAccount acc = (GlobalAccount) getApplication();
+		
+		
+		
 		setupActionBar();
 	}
 

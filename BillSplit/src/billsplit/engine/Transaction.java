@@ -158,9 +158,9 @@ class PaymentMatrix {
 		for (int i=0; i<participants.size(); i++) {
 			ArrayList<Double> newRow = (new ArrayList<Double>(items.size()));
 			for (int j=0; j<items.size(); j++) {
-				newRow.set(j, Double.valueOf(0.0));
+				newRow.add(j, Double.valueOf(0.0));
 			}
-			m.set(i,newRow);
+			m.add(i,newRow);
 		}
 	}
 	

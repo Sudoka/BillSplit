@@ -5,13 +5,13 @@ public class Participant {
 	private double balance; //always initialized to 0
 	private String name;
 	
-	Participant(){
+	public Participant(){
 		associatedAccount = null;
 		balance = 0;
 		name = "Anon";
 	}
 	
-	Participant(Account associatedAccount){
+	public Participant(Account associatedAccount){
 		this.associatedAccount =associatedAccount;
 		balance = 0;
 		/* dacashman - make sure this account API exists
@@ -25,7 +25,7 @@ public class Participant {
 	 * This version is for quick 'n' dirty participant with 
 	 * no associated account. 
 	 */
-	Participant(String name){
+	public Participant(String name){
 		associatedAccount = null;
 		balance = 0;
 		this.name = name;
@@ -35,7 +35,7 @@ public class Participant {
 	 * This version is called if user wants to define his/her
 	 * own "nickname" to user that isn't the account name
 	 */
-	Participant(Account associatedAccount, String name){
+	public Participant(Account associatedAccount, String name){
 		this.associatedAccount = associatedAccount;
 		this.balance  = balance;
 		this.name = name;
