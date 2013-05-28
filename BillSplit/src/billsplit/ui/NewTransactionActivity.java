@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
+import billsplit.engine.Account;
 import billsplit.engine.DataCapture;
+import billsplit.engine.Event;
 import billsplit.engine.Item;
 import billsplit.engine.Transaction;
 
@@ -20,6 +23,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
@@ -28,10 +34,20 @@ public class NewTransactionActivity extends Activity {
 	public static DataCapture dataCapture;
 	private boolean isOCRdone;
 	
+	RelativeLayout layout;
+	private ItemAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_transaction);
+		layout = (RelativeLayout) findViewById(R.id.participantsContainer);
+		generateParticipants();
+		
+		
+			//List<Item> list = new ArrayList<Item>();
+			 adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+			 ListView items = (ListView) findViewById(R.id.items_list);
+			 items.setAdapter(adapter);
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;
@@ -48,6 +64,35 @@ public class NewTransactionActivity extends Activity {
 			for(Item item : newItems){
 				Transaction.current.addItem(item);
 			}
+		}
+		adapter.notifyDataSetChanged();
+	}
+	
+	private void generateParticipants() {
+		layout.removeAllViews();
+		
+		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+
+			Button btnPart = new Button(getApplicationContext());
+			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Button btn = (Button)v;
+					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
+					
+				}
+			});
+			// setting image resource
+			// imageView.setImageResource(R.drawable.ic_camera);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+					RelativeLayout.TRUE);
+			params.topMargin = i * 90;
+			layout.addView(btnPart, params);
 		}
 	}
 	/**

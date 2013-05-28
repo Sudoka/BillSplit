@@ -38,12 +38,21 @@
 
     
 
-    <fragment
+    <ListView
         android:id="@+id/items_list"
-        android:name="billsplit.ui.ItemsListFragment"
         android:layout_width="150dp"
         android:layout_height="200dp"
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/participantsContainer"
+        android:animateLayoutChanges="false">
+
+          
+
+      </RelativeLayout>
 
 </RelativeLayout>
