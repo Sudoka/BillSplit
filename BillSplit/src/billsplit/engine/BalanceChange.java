@@ -25,11 +25,13 @@ public abstract class BalanceChange {
 	
 	protected BalanceChange(ArrayList<Participant> participants, ArrayList<Double> amounts) {
 		// The 'real' constructor that all other constructors call
+		
+		this.amounts = new HashMap<Participant,Double>();
 		this.participants = participants;
 		for (int i=0; i<participants.size(); i++) {
 			Participant p = participants.get(i);
-			double a = amounts.get(i);
-			this.amounts.put(p, a);		
+			//double a = amounts.get(i);
+			this.amounts.put(p, 0.0);		
 		}
 	}
 

@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -49,7 +50,7 @@ public class EventActivity extends Activity {
 		numParticipants.setMaxValue(20);
 		numParticipants.setMinValue(1);
 		numParticipants.setValue(2);
-		generateParticipants(2);
+		generateParticipants();
 		numParticipants
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		numParticipants
@@ -63,30 +64,59 @@ public class EventActivity extends Activity {
 						// generateParticipants(picker.getValue());
 					}
 				});
-
+ 
 		numParticipants
 				.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 					@Override
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 
-						generateParticipants(picker.getValue());
+						if(newVal > oldVal){
+							for(int i=0;i<newVal-oldVal;i++){
+								Event.currentEvent.addParticipant(new Participant("Person"+String.valueOf(Event.currentEvent.getParticipants().size())));
+							}
+						}
+						
+						if(newVal < oldVal){
+							
+							}for(int i=0;i<oldVal-newVal;i++){
+								Participant toBeRemoved = Event.currentEvent.getParticipants().get(Event.currentEvent.getParticipants().size()-1);
+								Event.currentEvent.removeParticipant(toBeRemoved);
+							}
+						
+						//generateParticipants(picker.getValue());
+						generateParticipants();
 					}
 				});
 		EventID = (String) getIntent().getSerializableExtra(ARG_ID);
 
-		TextView txtID = (TextView) findViewById(R.id.txtID);
-		GlobalAccount acc = (GlobalAccount) getApplication();
-		txtID.setText(EventID + acc.getMyInternalValue());
+		TextView lblName = (TextView) findViewById(R.id.lblName);
+		EditText txtName = (EditText)findViewById(R.id.txtName);
+		if(EventID.compareTo("[CREATE_NEW]")==0){
+			
+			lblName.setVisibility(View.INVISIBLE);
+			txtName.setVisibility(View.VISIBLE);
+		}else
+		{
+			lblName.setText(EventID);
+			lblName.setVisibility(View.VISIBLE);
+			txtName.setVisibility(View.INVISIBLE);
+		}
+		
+		//GlobalAccount acc = (GlobalAccount) getApplication();
+		
+		
+		
 		setupActionBar();
 	}
 
-	private void generateParticipants(int newVal) {
+	private void generateParticipants() {
 		layout.removeAllViews();
-		for (int i = 0; i < newVal; i++) {
+		
+		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
 			Button btnPart = new Button(getApplicationContext());
-			btnPart.setText(String.valueOf(i));
+			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -180,7 +210,7 @@ public class EventActivity extends Activity {
 
 	public void btn_new_transaction_clicked(View view) {
 		//Get a list of participants from the current event
-		ArrayList<Participant> participants = (ArrayList<Participant>) Event.current.getParticipants();
+		ArrayList<Participant> participants = (ArrayList<Participant>) Event.currentEvent.getParticipants();
 		//Create a new transaction
 		Transaction newTransaction = new Transaction(participants);
 		//Set the newTransaction as the current transaction

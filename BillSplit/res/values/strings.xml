@@ -23,8 +23,6 @@
     <string name="title_activity_items_list_fragment">ItemsListFragment</string>
     <string name="title_activity_manual_input">ManualInputActivity</string>
     <string name="title_activity_transaction">TransactionActivity</string>
-    <string name="ocr_button_label">OCR Capture</string>
-    <string name="create_new_transaction">New Transaction</string>
     <string name="data_button_label">Initialize DataCapture</string>
     <string name="participants">Number of Participants:</string>
 </resources>
