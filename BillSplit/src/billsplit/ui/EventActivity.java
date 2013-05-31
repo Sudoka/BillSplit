@@ -272,7 +272,7 @@ public class EventActivity extends Activity {
 		//Get a list of participants from the current event
 		ArrayList<Participant> participants = (ArrayList<Participant>) myEvent.getParticipants();
 		//Create a new transaction
-		Transaction newTransaction = new Transaction(participants);
+		Transaction newTransaction = new Transaction("Transaction"+String.valueOf(myEvent.getBalanceChanges().size()+1), participants);
 		//Set the newTransaction as the current transaction
 		Transaction.current = newTransaction;
 		

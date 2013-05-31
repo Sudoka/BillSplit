@@ -8,9 +8,78 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PaymentActivity" >
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/payment_layout_itemname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_marginTop="50dp"
+         >
+    <TextView
+        android:id="@+id/payment_lblItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name:" />
 
+    <EditText
+        android:id="@+id/payment_txtItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/payment_lblItemName"
+        android:layout_toLeftOf="@+id/payment_lblItemName"
+        android:editable="false" />
+	</LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/payment_layout_itemcost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_below="@+id/payment_layout_itemname"
+         >
+    <TextView
+        android:id="@+id/payment_lblItemCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Cost:" />
+
+    <EditText
+        android:id="@+id/payment_txtItemCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:editable="false" />
+</LinearLayout> 
+<LinearLayout
+        android:id="@+id/payment_layout_unassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_below="@+id/payment_layout_itemcost"
+ >  
+    <TextView
+        android:id="@+id/payment_lblUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"    
+        android:text="Unassigned:" />
+
+    <EditText
+        android:id="@+id/payment_txtUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:editable="false" />
+    
+    </LinearLayout>
+    
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/payment_participantsContainer"
+        android:animateLayoutChanges="false">
+
+          
+
+      </RelativeLayout>
 </RelativeLayout>

@@ -1,20 +1,43 @@
 package billsplit.ui;
+import billsplit.engine.Event;
+import billsplit.engine.Item;
+
 import com.billsplit.R;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.os.Build;
 
 public class PaymentActivity extends Activity {
 
+	RelativeLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
+		layout = (RelativeLayout) findViewById(R.id.payment_participantsContainer);
+		
+        Toast.makeText(this, Item.currentItem.getName(), Toast.LENGTH_LONG).show();
+        
+        EditText name = (EditText)findViewById(R.id.payment_txtItemName);
+        EditText cost = (EditText)findViewById(R.id.payment_txtItemCost);
+        EditText unassigned = (EditText)findViewById(R.id.payment_txtUnassigned);
+        
+        name.setText(Item.currentItem.getName());
+        cost.setText("$"+String.valueOf(Item.currentItem.getCost()));
+        unassigned.setText("$"+String.valueOf(Item.currentItem.getCost()));
+        
+        generateParticipants();
         // Show the Up button in the action bar.
         setupActionBar();
     }
@@ -53,5 +76,33 @@ public class PaymentActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void generateParticipants() {
+		layout.removeAllViews();
+		
+		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+
+			Button btnPart = new Button(getApplicationContext());
+			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Button btn = (Button)v;
+					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
+					
+				}
+			});
+			// setting image resource
+			// imageView.setImageResource(R.drawable.ic_camera);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+					RelativeLayout.TRUE);
+			params.topMargin = i * 90;
+			layout.addView(btnPart, params);
+		}
+	}
 
 }

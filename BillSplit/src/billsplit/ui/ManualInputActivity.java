@@ -23,17 +23,14 @@ import android.support.v4.app.NavUtils;
 public class ManualInputActivity extends Activity {
 
 	private ItemAdapter adapter;
-	private ArrayList<Item> items;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manual_input);
 		
-		items = new ArrayList<Item>();
-		Item item = new Item("Test", 10.0);
-		items.add(item);
-		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
-		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
+		
+		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
 		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
 		 items.setAdapter(adapter);
 		 
@@ -81,16 +78,21 @@ public class ManualInputActivity extends Activity {
 		Item item = new Item(description.getText().toString(), Double.valueOf(price.getText().toString()));
 		
 		Transaction.current.addItem(item);
-		items.add(item);
-		adapter.notifyDataSetChanged();
 		
-		Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
+		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
+		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
+		 items.setAdapter(adapter);
+	//	items.add(item);
+		adapter.notifyDataSetChanged();
+	//	Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
 	}
 	
 	public void btnDone_clicked(View view)
 	{
+		/*
 		Transaction newTransaction = new Transaction(Transaction.current.getParticipants(),items);
-		Transaction.current = newTransaction;
+		Transaction.current = newTransaction;*/
 		finish();
 	}
 
