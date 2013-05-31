@@ -14,7 +14,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/txt_Owed"
+            android:id="@+id/createselect_lbl_Owed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -22,7 +22,7 @@
             android:textColor="#00FF00" />
 
         <TextView
-            android:id="@+id/txt_Owing"
+            android:id="@+id/createselect_lbl_Owing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -30,7 +30,7 @@
             android:textColor="#FF0000" />
 
         <TextView
-            android:id="@+id/txt_balance"
+            android:id="@+id/createselect_lbl_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

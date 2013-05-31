@@ -8,6 +8,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -42,12 +44,12 @@ public class LoginActivity extends Activity {
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
+	private String mGID;
+	private String mUserName;
 
 	// UI references.
-	private EditText mEmailView;
-	private EditText mPasswordView;
+	private EditText mGIDView;
+	private EditText mUserNameView;
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
@@ -58,16 +60,33 @@ public class LoginActivity extends Activity {
 
 		setContentView(R.layout.activity_login);
 
+		SharedPreferences settings = getSharedPreferences("BILLSPLIT", MODE_PRIVATE);
+		
+		String currentUserEmail = settings.getString("USER_GID", "[<NO USER>]");
+		String currentUserName = settings.getString("USER_NAME", "[<NO USER>]");
+		
+		
+		if(!currentUserEmail.equals("[<NO USER>]") && !currentUserName.equals("[<NO USER>]"))
+		{
+			Intent intent = new Intent();
+            intent.setClass(this,  CreateSelectEventActivity.class);
+            startActivity(intent);
+            finish();
+		}
+		
+		
+		
+		
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
+		mGID = getIntent().getStringExtra(EXTRA_EMAIL);
+		mGIDView = (EditText) findViewById(R.id.login_GID);
+		mGIDView.setText(mGID);
 		//GlobalAccount acc = (GlobalAccount)getApplication();
 		//mEmailView.setText(acc.getMyInternalValue());
 		//acc.setMyInternalValue("CHANGED");
 
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
+		mUserNameView = (EditText) findViewById(R.id.login_UserName);
+		mUserNameView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
 					public boolean onEditorAction(TextView textView, int id,
@@ -111,35 +130,35 @@ public class LoginActivity extends Activity {
 		}
 
 		// Reset errors.
-		mEmailView.setError(null);
-		mPasswordView.setError(null);
+		mGIDView.setError(null);
+		mUserNameView.setError(null);
 
 		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
-		mPassword = mPasswordView.getText().toString();
+		mGID = mGIDView.getText().toString();
+		mUserName = mUserNameView.getText().toString();
 
 		boolean cancel = false;
 		View focusView = null;
 
 		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
+		if (TextUtils.isEmpty(mUserName)) {
+			mUserNameView.setError(getString(R.string.error_field_required));
+			focusView = mUserNameView;
 			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
+		} else if (mUserName.length() < 4) {
+			mUserNameView.setError(getString(R.string.error_invalid_password));
+			focusView = mUserNameView;
 			cancel = true;
 		}
 
 		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
+		if (TextUtils.isEmpty(mGID)) {
+			mGIDView.setError(getString(R.string.error_field_required));
+			focusView = mGIDView;
 			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
+		} else if (!mGID.contains("@")) {
+			mGIDView.setError(getString(R.string.error_invalid_email));
+			focusView = mGIDView;
 			cancel = true;
 		}
 
@@ -148,12 +167,28 @@ public class LoginActivity extends Activity {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
+			SharedPreferences settings = getSharedPreferences("BILLSPLIT",MODE_PRIVATE);
+			  SharedPreferences.Editor editor = settings.edit();
+			  editor.putString("USER_NAME", mUserName);
+			  editor.putString("USER_GID", mGID);
+			  
+			  editor.commit();
+			  
+			 
+			//  Toast.makeText(getApplicationContext(),  settings.getString("USER_GID", ""), Toast.LENGTH_LONG).show();
+			  
+			  Intent intent = new Intent();
+	          intent.setClass(this,  CreateSelectEventActivity.class);
+	          startActivity(intent);
+	            
+			  finish();
+			/*
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			mAuthTask.execute((Void) null);*/
 		}
 	}
 
@@ -199,7 +234,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	public void getStarted_Clicked(View v){
-		Account.test();
+		//Account.test();
 		Intent events = new Intent(this, CreateSelectEventActivity.class);
         startActivity(events); 
 	}
@@ -227,6 +262,7 @@ public class LoginActivity extends Activity {
 			}
 			
 			
+			
 			/*
 			for (String credential : DUMMY_CREDENTIALS) {
 				String[] pieces = credential.split(":");
@@ -248,9 +284,9 @@ public class LoginActivity extends Activity {
 			if (success) {
 				finish();
 			} else {
-				mPasswordView
+				mUserNameView
 						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
+				mUserNameView.requestFocus();
 			}
 		}
 
