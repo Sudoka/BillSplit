@@ -41,7 +41,6 @@ public class EventActivity extends Activity {
 	String EventID;
 	RelativeLayout layout;
 	static Event myEvent;
-	AlertDialog.Builder alert;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class EventActivity extends Activity {
 		NumberPicker numParticipants = (NumberPicker) findViewById(R.id.picker_participants);
 		numParticipants.setMaxValue(20);
 		numParticipants.setMinValue(1);
-		numParticipants.setValue(2);
+		numParticipants.setValue(myEvent.getParticipants().size());
 		generateParticipants();
 		numParticipants
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -120,9 +119,35 @@ public class EventActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
+					
+					final Button part = (Button)v;
+					final EditText input = new EditText(EventActivity.this);
+					
+					input.setText(part.getText());
+
+					AlertDialog.Builder alert;
+					alert = new AlertDialog.Builder(EventActivity.this);
+					alert.setView(input);
+					alert.setTitle("Person Name");
+
+					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+							myEvent.getParticipantByName(part.getText().toString()).setName(input.getText().toString());
+							part.setText(input.getText().toString());
+					  }
+					});
+
+					alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					  public void onClick(DialogInterface dialog, int whichButton) {
+					    // Canceled.
+					  }
+					});
+					
+					alert.show();
+					/*
 					Button btn = (Button)v;
 					showParticipantDialog((String) btn.getText());//change to participant ID
-					
+					*/
 				}
 			});
 			// setting image resource
@@ -212,6 +237,8 @@ public class EventActivity extends Activity {
 		
 		final TextView lblName = (TextView) findViewById(R.id.lblName);
 		input.setText(lblName.getText());
+
+		AlertDialog.Builder alert;
 		alert = new AlertDialog.Builder(this);
 		alert.setView(input);
 		alert.setTitle("Event Name");
@@ -257,5 +284,15 @@ public class EventActivity extends Activity {
 	public void btn_existing_transactions_clicked(View view) {
 		Intent intent = new Intent(this, ExistingTransactionsActivity.class);
 		startActivity(intent);
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		if(myEvent.getBalanceChanges().size()>0){
+			//System.out.println(myEvent.getBalanceChanges().size());
+			NumberPicker numParticipants = (NumberPicker) findViewById(R.id.picker_participants);
+			numParticipants.setEnabled(false);
+		}
 	}
 }

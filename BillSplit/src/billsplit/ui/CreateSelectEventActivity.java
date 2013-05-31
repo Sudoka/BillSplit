@@ -63,6 +63,7 @@ public class CreateSelectEventActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(),
 						EventActivity.class);
 				Event e = (Event) v.getTag();
+				Event.currentEvent = e;
 				intent.putExtra(EventActivity.ARG_ID, e.getName());
 				startActivity(intent);
 			}
