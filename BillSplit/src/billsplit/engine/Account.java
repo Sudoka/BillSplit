@@ -106,8 +106,8 @@ public class Account {
 		items.add(new Item("Bread4", 40.0));
 		
 		//Add activities
-		firstEvent.addBalanceChange(new Transaction(firstParts, items));
-		firstEvent.addBalanceChange(new Transaction(firstParts, items));
+		firstEvent.addBalanceChange(new Transaction("tmpname1", firstParts, items));
+		firstEvent.addBalanceChange(new Transaction("tmpname2", firstParts, items));
 		//Could add more activities (transactions or payments here)
 		
 		//Creates second event - Household - and two three activities to it
@@ -129,8 +129,8 @@ public class Account {
 		ArrayList<Participant> secondParts = (ArrayList) secondEvent.getParticipants();
 		
 		//Add activities
-		secondEvent.addBalanceChange(new Transaction(secondParts, items2));
-		secondEvent.addBalanceChange(new Transaction(secondParts, items2));
+		secondEvent.addBalanceChange(new Transaction("tmpname3", secondParts, items2));
+		secondEvent.addBalanceChange(new Transaction("tmpname4", secondParts, items2));
 		
 		return newAccount;
 	}

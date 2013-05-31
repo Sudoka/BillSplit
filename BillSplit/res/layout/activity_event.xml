@@ -13,6 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:onClick="lblName_clicked"
+        android:clickable="true"
         android:text="@string/participants" />
     
     <EditText
@@ -20,7 +22,7 @@
               android:layout_width="200dp"
               android:layout_height="wrap_content"
        			 android:layout_centerHorizontal="true"
-              
+              android:visibility="gone"
               android:hint="Enter Event Name" >
 
           </EditText>
@@ -51,7 +53,7 @@
           android:id="@+id/picker_participants"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_below="@+id/txtName"
+          android:layout_below="@+id/lblName"
           android:layout_centerHorizontal="true" />
       
       <RelativeLayout

@@ -11,9 +11,12 @@ import billsplit.engine.*;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -25,6 +28,14 @@ public class CreateSelectEventActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_create_select);
 
+		SharedPreferences settings = getSharedPreferences("BILLSPLIT",MODE_PRIVATE);
+		
+		String GID = settings.getString("USER_GID", "[<NO USER>]");
+
+		String userName = settings.getString("USER_NAME", "[<NO USER>]");
+		
+		//Toast.makeText(getApplicationContext(), GID, Toast.LENGTH_LONG).show();
+		Account.setCurrentAccount(Account.createNewAccount(GID, userName));
 		
 		  //Test code 
 		/*
@@ -52,6 +63,7 @@ public class CreateSelectEventActivity extends Activity {
 				Intent intent = new Intent(getApplicationContext(),
 						EventActivity.class);
 				Event e = (Event) v.getTag();
+				Event.currentEvent = e;
 				intent.putExtra(EventActivity.ARG_ID, e.getName());
 				startActivity(intent);
 			}
@@ -61,6 +73,8 @@ public class CreateSelectEventActivity extends Activity {
 		events.setAdapter(adapter);
 
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,6 +101,16 @@ public class CreateSelectEventActivity extends Activity {
 		//ListView events = (ListView) findViewById(R.id.events_list);
 		super.onResume();
 		adapter.notifyDataSetChanged();
+		
+		TextView lblOWed = (TextView)findViewById(R.id.createselect_lbl_Owed);
+		TextView lblOWing = (TextView)findViewById(R.id.createselect_lbl_Owing);
+		TextView lblBalance = (TextView)findViewById(R.id.createselect_lbl_balance);
+		
+		lblOWed.setText("Owed: $"+String.valueOf(Account.getCurrentAccount().getTotalOwed()));
+		lblOWing.setText("Owing: $"+String.valueOf(Account.getCurrentAccount().getTotalYouOwe()));
+		lblBalance.setText("Balance: $"+String.valueOf(Account.getCurrentAccount().getNetBalance()));
+		
+		
 	}
 
 }

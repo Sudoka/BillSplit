@@ -1,6 +1,7 @@
 package billsplit.engine;
 
 public class Item {
+	public static Item currentItem;
 	private String name;
 	private double cost;
 	private String category;

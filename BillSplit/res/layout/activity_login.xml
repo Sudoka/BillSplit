@@ -50,9 +50,20 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" 
                 android:textAlignment="center"/>
 
+            <EditText
+                android:id="@+id/login_UserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="User Name"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/login_GID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
@@ -61,17 +72,7 @@
                 android:singleLine="true"
                 android:layout_marginTop="15dp" />
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="User Name"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
+            
 
             <Button
                 android:id="@+id/sign_in_button"
