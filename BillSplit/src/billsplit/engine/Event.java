@@ -216,7 +216,7 @@ public class Event {
 			for(Participant p : participants){
 				//fetch value for participant
 				Double addAmount = retAmounts.get(p);
-				if(addAdmount != null){
+				if(addAmount != null){
 					p.addBalance((double) addAmount);
 				}
 			}
