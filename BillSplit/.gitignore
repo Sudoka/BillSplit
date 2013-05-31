@@ -1,8 +1,11 @@
 #This is the example .gitignore taken from:
 #https://help.github.com/articles/ignoring-files
 
+*.properties
+
 #Also ignoring stuff in the /bin dir
 bin/*
+gen/*
 
 # Compiled source #
 ###################
@@ -21,7 +24,7 @@ bin/*
 *.dmg
 *.gz
 *.iso
-*.jar
+#*.jar
 *.rar
 *.tar
 *.zip
