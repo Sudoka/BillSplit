@@ -14,14 +14,15 @@ public class Transaction extends BalanceChange {
 	 * Constructors
 	 */
 	
-	public Transaction(ArrayList<Participant> participants) {
+	public Transaction(String name, ArrayList<Participant> participants) {
 		// call other constructor w/ empty list of items
-		this(participants, new ArrayList<Item>());
+		this(name, participants, new ArrayList<Item>());
 	}
 	
-	public Transaction(ArrayList<Participant> participants, ArrayList<Item> items) {
+	public Transaction(String name, ArrayList<Participant> participants, ArrayList<Item> items) {
 		super(participants,new ArrayList<Double>()); //parent BalanceChange constructor
 		this.matrix = new PaymentMatrix(participants,items);
+		this.name = name;
 	}
 	
 	/*
@@ -247,7 +248,8 @@ class PaymentMatrix {
 	}
 	
 	public ArrayList<Item> getItems() {
-		ArrayList<Item> items = new ArrayList<Item>(itemMap.size());
+		ArrayList<Item> items = new ArrayList<Item>();
+		while(items.size() < itemMap.size()) items.add(null);
 				
 		for (HashMap.Entry<Item, Integer> entry : itemMap.entrySet()) {
 		    Item key = entry.getKey();
