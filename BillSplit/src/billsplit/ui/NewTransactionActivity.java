@@ -45,9 +45,7 @@ public class NewTransactionActivity extends Activity {
 		
 		
 			//List<Item> list = new ArrayList<Item>();
-			 adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
-			 ListView items = (ListView) findViewById(R.id.items_list);
-			 items.setAdapter(adapter);
+			 
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;
@@ -65,6 +63,9 @@ public class NewTransactionActivity extends Activity {
 				Transaction.current.addItem(item);
 			}
 		}
+		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		 ListView items = (ListView) findViewById(R.id.items_list);
+		 items.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -135,6 +136,9 @@ public class NewTransactionActivity extends Activity {
 	
 	public void ibtn_keyboard_clicked(View view)
 	{
+		Item item = new Item("Des", 5.20);
+		
+		Transaction.current.addItem(item);
 		Intent intent = new Intent(this, ManualInputActivity.class);
 		startActivity(intent);
 	}

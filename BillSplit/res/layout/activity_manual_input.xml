@@ -6,20 +6,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".EventMainActivity" >
+    tools:context=".ManualInputActivity" >
 
-    <TextView android:id="@+id/txtID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <ListView 
+        android:id="@+id/manual_input_itemlist"
+        android:layout_width="220dp"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="createTransaction"
-        android:text="@string/create_new_transaction" />
+        ></ListView>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/manual_input_btnDone"
+        >
+        <EditText 
+             android:id="@+id/manual_input_txtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Item Description"
+        
+            />
+        <EditText 
+             android:id="@+id/manual_input_txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="0.00"
+            />
+        
+        <Button
+        android:id="@+id/manual_input_btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:onClick="btnAdd_clicked" />
+        
+    </LinearLayout>
+    
+    <Button android:id="@+id/manual_input_btnDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:onClick="btnDone_clicked"
+        
+        android:layout_alignParentBottom="true"
+        />
+    
 
 </RelativeLayout>

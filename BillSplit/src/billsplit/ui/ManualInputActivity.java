@@ -1,5 +1,11 @@
 package billsplit.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import billsplit.engine.Item;
+import billsplit.engine.Transaction;
+
 import com.billsplit.R;
 import com.billsplit.R.layout;
 import com.billsplit.R.menu;
@@ -8,14 +14,29 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class ManualInputActivity extends Activity {
 
+	private ItemAdapter adapter;
+	private ArrayList<Item> items;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manual_input);
+		
+		items = new ArrayList<Item>();
+		Item item = new Item("Test", 10.0);
+		items.add(item);
+		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
+		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
+		 items.setAdapter(adapter);
+		 
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
@@ -51,6 +72,26 @@ public class ManualInputActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void btnAdd_clicked(View view){
+		EditText description= (EditText)this.findViewById(R.id.manual_input_txtDescription);
+		EditText price= (EditText)this.findViewById(R.id.manual_input_txtPrice);
+		
+		Item item = new Item(description.getText().toString(), Double.valueOf(price.getText().toString()));
+		
+		Transaction.current.addItem(item);
+		items.add(item);
+		adapter.notifyDataSetChanged();
+		
+		Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
+	}
+	
+	public void btnDone_clicked(View view)
+	{
+		Transaction newTransaction = new Transaction(Transaction.current.getParticipants(),items);
+		Transaction.current = newTransaction;
+		finish();
 	}
 
 }
