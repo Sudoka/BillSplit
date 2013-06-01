@@ -147,7 +147,19 @@ public class PaymentActivity extends Activity {
 			if(btnPart.isChecked()){
 				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
 				Transaction.current.debtAddParticipant(Item.currentItem, p);
-				//btnPart.setText(btnPart.getText()+" $"+String.valueOf(Transaction.current.));
+				}
+    	}
+    	
+    	for(int i=0;i<layout.getChildCount();i++){
+    		
+			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+			if(btnPart.isChecked()){
+				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
+				btnPart.setText(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
+				btnPart.setTextOn(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
+				btnPart.setTextOff(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
+				
+				btnPart.setChecked(false);
 			}
     	}
     	
