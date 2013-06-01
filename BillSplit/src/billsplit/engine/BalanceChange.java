@@ -6,24 +6,19 @@ import java.util.HashMap;
 
 
 public abstract class BalanceChange {
-	protected Date date;
-	protected String name;
+	private Date date;
+	private String name;
 	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
 	protected ArrayList<Participant> participants; //ordered list of participants
 	
-	protected BalanceChange() {
-		//Just call other constructor but with empty starting arrays
-		this(new ArrayList<Participant>(), new ArrayList<Double>());
-	}
-	
-	protected BalanceChange(ArrayList<Participant> participants) {
+	protected BalanceChange(String name, ArrayList<Participant> participants) {
 		//Call other constructor, but with empty amount array
-		this(participants, new ArrayList<Double>());
+		this(name, participants, new ArrayList<Double>());
 	}
 	
-	protected BalanceChange(ArrayList<Participant> participants, ArrayList<Double> amounts) {
+	protected BalanceChange(String name, ArrayList<Participant> participants, ArrayList<Double> amounts) {
 		// The 'real' constructor that all other constructors call
-		
+		this.name = name;
 		this.amounts = new HashMap<Participant,Double>();
 		this.participants = participants;
 		for (int i=0; i<participants.size(); i++) {
