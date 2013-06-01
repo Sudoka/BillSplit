@@ -74,7 +74,7 @@ public class NewTransactionActivity extends Activity {
 			}
 		}
 		
-		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
 		 ListView items = (ListView) findViewById(R.id.items_list);
 		 OnItemClickListener itemClicked = new OnItemClickListener() {
 				public void onItemClick(AdapterView parent, View v, int position,

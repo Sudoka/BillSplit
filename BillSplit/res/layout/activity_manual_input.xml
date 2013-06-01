@@ -12,10 +12,11 @@
 
     <ListView 
         android:id="@+id/manual_input_itemlist"
-        android:layout_width="220dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+       
         ></ListView>
     
     <LinearLayout 
