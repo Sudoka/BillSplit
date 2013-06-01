@@ -191,7 +191,15 @@ public class Transaction extends BalanceChange {
 	 * @param amt
 	 */
 	private void paySetParticipantPayment(Participant p, double amt) {
-		paymentMap.put(p, amt);
+		this.paymentMap.put(p, amt);
+	}
+	
+	public double payGetAmount(Participant p) {
+		if (this.paymentMap.containsKey(p)) {
+			return paymentMap.get(p);
+		} else {
+			return 0.0;
+		}
 	}
 	
 	/**
