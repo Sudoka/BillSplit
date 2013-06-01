@@ -40,6 +40,11 @@ public class Participant {
 		this.name = name;
 	}
 	
+	public String toString() {
+		String str = String.format("Participant(name=%s)",getName());
+		return str;
+	}
+	
 	public Account getAccount(){
 		return associatedAccount;
 	}
