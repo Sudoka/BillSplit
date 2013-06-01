@@ -73,11 +73,23 @@
     
     </LinearLayout>
     
+<Button
+    android:id="@+id/payment_btnSplitEvenly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Split Evenly"
+        android:onClick="button_split_evenly_clicked"
+        android:layout_below="@+id/payment_layout_unassigned"
+        style="?android:attr/buttonStyleSmall"
+    />
+    
 <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/payment_participantsContainer"
-        android:animateLayoutChanges="false">
+        android:animateLayoutChanges="false"
+        >
 
           
 

@@ -1,6 +1,8 @@
 package billsplit.ui;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
+import billsplit.engine.Participant;
+import billsplit.engine.Transaction;
 
 import com.billsplit.R;
 
@@ -10,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -37,6 +41,9 @@ public class PaymentActivity extends Activity {
         cost.setText("$"+String.valueOf(Item.currentItem.getCost()));
         unassigned.setText("$"+String.valueOf(Item.currentItem.getCost()));
         
+        Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
+		splitButton.setVisibility(View.INVISIBLE);
+		
         generateParticipants();
         // Show the Up button in the action bar.
         setupActionBar();
@@ -77,18 +84,46 @@ public class PaymentActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void checkParticipantsChecked() {
+    	boolean atLeastOneChecked = false;
+    	Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
+		
+		for(int i=0;i<layout.getChildCount();i++){
+			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+			if(btnPart.isChecked()){
+				atLeastOneChecked = true;
+				break;
+			}
+		}
+		
+		if(atLeastOneChecked){
+			splitButton.setVisibility(View.VISIBLE);
+		}else{
+			splitButton.setVisibility(View.INVISIBLE);
+		}
+	}
     private void generateParticipants() {
 		layout.removeAllViews();
 		
 		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
-			Button btnPart = new Button(getApplicationContext());
+			ToggleButton btnPart = new ToggleButton(getApplicationContext());
+			btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setTag(i);
+			btnPart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			        checkParticipantsChecked();
+			    }
+
+				
+			});
+			
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					Button btn = (Button)v;
 					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
 					
 				}
@@ -104,5 +139,19 @@ public class PaymentActivity extends Activity {
 			layout.addView(btnPart, params);
 		}
 	}
+    
+    public void button_split_evenly_clicked(View view){
+    	for(int i=0;i<layout.getChildCount();i++){
+    		
+			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+			if(btnPart.isChecked()){
+				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
+				Transaction.current.addPayer(Item.currentItem, p);
+				//btnPart.setText(btnPart.getText()+" $"+String.valueOf(Transaction.current.));
+			}
+    	}
+    	
+    }
+    
 
 }

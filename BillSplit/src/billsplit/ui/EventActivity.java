@@ -276,6 +276,7 @@ public class EventActivity extends Activity {
 		//Set the newTransaction as the current transaction
 		Transaction.current = newTransaction;
 		
+		myEvent.addBalanceChange(newTransaction);
 		//Start the new transaction
 		Intent intent = new Intent(this, NewTransactionActivity.class);
 		startActivity(intent);
