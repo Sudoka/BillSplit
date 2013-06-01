@@ -68,38 +68,4 @@ public class ItemTest {
 		assertEquals("newname",item.getName());
 	}
 
-	/**
-	 * Test method for {@link billsplit.engine.Item#getCategory()}.
-	 */
-	@Test
-	public final void testGetCategory() {
-		assertEquals("",item.getCategory());
-	}
-
-	/**
-	 * Test method for {@link billsplit.engine.Item#setCategory(java.lang.String)}.
-	 */
-	@Test
-	public final void testSetCategory() {
-		item.setCategory("testCategory");
-		assertEquals("testCategory",item.getCategory());
-	}
-
-	/**
-	 * Test method for {@link billsplit.engine.Item#getDetails()}.
-	 */
-	@Test
-	public final void testGetDetails() {
-		assertEquals("",item.getDetails());
-	}
-
-	/**
-	 * Test method for {@link billsplit.engine.Item#setDetails(java.lang.String)}.
-	 */
-	@Test
-	public final void testSetDetails() {
-		item.setDetails("testDetails");
-		assertEquals("testDetails",item.getDetails());
-	}
-
 }
