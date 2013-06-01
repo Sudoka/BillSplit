@@ -10,8 +10,6 @@ public abstract class BalanceChange {
 	protected String name;
 	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
 	protected ArrayList<Participant> participants; //ordered list of participants
-	protected String details;
-	protected String category;
 	
 	protected BalanceChange() {
 		//Just call other constructor but with empty starting arrays
@@ -55,16 +53,6 @@ public abstract class BalanceChange {
 		this.amounts.remove(p);
 	}
 	
-	/** @deprecated "see my notes on the contract for this method." 
-	 * DEPRECATED: see my notes on the contract. I'd like to remove this, since an 'index' of a participant
-	 * no longer matters. Just use getters/setters with the actual Participant object. (note: this method
-	 * still functions until a decision is made; it just calls the other removeParticipant(Participant p) method)
-	 */
-	public void removeParticipant(int index){
-		Participant p = this.participants.get(index);
-		this.removeParticipant(p);
-	}
-	
 	public void setAmountForPerson(Participant p, double amount){
 		this.amounts.put(p, amount);
 	}
@@ -93,12 +81,4 @@ public abstract class BalanceChange {
 		this.date = date;
 	}
 	
-
-	public String getCategory() {
-		return this.category;
-	}
-	
-	public void setCategory(String category) {
-		this.category = category;
-	}
 }
