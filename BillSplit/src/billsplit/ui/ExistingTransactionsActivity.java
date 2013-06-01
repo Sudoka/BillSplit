@@ -1,95 +1,96 @@
+/*
+ * Copyright (C) 2007 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package billsplit.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.billsplit.R;
-import android.os.Bundle;
-import android.provider.ContactsContract;
+
+import billsplit.engine.Account;
+import billsplit.engine.BalanceChange;
+import billsplit.engine.Event;
+import billsplit.engine.Participant;
+import billsplit.engine.Transaction;
 import android.app.Activity;
 import android.app.ListActivity;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleCursorAdapter;
-import android.support.v4.app.NavUtils;
-import android.app.LoaderManager;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class ExistingTransactionsActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // This is the Adapter being used to display the list's data
-    SimpleCursorAdapter mAdapter;
+/**
+ * A list view example where the 
+ * data for the list comes from an array of strings.
+ */
+public class ExistingTransactionsActivity extends Activity {
 
-    // These are the Contacts rows that we will retrieve
-    static final String[] PROJECTION = new String[] {ContactsContract.Data._ID,
-            ContactsContract.Data.DISPLAY_NAME};
+	List<BalanceChange> list;
+	BalanceChangeAdapter adapter;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    // This is the select criteria
-    static final String SELECTION = "((" + 
-            ContactsContract.Data.DISPLAY_NAME + " NOTNULL) AND (" +
-            ContactsContract.Data.DISPLAY_NAME + " != '' ))";
+		setContentView(R.layout.activity_existing_transactions);
+        // Use an existing ListAdapter that will map an array
+        // of strings to TextViews
+        list = (List<BalanceChange>) Event.currentEvent.getBalanceChanges();
+     //   list.add(new Transaction(String.valueOf(Event.currentEvent.getBalanceChanges().size()+1),(ArrayList<Participant>) Event.currentEvent.getParticipants()));
+        adapter = new BalanceChangeAdapter(this,android.R.layout.simple_list_item_1, list);
+		
+        ListView listView = (ListView)findViewById(R.id.existing_transaction_list);
+        OnItemClickListener transactionClicked = new OnItemClickListener() {
+			public void onItemClick(AdapterView parent, View v, int position,
+					long id) {
+				Intent intent = new Intent(getApplicationContext(),
+						NewTransactionActivity.class);
+				Transaction e = (Transaction) v.getTag();
+				Transaction.current = e;
+				//intent.putExtra(EventActivity.ARG_ID, e.getName());
+				startActivity(intent);
+			}
+		};
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Create a progress bar to display while the list loads
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        progressBar.setIndeterminate(true);
-        getListView().setEmptyView(progressBar);
-
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        root.addView(progressBar);
-
-        // For the cursor adapter, specify which columns go into which views
-        String[] fromColumns = {ContactsContract.Data.DISPLAY_NAME};
-        int[] toViews = {android.R.id.text1}; // The TextView in simple_list_item_1
-
-        // Create an empty adapter we will use to display the loaded data.
-        // We pass null for the cursor, then update it in onLoadFinished()
-        mAdapter = new SimpleCursorAdapter(this, 
-                android.R.layout.simple_list_item_1, null,
-                fromColumns, toViews, 0);
-        setListAdapter(mAdapter);
-
-        // Prepare the loader.  Either re-connect with an existing one,
-        // or start a new one.
-        getLoaderManager().initLoader(0, null, this);
+		listView.setOnItemClickListener(transactionClicked);
+        
+        listView.setAdapter(adapter);
+       // listView.getListView().setTextFilterEnabled(true);
     }
+	
+	public void add_new_transaction_clicked(View view){
+		ArrayList<Participant> participants = (ArrayList<Participant>) Event.currentEvent.getParticipants();
+		//Create a new transaction
+		Transaction newTransaction = new Transaction("Transaction"+String.valueOf(Event.currentEvent.getBalanceChanges().size()+1), participants);
+		//Set the newTransaction as the current transaction
+		Transaction.current = newTransaction;
+		
+		Event.currentEvent.addBalanceChange(newTransaction);
+		//Start the new transaction
+		Intent intent = new Intent(this, NewTransactionActivity.class);
+		startActivity(intent);
+	}
 
-    // Called when a new Loader needs to be created
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
-        return new CursorLoader(this, ContactsContract.Data.CONTENT_URI,
-                PROJECTION, SELECTION, null, null);
-    }
-
-    // Called when a previously created loader has finished loading
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Swap the new cursor in.  (The framework will take care of closing the
-        // old cursor once we return.)
-        mAdapter.swapCursor(data);
-    }
-
-    // Called when a previously created loader is reset, making the data unavailable
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // This is called when the last Cursor provided to onLoadFinished()
-        // above is about to be closed.  We need to make sure we are no
-        // longer using it.
-        mAdapter.swapCursor(null);
-    }
-
-    @Override 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        // Do something when a list item is clicked
-    }
+	@Override
+	public void onResume(){
+		super.onResume();
+		adapter.notifyDataSetChanged();
+	}
 }
