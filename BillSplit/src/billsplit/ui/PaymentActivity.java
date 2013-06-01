@@ -146,7 +146,7 @@ public class PaymentActivity extends Activity {
 			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
-				Transaction.current.addPayer(Item.currentItem, p);
+				Transaction.current.debtAddParticipant(Item.currentItem, p);
 				//btnPart.setText(btnPart.getText()+" $"+String.valueOf(Transaction.current.));
 			}
     	}

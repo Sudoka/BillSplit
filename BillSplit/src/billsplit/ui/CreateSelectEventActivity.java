@@ -50,10 +50,10 @@ public class CreateSelectEventActivity extends Activity {
 		
 		
 		if (Account.getCurrentAccount() != null) {
-			 adapter = new EventAdapter(this,android.R.layout.simple_list_item_1, Account.getCurrentAccount().getEvents());
+			 adapter = new EventAdapter(this,R.layout.simple_list_item, Account.getCurrentAccount().getEvents());
 		} else {
 			List<Event> list = new ArrayList<Event>();
-			 adapter = new EventAdapter(this,android.R.layout.simple_list_item_1, list);
+			 adapter = new EventAdapter(this,R.layout.simple_list_item, list);
 		}
 		
 		ListView events = (ListView) findViewById(R.id.events_list);
@@ -62,7 +62,8 @@ public class CreateSelectEventActivity extends Activity {
 					long id) {
 				Intent intent = new Intent(getApplicationContext(),
 						EventActivity.class);
-				Event e = (Event) v.getTag();
+				TextView txt = (TextView) v.findViewById(R.id.item_text);
+				Event e = (Event) txt.getTag();
 				Event.currentEvent = e;
 				intent.putExtra(EventActivity.ARG_ID, e.getName());
 				startActivity(intent);

@@ -98,9 +98,10 @@ public class EventActivity extends Activity {
 
 		TextView lblName = (TextView) findViewById(R.id.lblName);
 		
-	
-		EditText txtName = (EditText)findViewById(R.id.txtName);
 		lblName.setText(EventID);
+		
+		EditText txtName = (EditText)findViewById(R.id.txtName);
+		
 		//GlobalAccount acc = (GlobalAccount) getApplication();
 		
 		

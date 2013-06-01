@@ -58,13 +58,22 @@
     <!-- android:layout_marginTop="20dp" > -->
     <!-- </fragment> -->
 
-    <ListView
-        android:id="@+id/events_list"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+    <TextView
+        android:id="@+id/create_select_lblEventList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/btn_create_event"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:text="Recent Events" 
+        android:layout_marginTop="20dp"/>
+
+    <ListView
+        android:id="@+id/events_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/create_select_lblEventList"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" >
     </ListView>
 
 </RelativeLayout>

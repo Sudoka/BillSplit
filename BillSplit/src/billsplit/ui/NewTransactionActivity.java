@@ -18,6 +18,8 @@ import com.billsplit.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +48,9 @@ public class NewTransactionActivity extends Activity {
 		layout = (RelativeLayout) findViewById(R.id.participantsContainer);
 		generateParticipants();
 		
+		TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
 		
+		lblName.setText(Transaction.current.getName());
 		 
 		 
 		
@@ -152,6 +157,34 @@ public class NewTransactionActivity extends Activity {
 		finish();
 	}
 	
+	public void lblTranName_clicked(View view){
+		final EditText input = new EditText(this);
+		
+		final TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
+		input.setText(lblName.getText());
+
+		AlertDialog.Builder alert;
+		alert = new AlertDialog.Builder(this);
+		alert.setView(input);
+		alert.setTitle("Transaction Name");
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+		//  String value = input.getText();
+		  Transaction.current.setName(input.getText().toString());
+		  lblName.setText(input.getText().toString());
+		//  alert.
+		  }
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    // Canceled.
+		  }
+		});
+		
+		alert.show();
+	}
 	public void ibtn_keyboard_clicked(View view)
 	{
 		Intent intent = new Intent(this, ManualInputActivity.class);
