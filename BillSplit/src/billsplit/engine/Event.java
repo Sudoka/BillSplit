@@ -97,6 +97,7 @@ public class Event {
 	public void addBalanceChange(BalanceChange newBalanceChange){
 		assert(newBalanceChange != null);
 		txns.add(newBalanceChange);
+		updateBalances();
 		return;
 	}
 	
@@ -205,10 +206,21 @@ public class Event {
 	}
 	
 	/* update - recaclulates balances based on all transactions 
-	 *  (shouldn't really be used) dacashman
+	 *  (eventually this could be replaced by iterative updates, but 
+	 *   that may introduce cross-cutting concerns.)
 	 */
-	public void update(){
-		System.out.print("Not yet implemented\n");
+	public void updateBalances(){
+		HashMap<Participant, Double> retAmounts;
+		for(BalanceChange b : txns){
+			retAmounts = b.getAmounts();
+			for(Participant p : participants){
+				//fetch value for participant
+				Double addAmount = retAmounts.get(p);
+				if(addAmount != null){
+					p.addBalance((double) addAmount);
+				}
+			}
+		}
 		return;
 	}
 	
