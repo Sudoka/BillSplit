@@ -154,11 +154,46 @@ public class TransactionTest {
 	
 	private void setUpForPayTest() {
 		setUpForDebtTest();
+		transaction.debtAllEvenly();
+		transaction.payEvenly();
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		Item item = transaction.getItems().get(0);
+		transaction.debtResetItem(item);
+		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item
+	}
+	
+	@Test
+	public void testPayFairly() {
+		setUpForPayTest();
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		
+		transaction.payFairly();
+		
+		double p1amt = transaction.getAmount(p1);
+		double p2amt = transaction.getAmount(p2);
+		double p3amt = transaction.getAmount(p3);
+		double p4amt = transaction.getAmount(p4);
+		
+		assertEquals(4.875,transaction.payGetAmount(p1),0.0);
+		assertEquals(4.875,transaction.payGetAmount(p2),0.0);
+		assertEquals(29.875,transaction.payGetAmount(p3),0.0);
+		assertEquals(4.875,transaction.payGetAmount(p4),0.0);
+		
+		assertEquals(0, p1amt, 0.0);
+		assertEquals(0, p2amt, 0.0);
+		assertEquals(0, p3amt, 0.0);
+		assertEquals(0, p4amt, 0.0);
 	}
 	
 	@Test
 	public void testPayEvenly() {
-		setUpForPayTest();
+		setUpForDebtTest();
 		
 		transaction.debtAllEvenly();
 		//debt is $11.125/person
