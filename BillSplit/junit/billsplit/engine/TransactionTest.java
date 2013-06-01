@@ -35,6 +35,23 @@ public class TransactionTest {
 		this.transaction = null;
 	}
 
+	
+	@Test
+	public void testConstructor() {
+		Participant tp1 = new Participant();
+		Participant tp2 = new Participant();
+		ArrayList<Participant> list = new ArrayList<Participant>();
+		list.add(tp1);
+		list.add(tp2);
+		
+		Transaction newtrans = new Transaction("newtrans",list);
+		
+		ArrayList<Participant> internalList = newtrans.getParticipants();
+		System.out.println(internalList);
+		assertEquals(2, internalList.size());
+		
+	}
+	
 	@Test
 	public void testGetSetItems() {
 		Item item = new Item("testitem",25.00);

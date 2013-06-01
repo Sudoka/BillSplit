@@ -165,6 +165,9 @@ class PaymentMatrix {
 		}
 		itemMap = new HashMap<Item,Integer>();
 		participantMap = new HashMap<Participant,Integer>();
+		
+		for (Participant p : participants) addParticipant(p);
+		for (Item item : items) addItem(item);
 	}
 	
 	public boolean contains(Participant p) {
