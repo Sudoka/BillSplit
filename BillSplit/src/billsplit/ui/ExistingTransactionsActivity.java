@@ -17,6 +17,7 @@
 package billsplit.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.billsplit.R;
@@ -54,7 +55,7 @@ public class ExistingTransactionsActivity extends Activity {
         // of strings to TextViews
         list = (List<BalanceChange>) Event.currentEvent.getBalanceChanges();
      //   list.add(new Transaction(String.valueOf(Event.currentEvent.getBalanceChanges().size()+1),(ArrayList<Participant>) Event.currentEvent.getParticipants()));
-        adapter = new BalanceChangeAdapter(this,android.R.layout.simple_list_item_1, list);
+        adapter = new BalanceChangeAdapter(this,R.layout.simple_list_item, list);
 		
         ListView listView = (ListView)findViewById(R.id.existing_transaction_list);
         OnItemClickListener transactionClicked = new OnItemClickListener() {
@@ -80,6 +81,7 @@ public class ExistingTransactionsActivity extends Activity {
 		//Create a new transaction
 		Transaction newTransaction = new Transaction("Transaction"+String.valueOf(Event.currentEvent.getBalanceChanges().size()+1), participants);
 		//Set the newTransaction as the current transaction
+		newTransaction.setDate(new Date());
 		Transaction.current = newTransaction;
 		
 		Event.currentEvent.addBalanceChange(newTransaction);

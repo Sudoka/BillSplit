@@ -62,8 +62,8 @@ public class CreateSelectEventActivity extends Activity {
 					long id) {
 				Intent intent = new Intent(getApplicationContext(),
 						EventActivity.class);
-				TextView txt = (TextView) v.findViewById(R.id.item_text);
-				Event e = (Event) txt.getTag();
+				//TextView txt = (TextView) v.findViewById(R.id.item_text);
+				Event e = (Event) v.getTag();
 				Event.currentEvent = e;
 				intent.putExtra(EventActivity.ARG_ID, e.getName());
 				startActivity(intent);
