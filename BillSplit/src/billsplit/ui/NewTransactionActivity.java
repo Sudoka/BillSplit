@@ -46,7 +46,7 @@ public class NewTransactionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_transaction);
 		layout = (RelativeLayout) findViewById(R.id.participantsContainer);
-		generateParticipants();
+		
 		
 		TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
 		
@@ -67,6 +67,7 @@ public class NewTransactionActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		generateParticipants();
 		if(isOCRdone){
 			ArrayList<Item> newItems = getItemList();
 			for(Item item : newItems){
@@ -99,6 +100,7 @@ public class NewTransactionActivity extends Activity {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(Event.currentEvent.getParticipants().get(i)));
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override

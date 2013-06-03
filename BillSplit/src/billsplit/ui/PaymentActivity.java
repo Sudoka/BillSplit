@@ -113,7 +113,7 @@ public class PaymentActivity extends Activity {
 			//btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
 			//btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setTag(i);
+			btnPart.setTag(Event.currentEvent.getParticipants().get(i));
 			btnPart.setOnClickListener(new OnClickListener() {
 			    
 				@Override
@@ -140,12 +140,14 @@ public class PaymentActivity extends Activity {
 	}
     
     public void button_split_evenly_clicked(View view){
+    	
     	for(int i=0;i<layout.getChildCount();i++){
     		
     		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
-				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
+				Participant p = (Participant)btnPart.getTag();
 				Transaction.current.debtAddParticipant(Item.currentItem, p);
+				if(1==1){}
 				}
     	}
     	
@@ -153,7 +155,7 @@ public class PaymentActivity extends Activity {
     		
     		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
-				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
+				Participant p = (Participant)btnPart.getTag();
 				btnPart.setAmount(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem));
 				/*btnPart.setText(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
 				btnPart.setTextOn(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
@@ -163,6 +165,7 @@ public class PaymentActivity extends Activity {
 			}
     	}
     	
+    	finish();
     }
     
 
