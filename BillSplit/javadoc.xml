@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="C:\Program Files\eclipse\plugins\org.hamcrest.core_1.1.0.v20090501071000.jar;C:\Program Files\eclipse\plugins\org.junit_4.10.0.v4_10_0_v20120426-0900\junit.jar;libs/android-support-v4.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.6" sourcefiles="src/billsplit/engine/BalanceChange.java,src/billsplit/engine/Payment.java,src/billsplit/engine/DataCapture.java,src/billsplit/engine/GlobalAccount.java,src/billsplit/engine/Event.java,src/billsplit/engine/Account.java,src/billsplit/engine/Transaction.java,src/billsplit/engine/Item.java,src/billsplit/engine/Participant.java" sourcepath="junit;src;gen" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
