@@ -30,11 +30,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
+import android.text.Html;
 
 public class EventActivity extends Activity {
 
@@ -115,17 +117,33 @@ public class EventActivity extends Activity {
 		
 		for (int i = 0; i < myEvent.getParticipants().size(); i++) {
 
-			Button btnPart = new Button(getApplicationContext());
-			btnPart.setText(myEvent.getParticipants().get(i).getName());
+			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			
+			//Button btnPart = new Button(getApplicationContext());
+			
+			/*String styledText = "<big> <font color='#008000'>"
+		            + myEvent.getParticipants().get(i).getName() + "</font> </big>" + "<br />" 
+		            + "<small>" + "$ 0.00" + "</small>";
+			btnPart.setText(Html.fromHtml(styledText));
+		    */
+			//btnPart.setText(myEvent.getParticipants().get(i).getName());
+			btnPart.setName(myEvent.getParticipants().get(i).getName());
+			btnPart.setAmount(myEvent.getParticipants().get(i).getBalance());
+			//btnPart.isCheckable = true;
+			//LinearLayout txt = (LinearLayout)btnPart.findViewById(R.id.customButtonLayout);
+			//btnPart.setClickable(true);
+			//btnPart.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					
-					final Button part = (Button)v;
+					
+					final ParticipantView part = (ParticipantView)v;
+					//part.toogleCheck();
 					final EditText input = new EditText(EventActivity.this);
 					
-					input.setText(part.getText());
+					input.setText(part.getName());
 
 					AlertDialog.Builder alert;
 					alert = new AlertDialog.Builder(EventActivity.this);
@@ -134,8 +152,8 @@ public class EventActivity extends Activity {
 
 					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-							myEvent.getParticipantByName(part.getText().toString()).setName(input.getText().toString());
-							part.setText(input.getText().toString());
+							myEvent.getParticipantByName(part.getName().toString()).setName(input.getText().toString());
+							part.setName(input.getText().toString());
 					  }
 					});
 

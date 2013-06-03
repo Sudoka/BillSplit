@@ -97,13 +97,13 @@ public class NewTransactionActivity extends Activity {
 		
 		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
-			Button btnPart = new Button(getApplicationContext());
-			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					Button btn = (Button)v;
+					ParticipantView btn = (ParticipantView)v;
 					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
 					
 				}

@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -89,7 +90,7 @@ public class PaymentActivity extends Activity {
     	Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
 		
 		for(int i=0;i<layout.getChildCount();i++){
-			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+			ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				atLeastOneChecked = true;
 				break;
@@ -107,27 +108,25 @@ public class PaymentActivity extends Activity {
 		
 		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
-			ToggleButton btnPart = new ToggleButton(getApplicationContext());
-			btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			btnPart.isCheckable = true;
+			//btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
+			//btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
 			btnPart.setTag(i);
-			btnPart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			        checkParticipantsChecked();
-			    }
+			btnPart.setOnClickListener(new OnClickListener() {
+			    
+				@Override
+				public void onClick(View v) {
+					ParticipantView part = (ParticipantView)v;
+					part.toogleCheck();
+					checkParticipantsChecked();
+				}
 
 				
 			});
 			
-			btnPart.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
-					
-				}
-			});
+			
 			// setting image resource
 			// imageView.setImageResource(R.drawable.ic_camera);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -143,7 +142,7 @@ public class PaymentActivity extends Activity {
     public void button_split_evenly_clicked(View view){
     	for(int i=0;i<layout.getChildCount();i++){
     		
-			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+    		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
 				Transaction.current.debtAddParticipant(Item.currentItem, p);
@@ -152,13 +151,14 @@ public class PaymentActivity extends Activity {
     	
     	for(int i=0;i<layout.getChildCount();i++){
     		
-			ToggleButton btnPart = (ToggleButton)layout.getChildAt(i);
+    		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				Participant p = Transaction.current.getParticipants().get((Integer) btnPart.getTag());
-				btnPart.setText(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
+				btnPart.setAmount(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem));
+				/*btnPart.setText(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
 				btnPart.setTextOn(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
 				btnPart.setTextOff(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
-				
+				*/
 				btnPart.setChecked(false);
 			}
     	}
