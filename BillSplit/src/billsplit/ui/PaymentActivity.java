@@ -45,6 +45,8 @@ public class PaymentActivity extends Activity {
         Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
 		splitButton.setVisibility(View.INVISIBLE);
 		
+		Transaction.current.debtResetItem(Item.currentItem);
+		
         generateParticipants();
         // Show the Up button in the action bar.
         setupActionBar();
