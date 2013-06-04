@@ -22,6 +22,7 @@ import edu.sfsu.cs.orange.ocr.CaptureActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -35,6 +36,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class NewTransactionActivity extends Activity {
@@ -213,7 +215,7 @@ public class NewTransactionActivity extends Activity {
 	private String load(String filename){
 	    try
 	    {
-	        FileInputStream fis = openFileInput(filename);
+	    	FileInputStream fis = openFileInput(filename);
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 	        String line = null, input="";
 	        while ((line = reader.readLine()) != null)
@@ -221,14 +223,21 @@ public class NewTransactionActivity extends Activity {
 	        reader.close();
 	        fis.close();
 	        //toast("File successfully loaded.");
-	        File file = new File(filename);
-	        file.delete();
 	        
+	        
+	        boolean worked = this.deleteFile(filename);
+	        if(worked){
+	        	// Toast.makeText(this,"File Deleted",Toast.LENGTH_LONG).show();
+	        	 this.openFileOutput(filename, Context.MODE_PRIVATE);
+	        }else
+	        {
+	        	//Toast.makeText(this,"File NOT Deleted",Toast.LENGTH_LONG).show();
+	        }
 	        return input;
 	    }
 	    catch (Exception ex)
 	    {
-	        //toast("Error loading file: " + ex.getLocalizedMessage());
+	       // Toast.makeText(this,"Error loading file: " + ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 	        return "";
 	    }
 	}
