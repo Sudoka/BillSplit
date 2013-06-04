@@ -59,7 +59,7 @@ public class EventActivity extends Activity {
 		numParticipants.setMaxValue(20);
 		numParticipants.setMinValue(1);
 		numParticipants.setValue(myEvent.getParticipants().size());
-		generateParticipants();
+		
 		numParticipants
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		numParticipants
@@ -311,6 +311,8 @@ public class EventActivity extends Activity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		Event.currentEvent.updateBalances();
+		generateParticipants();
 		if(myEvent.getBalanceChanges().size()>0){
 			//System.out.println(myEvent.getBalanceChanges().size());
 			NumberPicker numParticipants = (NumberPicker) findViewById(R.id.picker_participants);
