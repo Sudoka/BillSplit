@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+   
+    
+    <!-- Used in transaction payments -->
+    <string-array name="select_dialog_items">
+        <item>Fairly</item>
+        <item>Evenly</item>
+        <item>Custom</item>
+    </string-array>
+    
+</resources>

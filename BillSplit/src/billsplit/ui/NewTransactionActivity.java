@@ -242,5 +242,34 @@ public class NewTransactionActivity extends Activity {
 	    }
 	}
 	
+	public void btn_pay_clicked(View view){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Payment Options");
+        alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                String[] items = getResources().getStringArray(R.array.select_dialog_items);
+                
+                if(items[which].equals("Fairly"))
+                {
+                	Transaction.current.payEvenly();
+                }
+                if(items[which].equals("Evenly"))
+                {
+                	Transaction.current.payFairly();                	
+                }
+                if(items[which].equals("Custom"))
+                {
+                	//TODO: Do Custom logic. Add here intent call to a new custom activity.
+                }
+               // Toast.makeText(NewTransactionActivity.this, items[which], Toast.LENGTH_LONG).show();
+                /*
+                new AlertDialog.Builder(this)
+                        .setMessage("You selected: " + which + " , " + items[which])
+                        .show();*/
+            }
+        });
+        alert.show();
+	}
 	
 }
