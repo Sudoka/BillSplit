@@ -63,6 +63,23 @@ public class Transaction extends BalanceChange {
 	}
 	
 	/**
+	 * Returns true only if all the debt for this transaction equals the amount that has been
+	 * specified as payment.
+	 * @return
+	 */
+	public boolean allDebtPaidFor() {
+		double total = 0.0;
+		for (Participant p : this.getParticipants()) {
+			total += this.getAmount(p);
+		}
+		if (total == 0.0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * PRIVATE: Call the setAmountForPerson method inherited from balanceChange for each
 	 * participant in this Transaction. Call this method after any changes to
 	 * make sure the overall totals are correct (should be very quick to run).
@@ -106,6 +123,50 @@ public class Transaction extends BalanceChange {
 	}
 	
 	/**
+	 * Get the total debt (cost) of all items in this transaction.
+	 * @return
+	 */
+	public double debtGetTotal() {
+		double total = 0.0;
+		for (Participant p : this.getParticipants()) {
+			total += matrix.getTotalForParticipant(p);
+		}
+		return total;
+	}
+	
+	/**
+	 * Returns the amount of the items cost that has not yet been assigned to
+	 * a participant as debt. May be a negative number if more debt has been assigned
+	 * than the cost of the item.
+	 * @param item
+	 * @return
+	 */
+	public double debtGetItemDebtRemaining(Item item) {
+		return matrix.getItemRemainingDebt(item);
+	}
+	
+	/** Return true only if the specified item's cost has been completely
+	 * assigned to one or more participants as debt.
+	 * @param item
+	 * @return
+	 */
+	public boolean debtItemDone(Item item) {
+		return debtGetItemDebtRemaining(item) == 0.0;
+	}
+	
+	/**
+	 * Returns true only if all items in this transaction are done
+	 * (that is, have all their debt assigned to a participant)
+	 * @return
+	 */
+	public boolean debtAllItemsDone() {
+		for (Item item : this.getItems()) {
+			if (debtItemDone(item) == false) return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Literally splits every item cost evenly between all available participants.
 	 * We might want to revisit how useful this even is...
 	 */
@@ -132,6 +193,18 @@ public class Transaction extends BalanceChange {
 			Participant p = participants.get(j);
 			matrix.setAmount(p, item, amtPerPerson);
 		}
+		updateTotals();
+	}
+	
+	/**
+	 * Exactly specify the debt that a particular participant should be assigned for a particular
+	 * item.
+	 * @param item
+	 * @param p
+	 * @param debtAmount
+	 */
+	public void debtSet(Item item, Participant p, double debtAmount) {
+		matrix.setAmount(p, item, debtAmount);
 		updateTotals();
 	}
 	
@@ -190,8 +263,9 @@ public class Transaction extends BalanceChange {
 	 * Sets the amount a participant is paying.
 	 * @param amt
 	 */
-	private void paySetParticipantPayment(Participant p, double amt) {
+	public void paySetParticipantPayment(Participant p, double amt) {
 		this.paymentMap.put(p, amt);
+		updateTotals();
 	}
 	
 	public double payGetAmount(Participant p) {
@@ -211,7 +285,6 @@ public class Transaction extends BalanceChange {
 		double perPerson = totalDebt / participants.size();
 		
 		for (Participant p: participants) paySetParticipantPayment(p, perPerson);
-		updateTotals();
 	}
 	
 	/**
@@ -222,7 +295,6 @@ public class Transaction extends BalanceChange {
 			double amt = matrix.getTotalForParticipant(p);
 			paySetParticipantPayment(p, amt);
 		}
-		updateTotals();
 	}
 	
 	/**
@@ -234,7 +306,6 @@ public class Transaction extends BalanceChange {
 			double amt = entry.getValue();
 			paySetParticipantPayment(p, amt);
 		}
-		updateTotals();
 	}
 	/**
 	 * PaymentMatrix private inner class- only to be used by Transaction. Keeps track of all state
@@ -416,6 +487,14 @@ public class Transaction extends BalanceChange {
 				total += contrib;
 			}
 			return total;
+		}
+		
+		public double getItemRemainingDebt(Item item) {
+			double paidSoFar = 0.0;
+			for (Participant p : this.getParticipants()) {
+				paidSoFar += this.getAmount(p, item);
+			}
+			return item.getCost() - paidSoFar;
 		}
 		
 		private <T, E> T getKeyByValue(Map<T, E> map, E value) {
