@@ -19,8 +19,8 @@ public class DataCapture {
 	while(st.hasMoreTokens()) { 
 	  String name = st.nextToken(); 
 	  String costString = st.nextToken();
-	  costString.replace('$', ' ');//replace the $ sign
-	  Item newItem = new Item(name+" "+costString, Float.valueOf(0));
+	  costString = costString.replace("$", "");//replace the $ sign
+	  Item newItem = new Item(name,Double.parseDouble(costString));
 	  itemList.add(newItem);
 	}
   }

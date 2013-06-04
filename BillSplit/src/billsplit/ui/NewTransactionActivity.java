@@ -1,6 +1,7 @@
 package billsplit.ui;
 //comment
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -70,12 +71,12 @@ public class NewTransactionActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		generateParticipants();
-		if(isOCRdone){
+		//if(isOCRdone){
 			ArrayList<Item> newItems = getItemList();
 			for(Item item : newItems){
 				Transaction.current.addItem(item);
 			}
-		}
+		//}
 		
 		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
 		 ListView items = (ListView) findViewById(R.id.items_list);
@@ -220,6 +221,9 @@ public class NewTransactionActivity extends Activity {
 	        reader.close();
 	        fis.close();
 	        //toast("File successfully loaded.");
+	        File file = new File(filename);
+	        file.delete();
+	        
 	        return input;
 	    }
 	    catch (Exception ex)
