@@ -14,6 +14,8 @@ import billsplit.engine.Transaction;
 
 import com.billsplit.R;
 
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
+
 //import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 import android.os.Bundle;
@@ -194,8 +196,8 @@ public class NewTransactionActivity extends Activity {
 	public void ibtn_camera_clicked(View view)
 	{
 		isOCRdone = true;
-		//Intent intent = new Intent(this, CaptureActivity.class);
-	    //startActivity(intent);
+		Intent intent = new Intent(this, CaptureActivity.class);
+	    startActivity(intent);
 	}
 	public ArrayList<billsplit.engine.Item> getItemList(){
 		String itemListString = load("ItemList.txt");
