@@ -36,21 +36,24 @@ public class ItemActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-		layout = (RelativeLayout) findViewById(R.id.payment_participantsContainer);
+		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
 		
-        Toast.makeText(this, Item.currentItem.getName(), Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, Item.currentItem.getName(), Toast.LENGTH_LONG).show();
         
-        EditText name = (EditText)findViewById(R.id.payment_txtItemName);
-        EditText cost = (EditText)findViewById(R.id.payment_txtItemCost);
-        EditText unassigned = (EditText)findViewById(R.id.payment_txtUnassigned);
+        EditText name = (EditText)findViewById(R.id.item_txtItemName);
+        EditText cost = (EditText)findViewById(R.id.item_txtItemCost);
+        EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         name.setText(Item.currentItem.getName());
         cost.setText("$"+String.valueOf(Item.currentItem.getCost()));
         unassigned.setText("$"+String.valueOf(Item.currentItem.getCost()));
         unassignedAmount = Item.currentItem.getCost();
         
-        Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
-		splitButton.setVisibility(View.INVISIBLE);
+        Button splitButton = (Button)findViewById(R.id.item_btnSplitEvenly);
+		splitButton.setVisibility(View.GONE);
+		
+		Button doneButton = (Button)findViewById(R.id.item_btnDone);
+		doneButton.setVisibility(View.GONE);
 		
 		Transaction.current.debtResetItem(Item.currentItem);
 		
@@ -96,7 +99,7 @@ public class ItemActivity extends Activity {
 
     private void checkParticipantsChecked() {
     	boolean atLeastOneChecked = false;
-    	Button splitButton = (Button)findViewById(R.id.payment_btnSplitEvenly);
+    	Button splitButton = (Button)findViewById(R.id.item_btnSplitEvenly);
 		
 		for(int i=0;i<layout.getChildCount();i++){
 			ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
@@ -109,7 +112,7 @@ public class ItemActivity extends Activity {
 		if(atLeastOneChecked){
 			splitButton.setVisibility(View.VISIBLE);
 		}else{
-			splitButton.setVisibility(View.INVISIBLE);
+			splitButton.setVisibility(View.GONE);
 		}
 	}
     private void generateParticipants() {
@@ -132,8 +135,8 @@ public class ItemActivity extends Activity {
 					//part.toogleCheck();
 					final EditText input = new EditText(ItemActivity.this);
 					
-					input.setText("0.0");
-					input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+					input.setHint("Type amount: 0.0");
+					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 					AlertDialog.Builder alert;
 					alert = new AlertDialog.Builder(ItemActivity.this);
@@ -149,13 +152,24 @@ public class ItemActivity extends Activity {
 								checkParticipantsChecked();
 							}
 							Participant p = (Participant)part.getTag();
+							try{
 							Transaction.current.debtSet(Item.currentItem, p, Double.parseDouble(input.getText().toString()));
 							part.setAmount(Double.parseDouble(input.getText().toString()));
 							//unassignedAmount -= Double.parseDouble(input.getText().toString());
-							EditText unassigned = (EditText)findViewById(R.id.payment_txtUnassigned);
+							EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
 					        unassigned.setText("$"+String.valueOf(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)));
-					        
-							manualInputEntered = true;
+					        manualInputEntered = true;
+					        Button doneButton = (Button)findViewById(R.id.item_btnDone);
+					        if(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)==0){
+					        	doneButton.setVisibility(View.VISIBLE);
+					        }
+					        else
+					        {
+					        	doneButton.setVisibility(View.GONE);
+					        }
+							}catch(Exception e){
+								Toast.makeText(ItemActivity.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+							}
 							//myEvent.getParticipantByName(part.getName().toString()).setName(input.getText().toString());
 							//part.setName(input.getText().toString());
 							
