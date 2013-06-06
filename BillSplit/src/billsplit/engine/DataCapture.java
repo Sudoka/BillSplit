@@ -15,12 +15,17 @@ public class DataCapture {
   
   //parse itemListString
   private void createItemList(String itemListString){
-    StringTokenizer st = new StringTokenizer(itemListString, " = "); 
+    StringTokenizer st = new StringTokenizer(itemListString, ".00"); 
 	while(st.hasMoreTokens()) { 
-	  String name = st.nextToken(); 
-	  String costString = st.nextToken();
-	  costString = costString.replace("$", "");//replace the $ sign
-	  Item newItem = new Item(name,Double.parseDouble(costString));
+	  String item = st.nextToken(); 
+	  String name = "item";
+	  String cost = "0";
+	  StringTokenizer st2 = new StringTokenizer(item, "$"); 
+		while(st2.hasMoreTokens()) { 
+			name = st2.nextToken();
+			cost = st2.nextToken();
+		}
+	  Item newItem = new Item(name,Double.parseDouble(cost));
 	  itemList.add(newItem);
 	}
   }
