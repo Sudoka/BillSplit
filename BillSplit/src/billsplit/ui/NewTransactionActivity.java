@@ -86,7 +86,7 @@ public class NewTransactionActivity extends Activity {
 				public void onItemClick(AdapterView parent, View v, int position,
 						long id) {
 					Intent intent = new Intent(getApplicationContext(),
-							PaymentActivity.class);
+							ItemActivity.class);
 					Item.currentItem = Transaction.current.getItems().get(position);
 					startActivity(intent);
 				}

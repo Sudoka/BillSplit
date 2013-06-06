@@ -3,6 +3,7 @@
     package="com.billsplit"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -25,16 +26,20 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-  <supports-screens android:xlargeScreens="true"
-                    android:largeScreens="true"
-                    android:normalScreens="true"
-                    android:smallScreens="true" />
-  <uses-feature android:name="android.hardware.camera.autofocus" />
-  <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
-  <uses-feature android:name="android.hardware.camera"/>
-  <uses-feature android:name="android.hardware.screen.landscape"/>
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
 
-      <application
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.screen.landscape" />
+
+    <application
         android:name="billsplit.engine.GlobalAccount"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -128,14 +133,6 @@
                 android:value="billsplit.ui.ItemActivity" />
         </activity>
         <activity
-            android:name="billsplit.ui.PaymentActivity"
-            android:label="@string/title_activity_payment"
-            android:parentActivityName="billsplit.ui.NewTransactionActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="billsplit.ui.NewTransactionActivity" />
-        </activity>
-        <activity
             android:name="billsplit.ui.ItemsListFragment"
             android:label="@string/title_activity_items_list_fragment" >
         </activity>
@@ -146,6 +143,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="billsplit.ui.NewTransactionActivity" />
+        </activity>
+        <activity
+            android:name="billsplit.ui.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName="billsplit.ui.EventActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="billsplit.ui.EventActivity" />
         </activity>
     </application>
 
