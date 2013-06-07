@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.text.Html;
+import android.text.InputType;
 
 public class EventActivity extends Activity {
 

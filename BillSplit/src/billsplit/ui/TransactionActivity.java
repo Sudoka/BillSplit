@@ -86,8 +86,8 @@ public class TransactionActivity extends Activity {
 		ArrayList<billsplit.engine.Item> itemList = dataCapture.getItemList();
 		billsplit.engine.Item item0 = itemList.get(0);
 		
-	    TextView items = (TextView) findViewById(R.id.editText1);
-	    items.setText(item0.getName());
+	   // TextView items = (TextView) findViewById(R.id.editText1);
+	   // items.setText(item0.getName());
 	}
 	private String load(String filename)
 	{
