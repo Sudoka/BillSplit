@@ -15,18 +15,42 @@ public class DataCapture {
   
   //parse itemListString
   private void createItemList(String itemListString){
+	  
+	//bail out if itemListString is null or empty
+	if(itemListString == null)
+	  return;
+	
+	if(itemListString.equals(""))
+	  return;
+	
+	//Assumptions about format:
+	//ItemOnPaper $XX.00
+	
+	//check if there is at least one item
+	if(!itemListString.contains(".00"))
+	  return;
+	
     StringTokenizer st = new StringTokenizer(itemListString, ".00"); 
-	while(st.hasMoreTokens()) { 
+    
+	while(st != null && st.hasMoreTokens()){ 
+	
 	  String item = st.nextToken(); 
-	  String name = "item";
+	  String name = "item";//initialize to a default
 	  String cost = "0";
+
 	  StringTokenizer st2 = new StringTokenizer(item, "$"); 
-		while(st2.hasMoreTokens()) { 
-			name = st2.nextToken();
-			cost = st2.nextToken();
-		}
-	  Item newItem = new Item(name,Double.parseDouble(cost));
-	  itemList.add(newItem);
+	  while(st2 != null && st2.hasMoreTokens()){ 
+		name = st2.nextToken();
+	    cost = st2.nextToken();
+	  }
+	  
+	  try{
+	    double parsedCost = Double.parseDouble(cost);
+	    Item newItem = new Item(name, parsedCost);
+	    itemList.add(newItem);
+	  }catch(NumberFormatException nfe){
+	    //do not add mal-formatted item
+	  }
 	}
   }
   
