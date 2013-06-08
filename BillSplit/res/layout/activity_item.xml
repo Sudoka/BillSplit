@@ -8,36 +8,101 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ItemActivity" >
 
-    <Button
-        android:id="@+id/button1"
+    <LinearLayout
+        android:id="@+id/item_layout_itemname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="initiateOCR"
-        android:text="@string/ocr_button_label" />
-
-    <Button
-        android:id="@+id/button2"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_marginTop="50dp"
+         >
+    <TextView
+        android:id="@+id/item_lblItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="14dp"
-        android:onClick="initializeDataCapture" 
-        android:text="@string/data_button_label" />
+        android:text="Item Name:" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/item_txtItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
+        android:layout_alignTop="@+id/item_lblItemName"
+        android:layout_toLeftOf="@+id/item_lblItemName"
+        android:editable="false" />
+	</LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/item_layout_itemcost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_below="@+id/item_layout_itemname"
+         >
+    <TextView
+        android:id="@+id/item_lblItemCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Cost:" />
+
+    <EditText
+        android:id="@+id/item_txtItemCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:editable="false" />
+</LinearLayout> 
+<LinearLayout
+        android:id="@+id/item_layout_unassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_below="@+id/item_layout_itemcost"
+ >  
+    <TextView
+        android:id="@+id/item_lblUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"    
+        android:text="Unassigned:" />
+
+    <EditText
+        android:id="@+id/item_txtUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:editable="false" />
+    
+    </LinearLayout>
+    
+<Button
+    android:id="@+id/item_btnSplitEvenly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="53dp"
-        android:ems="10" >
+        android:text="Split Evenly"
+        android:onClick="button_split_evenly_clicked"
+        android:layout_below="@+id/item_layout_unassigned"
+        style="?android:attr/buttonStyleSmall"
+    />
 
-        <requestFocus />
-    </EditText>
+<Button
+    android:id="@+id/item_btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Done"
+        android:onClick="button_done_clicked"
+        android:layout_below="@+id/item_layout_unassigned"
+        style="?android:attr/buttonStyleSmall"
+    />
+    
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/item_participantsContainer"
+        android:animateLayoutChanges="false"
+        >
 
+          
+
+      </RelativeLayout>
 </RelativeLayout>

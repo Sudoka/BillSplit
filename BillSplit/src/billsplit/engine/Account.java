@@ -132,6 +132,8 @@ public class Account {
 		secondEvent.addBalanceChange(new Transaction("tmpname3", secondParts, items2));
 		secondEvent.addBalanceChange(new Transaction("tmpname4", secondParts, items2));
 		
+		newAccount.updatePastRelations();
+		
 		return newAccount;
 	}
 	

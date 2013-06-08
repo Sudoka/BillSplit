@@ -43,6 +43,16 @@
         android:onClick="btn_done_clicked"
         android:layout_below="@+id/ibtn_keyboard"
         android:text="@string/btn_done" />
+    
+    <Button
+        android:id="@+id/btn_pay"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="btn_pay_clicked"
+        android:layout_below="@+id/btn_done"
+        android:text="Pay" />
 
     
 

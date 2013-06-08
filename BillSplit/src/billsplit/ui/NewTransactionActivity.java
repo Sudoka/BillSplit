@@ -1,6 +1,7 @@
 package billsplit.ui;
 //comment
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -14,11 +15,14 @@ import billsplit.engine.Transaction;
 
 import com.billsplit.R;
 
+import edu.sfsu.cs.orange.ocr.CaptureActivity;
+
 //import edu.sfsu.cs.orange.ocr.CaptureActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -32,6 +36,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class NewTransactionActivity extends Activity {
@@ -46,7 +51,7 @@ public class NewTransactionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_transaction);
 		layout = (RelativeLayout) findViewById(R.id.participantsContainer);
-		generateParticipants();
+		
 		
 		TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
 		
@@ -67,20 +72,21 @@ public class NewTransactionActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(isOCRdone){
+		generateParticipants();
+		//if(isOCRdone){
 			ArrayList<Item> newItems = getItemList();
 			for(Item item : newItems){
 				Transaction.current.addItem(item);
 			}
-		}
+		//}
 		
-		adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
 		 ListView items = (ListView) findViewById(R.id.items_list);
 		 OnItemClickListener itemClicked = new OnItemClickListener() {
 				public void onItemClick(AdapterView parent, View v, int position,
 						long id) {
 					Intent intent = new Intent(getApplicationContext(),
-							PaymentActivity.class);
+							ItemActivity.class);
 					Item.currentItem = Transaction.current.getItems().get(position);
 					startActivity(intent);
 				}
@@ -97,13 +103,14 @@ public class NewTransactionActivity extends Activity {
 		
 		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
-			Button btnPart = new Button(getApplicationContext());
-			btnPart.setText(Event.currentEvent.getParticipants().get(i).getName());
+			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(Event.currentEvent.getParticipants().get(i)));
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					Button btn = (Button)v;
+					ParticipantView btn = (ParticipantView)v;
 					//showParticipantDialog(Integer.parseInt((String) btn.getText()));//change to participant ID
 					
 				}
@@ -194,8 +201,8 @@ public class NewTransactionActivity extends Activity {
 	public void ibtn_camera_clicked(View view)
 	{
 		isOCRdone = true;
-		//Intent intent = new Intent(this, CaptureActivity.class);
-	    //startActivity(intent);
+		Intent intent = new Intent(this, CaptureActivity.class);
+	    startActivity(intent);
 	}
 	public ArrayList<billsplit.engine.Item> getItemList(){
 		String itemListString = load("ItemList.txt");
@@ -208,7 +215,7 @@ public class NewTransactionActivity extends Activity {
 	private String load(String filename){
 	    try
 	    {
-	        FileInputStream fis = openFileInput(filename);
+	    	FileInputStream fis = openFileInput(filename);
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 	        String line = null, input="";
 	        while ((line = reader.readLine()) != null)
@@ -216,14 +223,53 @@ public class NewTransactionActivity extends Activity {
 	        reader.close();
 	        fis.close();
 	        //toast("File successfully loaded.");
+	        
+	        
+	        boolean worked = this.deleteFile(filename);
+	        if(worked){
+	        	// Toast.makeText(this,"File Deleted",Toast.LENGTH_LONG).show();
+	        	 this.openFileOutput(filename, Context.MODE_PRIVATE);
+	        }else
+	        {
+	        	//Toast.makeText(this,"File NOT Deleted",Toast.LENGTH_LONG).show();
+	        }
 	        return input;
 	    }
 	    catch (Exception ex)
 	    {
-	        //toast("Error loading file: " + ex.getLocalizedMessage());
+	       // Toast.makeText(this,"Error loading file: " + ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 	        return "";
 	    }
 	}
 	
+	public void btn_pay_clicked(View view){
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Payment Options");
+        alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                String[] items = getResources().getStringArray(R.array.select_dialog_items);
+                
+                if(items[which].equals("Fairly"))
+                {
+                	Transaction.current.payEvenly();
+                }
+                if(items[which].equals("Evenly"))
+                {
+                	Transaction.current.payFairly();                	
+                }
+                if(items[which].equals("Custom"))
+                {
+                	//TODO: Do Custom logic. Add here intent call to a new custom activity.
+                }
+               // Toast.makeText(NewTransactionActivity.this, items[which], Toast.LENGTH_LONG).show();
+                /*
+                new AlertDialog.Builder(this)
+                        .setMessage("You selected: " + which + " , " + items[which])
+                        .show();*/
+            }
+        });
+        alert.show();
+	}
 	
 }

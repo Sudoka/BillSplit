@@ -6,6 +6,7 @@ package billsplit.engine;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
@@ -82,7 +83,6 @@ public class TransactionTest {
 		setUpForDebtTest();
 		//check that everyone has no debt to start
 		ArrayList<Participant> plist = transaction.getParticipants();
-		System.out.println(plist);
 		for (Participant p : transaction.getParticipants()) {
 			double amt = transaction.debtGetTotalAmountParticipant(p);
 			assertEquals("Nobody should have debt at start",0.0, amt, 0.0);
@@ -100,6 +100,34 @@ public class TransactionTest {
 			double amt = transaction.debtGetTotalAmountParticipant(p);
 			assertEquals("Everyone should equally have $11.125 debt", 11.125, amt, 0.0);
 		}
+	}
+	
+	@Test
+	public void testDebtItemEvenly() {
+		setUpForDebtTest();
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		ArrayList<Participant> ps = new ArrayList<Participant>();
+		ps.add(p1);
+		ps.add(p2);
+		Item item = transaction.getItems().get(0);
+		transaction.debtItemEvenly(item, ps);
+		//now check that everyone has the same, correct amount of debt
+		// 25 / 4 = 6.25
+		double correctAmt = 25.00 / 2;
+		
+		double p1amt = transaction.debtGetItemAmountParticipant(p1, item);
+		double p2amt = transaction.debtGetItemAmountParticipant(p2, item);
+		
+		assertEquals("person 1 should have $6.25 debt.", correctAmt, p1amt, 0.0);
+		assertEquals("person 2 should have $6.25 debt.", correctAmt, p2amt, 0.0);
+		
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		double p3amt = transaction.debtGetItemAmountParticipant(p3, item);
+		double p4amt = transaction.debtGetItemAmountParticipant(p4, item);
+		assertEquals("person 3 should have $0 debt.", 0.0, p3amt, 0.0);
+		assertEquals("person 4 should have $0 debt.", 0.0, p4amt, 0.0);
 	}
 	
 	private void setUpForDebtTest() {
@@ -122,6 +150,100 @@ public class TransactionTest {
 		this.transaction.addParticipant(p2);
 		this.transaction.addParticipant(p3);
 		this.transaction.addParticipant(p4);
+	}
+	
+	private void setUpForPayTest() {
+		setUpForDebtTest();
+		transaction.debtAllEvenly();
+		transaction.payEvenly();
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		Item item = transaction.getItems().get(0);
+		transaction.debtResetItem(item);
+		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item
+	}
+	
+	@Test
+	public void testPayFairly() {
+		setUpForPayTest();
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		
+		transaction.payFairly();
+		
+		double p1amt = transaction.getAmount(p1);
+		double p2amt = transaction.getAmount(p2);
+		double p3amt = transaction.getAmount(p3);
+		double p4amt = transaction.getAmount(p4);
+		
+		assertEquals(4.875,transaction.payGetAmount(p1),0.0);
+		assertEquals(4.875,transaction.payGetAmount(p2),0.0);
+		assertEquals(29.875,transaction.payGetAmount(p3),0.0);
+		assertEquals(4.875,transaction.payGetAmount(p4),0.0);
+		
+		assertEquals(0, p1amt, 0.0);
+		assertEquals(0, p2amt, 0.0);
+		assertEquals(0, p3amt, 0.0);
+		assertEquals(0, p4amt, 0.0);
+	}
+	
+	@Test
+	public void testPayEvenly() {
+		setUpForDebtTest();
+		
+		transaction.debtAllEvenly();
+		//debt is $11.125/person
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.debtGetTotalAmountParticipant(p),0.0);
+		
+		transaction.payEvenly();
+		//payment is $11.125/person
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
+		
+		HashMap<Participant,Double> amts = transaction.getAmounts();
+		//make sure all payment amounts are 0 (debt is even, payment is even, so net should be 0)
+		for (Participant p : amts.keySet()) {
+			double amt = amts.get(p);
+			assertEquals(0.0,amt,0.0);
+		}
+		
+		// now test if debt is uneven. Same even payment, but now one user pays entirely for a $9 item
+		Participant p1 = transaction.getParticipants().get(0);
+		Participant p2 = transaction.getParticipants().get(1);
+		Participant p3 = transaction.getParticipants().get(2);
+		Participant p4 = transaction.getParticipants().get(3);
+		
+		Item item = transaction.getItems().get(0);
+		transaction.debtResetItem(item);
+		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item
+		
+		double p1debt = transaction.debtGetTotalAmountParticipant(p1);
+		double p2debt = transaction.debtGetTotalAmountParticipant(p2);
+		double p3debt = transaction.debtGetTotalAmountParticipant(p3);
+		double p4debt = transaction.debtGetTotalAmountParticipant(p4);
+		
+		assertEquals(4.875, p1debt,0.0);
+		assertEquals(4.875, p2debt,0.0);
+		assertEquals(29.875, p3debt,0.0);
+		assertEquals(4.875, p4debt,0.0);
+		
+		double p1amt = transaction.getAmount(p1);
+		double p2amt = transaction.getAmount(p2);
+		double p3amt = transaction.getAmount(p3);
+		double p4amt = transaction.getAmount(p4);
+		
+		assertEquals(6.25, p1amt, 0.0);
+		assertEquals(6.25, p2amt, 0.0);
+		assertEquals(-18.75, p3amt, 0.0);
+		assertEquals(6.25, p4amt, 0.0);
+		
+		// make sure pay amt doesnt change running it again, just for fun.
+		transaction.payEvenly();
+		//payment is $11.125/person
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
 	}
 
 }
