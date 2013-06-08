@@ -11,7 +11,6 @@ public class Event {
 	private String category;
 	private Date dateCreated;
 	private Date lastModified;
-
 	public static Event currentEvent;
 	/* 
 	 * requires: creatorGID != null
@@ -70,15 +69,7 @@ public class Event {
 		return false;
 	}
 	
-	public boolean isBalanceChange(String name){
-		assert(name != null);
-		for(BalanceChange b : txns){
-			if(b.getName().equals(name)){
-				return true;
-			}
-		}
-		return false;
-	}
+	
 	
 	/*
 	 * requires name != null
@@ -96,6 +87,16 @@ public class Event {
 		return false;
 	}
 	
+	public boolean isBalanceChange(String name){
+		assert(name != null);
+		for(BalanceChange b : txns){
+			if(b.getName().equals(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Collection<BalanceChange> getBalanceChanges(){
 		return (Collection<BalanceChange>) txns;
 	}
@@ -104,12 +105,7 @@ public class Event {
 		return category;
 	}
 	
-	public void addBalanceChange(BalanceChange newBalanceChange){
-		assert(newBalanceChange != null);
-		txns.add(newBalanceChange);
-		updateBalances();
-		return;
-	}
+	
 	
 	/*
 	 * dacashman - contract requires date to be non-null, but 
@@ -177,6 +173,14 @@ public class Event {
 		return null;
 	}
 	
+	public void addBalanceChange(BalanceChange newBalanceChange){
+		assert(newBalanceChange != null);
+		txns.add(newBalanceChange);
+		lastModified = new Date();
+		updateBalances();
+		return;
+	}
+	
 	/*
 	 * requires: participant not already in event (by name and 
 	 * thus GID).
@@ -184,12 +188,14 @@ public class Event {
 	public void addParticipant(Participant newParticipant){
 		assert(!isParticipant(newParticipant.getName()));
 		participants.add(newParticipant);
+		lastModified = new Date();
 		return;
 	}
 	
 	public void removeParticipant(Participant ParticipantToRemove){
 		assert(isParticipant(ParticipantToRemove.getName()));
 		participants.remove(ParticipantToRemove);
+		lastModified = new Date();
 		return;
 	}
 	
@@ -200,12 +206,14 @@ public class Event {
 	public void removeBalanceChange(BalanceChange balanceChangeToRemove){
 		assert(isBalanceChange(balanceChangeToRemove.getName()));
 		txns.remove(balanceChangeToRemove);
-		
+		lastModified = new Date();
+		return;
 	}
 	
 	public void setCategory(String category){
 		assert(category != null);
 		this.category = category;
+		lastModified = new Date();
 		return;
 	}
 	
@@ -216,6 +224,7 @@ public class Event {
 	public void setName(String name){
 		assert(name != null);
 		this.name = name;
+		lastModified = new Date();
 		return;
 	}
 	
@@ -231,10 +240,20 @@ public class Event {
 				//fetch value for participant
 				Double addAmount = retAmounts.get(p);
 				if(addAmount != null){
-					p.addBalance((double) addAmount);
+					p.addToBalance((double) addAmount);
 				}
 			}
 		}
+		return;
+	}
+	
+	
+	/*
+	 * updateEvents() - currently just updates balance.
+	 *     Should we do more here?
+	 */
+	public void updateEventss(){
+		updateBalances();
 		return;
 	}
 	
