@@ -52,9 +52,9 @@ public class Event {
 		return creatorGID;
 	}
 	
-	//Changed from Collection to AbstractList by Kirill M. on 5/23/13 - should be changed back
-	public AbstractList<Participant> getParticipants(){
-		return (AbstractList<Participant>) participants;
+	
+	public Collection<Participant> getParticipants(){
+		return (Collection<Participant>) participants;
 	}
 	
 	/*
@@ -64,6 +64,16 @@ public class Event {
 		assert(name != null);
 		for(Participant p : participants){
 			if(p.getName().equals(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isBalanceChange(String name){
+		assert(name != null);
+		for(BalanceChange b : txns){
+			if(b.getName().equals(name)){
 				return true;
 			}
 		}
@@ -187,7 +197,11 @@ public class Event {
 	/* dacashman - addBalanceChange, removeBalanceChange need to be 
 	 * 	added to the contract.
 	 */
+	public void removeBalanceChange(BalanceChange balanceChangeToRemove){
+		assert(isBalanceChange(balanceChangeToRemove.getName()));
+		txns.remove(balanceChangeToRemove);
 		
+	}
 	
 	public void setCategory(String category){
 		assert(category != null);

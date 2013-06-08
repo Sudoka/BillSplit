@@ -5,11 +5,12 @@ public class Participant {
 	private double balance; //always initialized to 0
 	private String name;
 	
+	/* deprecated
 	public Participant(){
 		associatedAccount = null;
 		balance = 0;
 		name = "Anon";
-	}
+	} */
 	
 	public Participant(Account associatedAccount){
 		this.associatedAccount =associatedAccount;
