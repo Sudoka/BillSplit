@@ -1,9 +1,12 @@
 package billsplit.engine;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Event {
+public class Event implements Serializable {
+
+	private static final long serialVersionUID = 3342485705749973656L;
 	private String creatorGID;
 	private String name;
 	private ArrayList<Participant> participants;
