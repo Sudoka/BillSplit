@@ -17,6 +17,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +35,7 @@ public class PaymentActivity extends Activity {
 	private boolean manualInputEntered=false;
 	private double debitsTotal;
 	private Collection<Participant> participants;
-	
+	private String TAG = "PaymentActivity"; 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class PaymentActivity extends Activity {
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = 100.0;//Transaction.current.getDebitsTotal();
+        debitsTotal = -10.0;//Transaction.current.getDebitsTotal();
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the transaction/event
@@ -54,6 +56,13 @@ public class PaymentActivity extends Activity {
         
 		Button doneButton = (Button)findViewById(R.id.item_btnDone);
 		doneButton.setVisibility(View.GONE);
+		doneButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v){
+				Intent intent = new Intent(PaymentActivity.this, EventActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		//view to hold the participants
 		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
@@ -86,37 +95,12 @@ public class PaymentActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. Use NavUtils to allow users
-                // to navigate up one level in the application structure. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkParticipantsChecked() {
-    	boolean atLeastOneChecked = false;
-    	Button splitButton = null;//(Button)findViewById(R.id.item_btnSplitEvenly);
-		
-		for(int i=0;i<layout.getChildCount();i++){
-			ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
-			if(btnPart.isChecked()){
-				atLeastOneChecked = true;
-				break;
-			}
-		}
-		
-		if(atLeastOneChecked){
-			splitButton.setVisibility(View.VISIBLE);
-		}else{
-			splitButton.setVisibility(View.GONE);
-		}
-	}
     private void generateParticipants() {
 		layout.removeAllViews();
 		int i = 0;
@@ -162,18 +146,19 @@ public class PaymentActivity extends Activity {
 								//find unassigned view
 								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
 								//update it with debitCreditDiff
-								unassigned.setText("$"+debitCreditDiff);
+								unassigned.setText(""+debitCreditDiff);
 
 								//TODO: check if we are done with the payments, i.e. everything is 0
 								boolean isPaymentComplete = false;//Transaction.current.isPaymentComplete();
 								
-						        if(isPaymentComplete){
+						        if(debitCreditDiff==0/*TODO: isPaymentComplete*/){
 						        	doneButton.setVisibility(View.VISIBLE);
 						        }
 						        else{
 						        	doneButton.setVisibility(View.GONE);
 						        }
 							}catch(Exception e){
+								Log.e(TAG, e.getMessage());
 								Toast.makeText(PaymentActivity.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
 							}							
 					  }					
@@ -188,17 +173,6 @@ public class PaymentActivity extends Activity {
 					alert.show();
 				}
 			});
-
-			/*btnPart.setOnClickListener(new OnClickListener() {
-			    
-				@Override
-				public void onClick(View v) {
-					if(!manualInputEntered){
-						ParticipantView part = (ParticipantView)v;
-						part.toogleCheck();
-					}
-				}				
-			});*/
 
 			// setting image resource
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
