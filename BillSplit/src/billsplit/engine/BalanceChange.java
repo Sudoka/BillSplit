@@ -99,8 +99,11 @@ public abstract class BalanceChange {
 		return this.name;
 	}
 	
+	/* debits minus credits.  Indicates how much has yet 
+	 * to be paid.  Allows it to be plugged into UI directly
+	 */
 	public double getDebitCreditDiff(){
-		return getCreditsTotal() - getDebitsTotal();
+		return getDebitsTotal() - getCreditsTotal();
 	}
 	
 	public boolean isPaymentComplete(){
