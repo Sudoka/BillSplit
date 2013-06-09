@@ -45,7 +45,7 @@ public class PaymentActivity extends Activity {
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = -10.0;//Transaction.current.getDebitsTotal();
+        debitsTotal = Transaction.current.getDebitCreditDiff();
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the transaction/event
@@ -137,11 +137,12 @@ public class PaymentActivity extends Activity {
 								double amountEntered = Double.parseDouble(input.getText().toString()); 
 								
 								//TODO: add the payment to the transaction
-								//Transaction.current.setCredit(p, amountEntered);
+								Transaction.current.setCredit(p, amountEntered);
 								
 								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
+								
 								//TODO: get the resulting balance
-								double debitCreditDiff = amountEntered + Double.parseDouble(temp.getText().toString());//Transaction.current.getDebitCreditDiff();
+								double debitCreditDiff = Transaction.current.getDebitCreditDiff();
 								
 								//find unassigned view
 								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
@@ -149,9 +150,9 @@ public class PaymentActivity extends Activity {
 								unassigned.setText(""+debitCreditDiff);
 
 								//TODO: check if we are done with the payments, i.e. everything is 0
-								boolean isPaymentComplete = false;//Transaction.current.isPaymentComplete();
+								boolean isPaymentComplete = Transaction.current.isPaymentComplete();
 								
-						        if(debitCreditDiff==0/*TODO: isPaymentComplete*/){
+						        if(isPaymentComplete){
 						        	doneButton.setVisibility(View.VISIBLE);
 						        }
 						        else{

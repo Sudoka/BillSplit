@@ -1,6 +1,10 @@
 package billsplit.engine;
 
-public class Participant {
+import java.io.Serializable;
+
+public class Participant implements Serializable {
+
+	private static final long serialVersionUID = 1305975903913062148L;
 	private Account associatedAccount;
 	private double balance; //always initialized to 0
 	private double spent;

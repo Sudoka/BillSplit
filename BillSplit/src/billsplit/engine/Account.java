@@ -3,15 +3,17 @@
  */
 package billsplit.engine;
 import java.util.*;
+import java.io.*;
 
 /**
  * @author kmakarov
  *
  */
 
-public class Account {
+public class Account implements Serializable {
 
-    private String GID;
+	private static final long serialVersionUID = 1587685686600386406L;
+	private String GID;
 	private ArrayList<Event> events=null;
 	private String name;
 	private double netBalance;
@@ -21,8 +23,7 @@ public class Account {
 	private ArrayList<Account> pastRelations=null;
 	private ArrayList<String> settings=null;
 	private static Account currentAccount=null;
-	
-	
+		
 	////BASIC QUERIES////
 	
 	/*
@@ -95,9 +96,12 @@ public class Account {
 	
 	/*
 	 * Account for a known GID
+	 * require GID contains '@' character
+	 * 
 	 */
 	
 	public Account(String GID, String name) {
+	
 		this.GID = GID;
 		this.name = name;
 		events = new ArrayList<Event>();
@@ -110,27 +114,78 @@ public class Account {
 	 */
 	
 	public Account() {
-		GID = "unknown@billsplit.com";
-		name = "Account";
-		events = new ArrayList<Event>();
-		pastRelations = new ArrayList<Account>();
-		settings = new ArrayList<String>();
+		this("unknown@billsplit.com", "Account");
 	}
 	
 	public Account(String name) {
-		GID = "unknown@billsplit.com";
-		this.name = name;
-		events = new ArrayList<Event>();
-		pastRelations = new ArrayList<Account>();
-		settings = new ArrayList<String>();
+		this("unknown@billsplit.com", name);
 	}
 	
 	/*
 	 * This method should be called when the user creates a new account in the first-time use scenario
 	 * */
 	public static Account createNewAccount(String GID, String name) {
+		
+		String[] emailParts = GID.split("@"); 
+		
+		//Check if this Account is already stored
+		String fileName = name + "_" + emailParts[0] + "_" + emailParts[1]; 
+		
+		File f = new File(fileName);
+		
+		if(f.exists()) {
+		    try {
+		        //use buffering
+		        InputStream file = new FileInputStream(fileName);
+		        InputStream buffer = new BufferedInputStream(file);
+		        ObjectInput input = new ObjectInputStream(buffer);
+		        
+		        try {
+			        //deserialize the Account object
+			        Account recoveredAccount = (Account)input.readObject();
+			        currentAccount = recoveredAccount;
+			        return recoveredAccount;
+		        }
+		        
+		        finally {
+		        	input.close();
+		        }
+		      }
+		    
+		    catch(ClassNotFoundException ex){
+		    	System.out.println("Cannot perform input. Class not found.");
+		    	return createAndStoreAccount(fileName, GID, name);
+		    }
+		    catch(IOException ex){
+		        System.out.println("Cannot perform input.");
+		        return createAndStoreAccount(fileName, GID, name);
+		    }
+		    
+		} else {
+			return createAndStoreAccount(fileName, GID, name);
+		}
+	}
+	
+	private static Account createAndStoreAccount(String fileName, String GID, String name) {
 		Account newAccount = new Account(GID, name); 
 		Account.currentAccount = newAccount;
+		
+	    try {
+	        //use buffering
+	        OutputStream file = new FileOutputStream( fileName );
+	        OutputStream buffer = new BufferedOutputStream( file );
+	        ObjectOutput output = new ObjectOutputStream( buffer );
+	        try {
+	        	output.writeObject(newAccount);
+	        }
+	        finally {
+	        	output.close();
+	        }
+	      }  
+	      catch(IOException ex){
+	        System.out.println("Cannot perform output.");
+	      }
+		
 		return newAccount;
 	}
 	
@@ -174,6 +229,71 @@ public class Account {
 	 */
 	public static void setCurrentAccount(Account currentAccount) {
 		Account.currentAccount = currentAccount;
+	}
+	
+	/*
+	 * ensure Account.name == name
+	 */
+	
+	public void setName(String name) {
+		
+		String[] emailParts = GID.split("@");
+		//Recover the original file name
+		String fileName = this.name + "_" + emailParts[0] + "_" + emailParts[1];
+
+		File f = new File(fileName);
+		if (f.exists()) {
+			f.delete();
+		} 
+		this.name = name;
+		saveAccount();
+	}
+
+	/*
+	 * ensure Account.GID == GID
+	 * */
+	
+	public void setGID(String GID) {
+		String[] emailParts = this.GID.split("@");
+		//Recover the original file name
+		String fileName = this.name + "_" + emailParts[0] + "_" + emailParts[1];
+
+		File f = new File(fileName);
+		if (f.exists()) {
+			f.delete();
+		} 
+		this.GID = GID;
+		saveAccount();
+	}
+
+	/*
+	 * Store the changes into the file
+	 * TODO Add to contracts
+	 */
+	
+	public void saveAccount() {
+		
+		String[] emailParts = GID.split("@");
+		//Recover the file name
+		String fileName = name + "_" + emailParts[0] + "_" + emailParts[1];
+		
+	    try {
+	        //use buffering
+	        OutputStream file = new FileOutputStream( fileName );
+	        OutputStream buffer = new BufferedOutputStream( file );
+	        ObjectOutput output = new ObjectOutputStream( buffer );
+	        
+	        try {
+	        	output.writeObject(this);
+	        }
+	        finally {
+	        	output.close();
+	        }
+	      }
+	    
+	      catch(IOException ex){
+	    	  System.out.println("Cannot perform output.");
+	      }
 	}
 	
 	////END OTHER COMMANDS////
@@ -323,9 +443,7 @@ public class Account {
 		this.netBalance = netBalance;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+
 
 	//TODO Assume array list for now; Change later
 	public void setEvents(AbstractList<Event> events) {
@@ -335,11 +453,7 @@ public class Account {
 	public String getGID() {
 		return GID;
 	}
-	
-	public void setGID(String GID) {
-		this.GID = GID;
-	}
-	
+		
 	/*
 	 * The methods below return all events sorted by various parameters (TODO - comparators not implemented yet)  
 	 * */
