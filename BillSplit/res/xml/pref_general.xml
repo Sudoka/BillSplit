@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="Anonymous"
+        android:inputType="textCapWords"
+        android:key="USER_NAME"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="User Name" />
+    
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="anonymous@billsplit.com"
+        android:inputType="textCapWords"
+        android:key="USER_GID"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="User Email" />
+
+</PreferenceScreen>

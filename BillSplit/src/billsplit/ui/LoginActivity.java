@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,15 +59,18 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+		
 		setContentView(R.layout.activity_login);
 
-		SharedPreferences settings = getSharedPreferences("BILLSPLIT", MODE_PRIVATE);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		String currentUserEmail = settings.getString("USER_GID", "[<NO USER>]");
-		String currentUserName = settings.getString("USER_NAME", "[<NO USER>]");
+		String currentUserEmail = settings.getString(SettingsActivity.KEY_USER_GID,SettingsActivity.DEFAULT_VALUE_USER_GID);
+
+		String currentUserName = settings.getString(SettingsActivity.KEY_USER_NAME, SettingsActivity.DEFAULT_VALUE_USER_NAME);
 		
 		
-		if(!currentUserEmail.equals("[<NO USER>]") && !currentUserName.equals("[<NO USER>]"))
+		if(!currentUserEmail.equals(SettingsActivity.DEFAULT_VALUE_USER_GID) && !currentUserName.equals(SettingsActivity.DEFAULT_VALUE_USER_NAME))
 		{
 			Intent intent = new Intent();
             intent.setClass(this,  CreateSelectEventActivity.class);
@@ -167,10 +171,10 @@ public class LoginActivity extends Activity {
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			SharedPreferences settings = getSharedPreferences("BILLSPLIT",MODE_PRIVATE);
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 			  SharedPreferences.Editor editor = settings.edit();
-			  editor.putString("USER_NAME", mUserName);
-			  editor.putString("USER_GID", mGID);
+			  editor.putString(SettingsActivity.KEY_USER_NAME, mUserName);
+			  editor.putString(SettingsActivity.KEY_USER_GID, mGID);
 			  
 			  editor.commit();
 			  

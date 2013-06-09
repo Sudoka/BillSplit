@@ -73,12 +73,10 @@ public class NewTransactionActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		generateParticipants();
-		//if(isOCRdone){
-			ArrayList<Item> newItems = getItemList();
-			for(Item item : newItems){
-				Transaction.current.addItem(item);
-			}
-		//}
+	    ArrayList<Item> newItems = getItemList();
+		for(Item item : newItems){
+			Transaction.current.addItem(item);
+		}
 		
 		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
 		 ListView items = (ListView) findViewById(R.id.items_list);
@@ -260,7 +258,8 @@ public class NewTransactionActivity extends Activity {
                 }
                 if(items[which].equals("Custom"))
                 {
-                	//TODO: Do Custom logic. Add here intent call to a new custom activity.
+                	Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+					startActivity(intent);
                 }
                // Toast.makeText(NewTransactionActivity.this, items[which], Toast.LENGTH_LONG).show();
                 /*
