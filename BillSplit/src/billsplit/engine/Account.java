@@ -255,11 +255,10 @@ public class Account {
 	private void updatePastRelations() {
 		
 		for (int i=0; i<events.size(); i++) {
-			ArrayList<Participant> currentParticipants = (ArrayList<Participant>) events.get(i).getParticipants(); 
-			for (int j=0; j<currentParticipants.size(); j++) {
-				Participant currentParticipant = ((ArrayList<Event>) events).get(i).getParticipants().get(j);
-				if (!pastRelations.contains(currentParticipant) && currentParticipant.getAccount() != null) {
-					pastRelations.add(currentParticipant.getAccount());
+			Collection<Participant> currentParticipants = events.get(i).getParticipants(); 
+			for (Participant part : currentParticipants) {
+				if (!pastRelations.contains(part) && part.getAccount() != null) {
+					pastRelations.add(part.getAccount());
 				}
 			}
 		}
