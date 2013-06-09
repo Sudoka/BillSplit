@@ -1,6 +1,8 @@
 package billsplit.engine;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 	public static Item currentItem;
 	private String name;
 	private double cost;
