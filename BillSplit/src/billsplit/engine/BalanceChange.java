@@ -59,7 +59,7 @@ public abstract class BalanceChange {
 	
 	
 	public double getDebit(Participant p){
-		return this.amounts.get(p);
+		return this.debits.get(p);
 	}
 	
 	public double getDebitsTotal(){
@@ -71,12 +71,12 @@ public abstract class BalanceChange {
 	}
 	
 	public HashMap<Participant,Double> getCredits(){
-		return amounts;
+		return credits;
 	}
 	
 	
 	public double getCredit(Participant p){
-		return this.amounts.get(p);
+		return this.credits.get(p);
 	}
 	
 	public double getCreditsTotal(){
