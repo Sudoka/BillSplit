@@ -1,11 +1,12 @@
 package billsplit.engine;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Collection;
 
 
-public abstract class BalanceChange {
+public abstract class BalanceChange implements Serializable {
 	private Date date;
 	private String name;
 	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
