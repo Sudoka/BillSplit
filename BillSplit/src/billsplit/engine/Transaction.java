@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Collection;
 
 public class Transaction extends BalanceChange {
 	public static Transaction current;
 	private DebtMatrix matrix;
-	private HashMap<Participant,Double> paymentMap;
+	//private HashMap<Participant,Double> paymentMap;
 	
 	/*
 	 * Constructors
 	 */
 	
-	public Transaction(String name, ArrayList<Participant> participants) {
+	public Transaction(String name, Collection<Participant>participants) {
 		// call other constructor w/ empty list of items
 		this(name, participants, new ArrayList<Item>());
 	}
 	
-	public Transaction(String name, ArrayList<Participant> participants, ArrayList<Item> items) {
-		super(name,participants,new ArrayList<Double>()); //parent BalanceChange constructor
+	public Transaction(String name, Collection<Participant> participants, ArrayList<Item> items) {
+		super(name,participants); //parent BalanceChange constructor
 		this.matrix = new DebtMatrix(participants,items);
-		this.paymentMap = new HashMap<Participant,Double>();
+		//this.paymentMap = new HashMap<Participant,Double>(); dacashman remove me!
 	}
 	
 	public String toString() {
@@ -34,41 +35,46 @@ public class Transaction extends BalanceChange {
 		return matrix.toString();
 	}
 	
-	public boolean containsItem(Item item) { 
-		return this.matrix.contains(item);
-	}
-	
 	public ArrayList<Item> getItems() {
 		return this.matrix.getItems();
 	}
 	
-	public void removeItem(Item item) {
-		this.matrix.removeItem(item);
-		this.updateTotals();
+	/* item-bool pairs where bool is true if item 'done' */
+	public HashMap<Item, Boolean> getItemsBools() {
+		HashMap<Item, Boolean> hashy = new HashMap<Item, Boolean>();
+		ArrayList<Item> itemList = getItems();
+		for(Item i : itemList){
+			hashy.put(i, debtItemDone(i));
+		}
+		return hashy;
+	}
+	
+	public boolean containsItem(Item item) { 
+		return this.matrix.contains(item);
 	}
 	
 	public boolean addItem(Item item) {
 		return this.matrix.addItem(item);
 	}
 	
-	public int addParticipant(Participant p){
-		int idx = super.addParticipant(p);
-		matrix.addParticipant(p);
-		return idx;
+	public void removeItem(Item item) {
+		this.matrix.removeItem(item);
+		this.updateDebits();
 	}
 	
-	public void removeParticipant(Participant p){
-		super.removeParticipant(p);
-		matrix.removeParticipant(p);
-	}
+	
 	
 	/**
+	 * dacashman -see EDIT below. 
 	 * Returns true only if all the debt for this transaction equals the amount that has been
 	 * specified as payment.
+	 * 
+	 * EDIT: this function is now taken care of by BalanceChange superclass in getDebitCreditDiff()
 	 * @return
 	 */
+	
 	public boolean allDebtPaidFor() {
-		double total = 0.0;
+		/*double total = 0.0;
 		for (Participant p : this.getParticipants()) {
 			total += this.getAmount(p);
 		}
@@ -76,26 +82,24 @@ public class Transaction extends BalanceChange {
 			return true;
 		} else {
 			return false;
-		}
+		} */
+		return isPaymentComplete();
 	}
 	
+	
+	
+	
+
 	/**
-	 * PRIVATE: Call the setAmountForPerson method inherited from balanceChange for each
+	 * PRIVATE: Call the setDebit method inherited from balanceChange for each
 	 * participant in this Transaction. Call this method after any changes to
-	 * make sure the overall totals are correct (should be very quick to run).
+	 * make sure the overall Debit totals are correct (should be very quick to run).
 	 */
-	private void updateTotals() {
+	private void updateDebits() {
 		// First subtract debts from all participants
 		for (Participant p : this.participants) {
 			double debtAmt = this.matrix.getTotalForParticipant(p);
-			this.setAmountForPerson(p, -debtAmt);
-		}
-		// Then add payments from all participants
-		for (Map.Entry<Participant,Double> entry : paymentMap.entrySet()) {
-			Participant p = entry.getKey();
-			double payAmt = entry.getValue();
-			double finalAmt = getAmount(p) + payAmt;
-			setAmountForPerson(p, finalAmt);
+			this.setDebit(p, debtAmt);
 		}
 	}
 	
@@ -123,19 +127,22 @@ public class Transaction extends BalanceChange {
 	}
 	
 	/**
-	 * Get the total debt (cost) of all items in this transaction.
+	 * Get the total debt (cost) of all items in this transaction.  This 
+	 *   repeated functionality of getDebitsTotal().
 	 * @return
 	 */
 	public double debtGetTotal() {
-		double total = 0.0;
+		/* removed due to duplication:
+		 double total = 0.0;
 		for (Participant p : this.getParticipants()) {
 			total += matrix.getTotalForParticipant(p);
 		}
-		return total;
+		return total; */
+		return getDebitsTotal();
 	}
 	
 	/**
-	 * Returns the amount of the items cost that has not yet been assigned to
+	 * Returns the amount of the item's cost that has not yet been assigned to
 	 * a participant as debt. May be a negative number if more debt has been assigned
 	 * than the cost of the item.
 	 * @param item
@@ -193,7 +200,7 @@ public class Transaction extends BalanceChange {
 			Participant p = participants.get(j);
 			matrix.setAmount(p, item, amtPerPerson);
 		}
-		updateTotals();
+		updateDebits();
 	}
 	
 	/**
@@ -205,7 +212,7 @@ public class Transaction extends BalanceChange {
 	 */
 	public void debtSet(Item item, Participant p, double debtAmount) {
 		matrix.setAmount(p, item, debtAmount);
-		updateTotals();
+		updateDebits();
 	}
 	
 	/**
@@ -232,7 +239,7 @@ public class Transaction extends BalanceChange {
 	 */
 	public void debtRemoveParticipant(Item item, Participant p) {
 		matrix.setAmount(p, item, 0.0);
-		updateTotals();
+		updateDebits();
 	}
 	
 	/**
@@ -242,7 +249,7 @@ public class Transaction extends BalanceChange {
 	 */
 	public void debtResetItem(Item item) {
 		matrix.reset(item);
-		updateTotals();
+		updateDebits();
 	}
 	
 	/**
@@ -251,7 +258,7 @@ public class Transaction extends BalanceChange {
 	 */
 	public void debtResetParticipant(Participant p) {
 		matrix.reset(p);
-		updateTotals();
+		updateDebits();
 	}
 		
 	
@@ -260,22 +267,25 @@ public class Transaction extends BalanceChange {
 	/////////////////////////////////////////////////////////////
 	
 	/**
+	 * dacashman: replaced by BalanceChange setCredit()
 	 * Sets the amount a participant is paying.
 	 * @param amt
 	 */
+	/*
 	public void paySetParticipantPayment(Participant p, double amt) {
 		this.paymentMap.put(p, amt);
-		updateTotals();
-	}
+		updateDebits();
+	} */
 	
+	/* dacashman: replaced by getCredit()
 	public double payGetAmount(Participant p) {
 		if (this.paymentMap.containsKey(p)) {
 			return paymentMap.get(p);
 		} else {
 			return 0.0;
 		}
-	}
-	
+	} */
+	 
 	/**
 	 * Every participant pays for an equal amount of the total debt
 	 */
@@ -284,7 +294,7 @@ public class Transaction extends BalanceChange {
 		for (Participant p : participants) totalDebt += matrix.getTotalForParticipant(p);
 		double perPerson = totalDebt / participants.size();
 		
-		for (Participant p: participants) paySetParticipantPayment(p, perPerson);
+		for (Participant p: participants) setCredit(p, perPerson);
 	}
 	
 	/**
@@ -293,7 +303,7 @@ public class Transaction extends BalanceChange {
 	public void payFairly() {
 		for (Participant p : participants) {
 			double amt = matrix.getTotalForParticipant(p);
-			paySetParticipantPayment(p, amt);
+			setCredit(p, amt);
 		}
 	}
 	
@@ -304,7 +314,7 @@ public class Transaction extends BalanceChange {
 		for (Map.Entry<Participant,Double> entry : paymentMap.entrySet()) {
 			Participant p = entry.getKey();
 			double amt = entry.getValue();
-			paySetParticipantPayment(p, amt);
+			setCredit(p, amt);
 		}
 	}
 	/**
@@ -319,7 +329,7 @@ public class Transaction extends BalanceChange {
 		private HashMap<Participant,Integer> participantMap;
 		private HashMap<Item,Integer> itemMap;
 		
-		public DebtMatrix(ArrayList<Participant> participants,
+		public DebtMatrix(Collection<Participant> participants,
 				ArrayList<Item> items) {
 			// Create 2d array using arraylists, initialized all to 0.0
 			m = new ArrayList<ArrayList<Double>>();
@@ -537,4 +547,24 @@ public class Transaction extends BalanceChange {
 		}
 	}
 	
+	
+	/***********************************************************************************************
+	 * Methods not targetting version 1.0 release
+	 * 
+	 */
+	/*
+	public int addParticipant(Participant p){
+		int idx = super.addParticipant(p);
+		matrix.addParticipant(p);
+		return idx;
+	}
+	
+	public void removeParticipant(Participant p){
+		super.removeParticipant(p);
+		matrix.removeParticipant(p);
+	}
+	 */
+	/*************************************************************************************************/
 }
+
+
