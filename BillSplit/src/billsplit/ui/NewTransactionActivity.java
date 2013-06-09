@@ -266,7 +266,7 @@ public class NewTransactionActivity extends Activity {
 	}
 	
 	public void btn_pay_clicked(View view){
-		Account.getCurrentAccount().saveAccount();
+		//Account.getCurrentAccount().saveAccount();
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Payment Options");
         alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
@@ -277,10 +277,12 @@ public class NewTransactionActivity extends Activity {
                 if(items[which].equals("Fairly"))
                 {
                 	Transaction.current.payEvenly();
+                	finish();
                 }
                 if(items[which].equals("Evenly"))
                 {
-                	Transaction.current.payFairly();                	
+                	Transaction.current.payFairly();     
+                	finish();
                 }
                 if(items[which].equals("Custom"))
                 {

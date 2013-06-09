@@ -103,7 +103,7 @@ public class CreateSelectEventActivity extends Activity {
 
 		//Event newEvent = new Event(Account.getCurrentAccount().getGID(),"New Event"+ Account.getCurrentAccount().getEvents().size()+1);
 		Event newEvent = Account.getCurrentAccount().createEvent(eventName);
-		Account.getCurrentAccount().saveAccount();
+	//	Account.getCurrentAccount().saveAccount();
 		Event.currentEvent = newEvent;
 		newEvent.addParticipant(new Participant(Account.getCurrentAccount()));
 		newEvent.addParticipant(new Participant("Person"+String.valueOf(newEvent.getParticipants().size())));
