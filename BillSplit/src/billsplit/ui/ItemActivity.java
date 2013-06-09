@@ -1,4 +1,6 @@
 package billsplit.ui;
+import java.util.Collection;
+
 import billsplit.engine.Event;
 import billsplit.engine.Item;
 import billsplit.engine.Participant;
@@ -30,7 +32,8 @@ public class ItemActivity extends Activity {
 	RelativeLayout layout;
 	boolean manualInputEntered=false;
 	double unassignedAmount;
-	
+	private Collection<Participant> participants;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,15 +120,15 @@ public class ItemActivity extends Activity {
 	}
     private void generateParticipants() {
 		layout.removeAllViews();
-		
-		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+		int i = 0;
+		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			btnPart.isCheckable = true;
 			//btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
 			//btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setTag(Event.currentEvent.getParticipants().get(i));
+			btnPart.setName(participant.getName());
+			btnPart.setTag(participant);
 			btnPart.setOnLongClickListener(new View.OnLongClickListener() {
 				
 				@Override
@@ -213,6 +216,7 @@ public class ItemActivity extends Activity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
 			params.topMargin = i * 90;
+			i++;
 			layout.addView(btnPart, params);
 		}
 	}
