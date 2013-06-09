@@ -1,12 +1,13 @@
 package billsplit.engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Collection;
 
-public class Transaction extends BalanceChange {
+public class Transaction extends BalanceChange implements Serializable {
 	public static Transaction current;
 	private DebtMatrix matrix;
 	//private HashMap<Participant,Double> paymentMap;
@@ -317,6 +318,8 @@ public class Transaction extends BalanceChange {
 			setCredit(p, amt);
 		}
 	}
+	
+	
 	/**
 	 * PaymentMatrix private inner class- only to be used by Transaction. Keeps track of all state
 	 * of payments

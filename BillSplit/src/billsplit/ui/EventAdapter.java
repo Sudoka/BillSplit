@@ -41,8 +41,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
 		
 		TextView date = (TextView) v.findViewById(R.id.layout_txtDate);
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", Locale.US);   
-		date.setText(sdf.format(new Date(0)));
-		//date.setText(sdf.format(eventsList.get(position).getDate()));
+		//date.setText(sdf.format(new Date(0)));
+		date.setText(sdf.format(eventsList.get(position).getCreatedDate()));
 		
 		v.setTag(eventsList.get(position));
 		return v;

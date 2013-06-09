@@ -45,7 +45,7 @@ public class PaymentActivity extends Activity {
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = -Transaction.current.getDebitsTotal();
+        debitsTotal = Transaction.current.getDebitCreditDiff();
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the transaction/event
@@ -142,7 +142,7 @@ public class PaymentActivity extends Activity {
 								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
 								
 								//TODO: get the resulting balance
-								double debitCreditDiff = Transaction.current.getCreditDebitDiff();
+								double debitCreditDiff = Transaction.current.getDebitCreditDiff();
 								
 								//find unassigned view
 								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
