@@ -258,7 +258,8 @@ public class NewTransactionActivity extends Activity {
                 }
                 if(items[which].equals("Custom"))
                 {
-                	//TODO: Do Custom logic. Add here intent call to a new custom activity.
+                	Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+					startActivity(intent);
                 }
                // Toast.makeText(NewTransactionActivity.this, items[which], Toast.LENGTH_LONG).show();
                 /*

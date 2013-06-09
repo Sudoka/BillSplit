@@ -6,11 +6,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".PaymentActivity" >
-
-    <TextView
+    tools:context="billsplit.ui.PaymentActivity" >
+<LinearLayout
+        android:id="@+id/item_layout_unassigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:layout_below="@+id/item_layout_itemcost"
+ >  
+    <TextView
+        android:id="@+id/item_lblUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"    
+        android:text="Unassigned:" />
 
+    <EditText
+        android:id="@+id/item_txtUnassigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:editable="false" />
+    
+    </LinearLayout>
+    
+
+<Button
+    android:id="@+id/item_btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Done"
+        android:onClick="button_done_clicked"
+        android:layout_below="@+id/item_layout_unassigned"
+        style="?android:attr/buttonStyleSmall"
+    />
+    
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/item_participantsContainer"
+        android:animateLayoutChanges="false"/>
 </RelativeLayout>
