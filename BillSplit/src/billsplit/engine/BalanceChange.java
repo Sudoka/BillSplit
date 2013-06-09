@@ -99,12 +99,12 @@ public abstract class BalanceChange {
 		return this.name;
 	}
 	
-	public double getCreditDebitDiff(){
-		return Math.abs(getCreditsTotal() - getDebitsTotal());
+	public double getDebitCreditDiff(){
+		return getCreditsTotal() - getDebitsTotal();
 	}
 	
 	public boolean isPaymentComplete(){
-		if(getCreditDebitDiff() == 0){
+		if(getDebitCreditDiff() == 0){
 			return true;
 		}else{
 			return false;
