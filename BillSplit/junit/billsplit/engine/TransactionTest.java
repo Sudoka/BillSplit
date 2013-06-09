@@ -47,7 +47,7 @@ public class TransactionTest {
 		
 		Transaction newtrans = new Transaction("newtrans",list);
 		
-		ArrayList<Participant> internalList = newtrans.getParticipants();
+		ArrayList<Participant> internalList = (ArrayList<Participant>)newtrans.getParticipants();//dacashman quick cast-fix  
 		assertEquals(2, internalList.size()); //check participants added
 		assertEquals("newtrans",newtrans.getName()); //check name set correctly
 	}
@@ -68,7 +68,9 @@ public class TransactionTest {
 		assertEquals(item2,items.get(1)); //check same item as we put in
 	}
 	
+	/*
 	@Test
+	 adding and removign participants removed for v1.0
 	public void testGetSetParticipants() {
 		Participant p = new Participant("Anonymous");
 		this.transaction.addParticipant(p);
@@ -76,13 +78,13 @@ public class TransactionTest {
 		
 		assertEquals(1, ps.size());
 		assertEquals(p,ps.get(0));
-	}
+	} */
 	
 	@Test
 	public void testDebtInitialValues() {
 		setUpForDebtTest();
 		//check that everyone has no debt to start
-		ArrayList<Participant> plist = transaction.getParticipants();
+		ArrayList<Participant> plist = (ArrayList<Participant>)transaction.getParticipants();//dacashman quick cast-fix
 		for (Participant p : transaction.getParticipants()) {
 			double amt = transaction.debtGetTotalAmountParticipant(p);
 			assertEquals("Nobody should have debt at start",0.0, amt, 0.0);
