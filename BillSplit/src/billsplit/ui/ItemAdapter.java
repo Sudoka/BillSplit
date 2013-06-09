@@ -50,7 +50,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		v.setTag(itemList.get(position));
 		
 		if(itemBoolsList.get(itemList.get(position))){
-			v.setBackgroundColor(0x0000FF00);
+			v.setBackgroundColor(0xFF00FF00);
 		}
 		
 		return v;

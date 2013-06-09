@@ -64,6 +64,10 @@ public class NewTransactionActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;
+		
+		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
+		btnPay.setVisibility(View.GONE);
+		
 	}
 
 	//Once we come back from the OCR world, lets read some data from file and add 
@@ -94,8 +98,26 @@ public class NewTransactionActivity extends Activity {
 		 
 		 items.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
+		
+		checkItemsAreDone();
 	}
 	
+	private void checkItemsAreDone() {
+
+
+		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
+		if(Transaction.current.debtAllItemsDone()){
+			btnPay.setVisibility(View.VISIBLE);
+		}
+		else{
+			btnPay.setVisibility(View.GONE);
+		}
+		
+		
+		
+		
+	}
+
 	private void generateParticipants() {
 		layout.removeAllViews();
 		int i = 0;
