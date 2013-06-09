@@ -247,15 +247,17 @@ public class Event implements Serializable {
 		}
 		for(BalanceChange b : txns){
 			retAmounts = b.getAmounts();
-			for(Participant p : participants){
-				//fetch value for participant
-				Double addAmount = retAmounts.get(p);
-				if(addAmount != null){
-					p.addToBalance((double) addAmount);
+			if(retAmounts != null){
+				for(Participant p : participants){
+					//fetch value for participant
+					Double addAmount = retAmounts.get(p);
+					if(addAmount != null){
+						p.addToBalance((double) addAmount);
+					}
 				}
 			}
 		}
-		return;
+			return;
 	}
 	
 	
