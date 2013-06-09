@@ -163,8 +163,8 @@ public class Account {
 		}
 		
 		//netBalance/balance - the same in current implementation
-		netBalance = totalOwedToYou -(-totalYouOwe);
-		balance = totalOwedToYou - (-totalYouOwe);
+		netBalance = totalOwedToYou - totalYouOwe;
+		balance = totalOwedToYou - totalYouOwe;
 		
 		updatePastRelations();
 	}
