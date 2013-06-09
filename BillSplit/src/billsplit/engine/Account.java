@@ -157,14 +157,14 @@ public class Account {
 				if (e.getParticipantByGID(GID).getBalance() > 0) {
 					totalOwedToYou = totalOwedToYou + e.getParticipantByGID(GID).getBalance(); 
 				} else {
-					totalYouOwe = totalYouOwe + e.getParticipantByGID(GID).getBalance();
+					totalYouOwe = totalYouOwe + (-e.getParticipantByGID(GID).getBalance());
 				}
 			}
 		}
 		
 		//netBalance/balance - the same in current implementation
-		netBalance = totalOwedToYou - totalYouOwe;
-		balance = totalOwedToYou - totalYouOwe;
+		netBalance = totalOwedToYou -(-totalYouOwe);
+		balance = totalOwedToYou - (-totalYouOwe);
 		
 		updatePastRelations();
 	}
