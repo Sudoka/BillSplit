@@ -39,8 +39,8 @@ public class TransactionTest {
 	
 	@Test
 	public void testConstructor() {
-		Participant tp1 = new Participant();
-		Participant tp2 = new Participant();
+		Participant tp1 = new Participant("Anonymous");
+		Participant tp2 = new Participant("Anonymous");
 		ArrayList<Participant> list = new ArrayList<Participant>();
 		list.add(tp1);
 		list.add(tp2);
@@ -70,7 +70,7 @@ public class TransactionTest {
 	
 	@Test
 	public void testGetSetParticipants() {
-		Participant p = new Participant();
+		Participant p = new Participant("Anonymous");
 		this.transaction.addParticipant(p);
 		ArrayList<Participant> ps = this.transaction.getParticipants();
 		

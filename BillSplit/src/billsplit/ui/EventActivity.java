@@ -90,7 +90,7 @@ public class EventActivity extends Activity {
 						if(newVal < oldVal){
 							
 							}for(int i=0;i<oldVal-newVal;i++){
-								Participant toBeRemoved = myEvent.getParticipants().get(myEvent.getParticipants().size()-1);
+								Participant toBeRemoved = ((ArrayList<Participant>)myEvent.getParticipants()).get(myEvent.getParticipants().size()-1);
 								myEvent.removeParticipant(toBeRemoved);
 							}
 						
