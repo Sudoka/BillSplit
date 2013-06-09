@@ -108,7 +108,9 @@ public class Event implements Serializable {
 		return category;
 	}
 	
-	
+	public Date getCreatedDate(){
+		return dateCreated;
+	}
 	
 	/*
 	 * dacashman - contract requires date to be non-null, but 

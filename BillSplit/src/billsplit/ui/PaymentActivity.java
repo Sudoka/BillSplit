@@ -1,5 +1,7 @@
 package billsplit.ui;
 
+import java.util.Collection;
+
 import billsplit.engine.Event;
 import billsplit.engine.Item;
 import billsplit.engine.Participant;
@@ -15,6 +17,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,26 +32,44 @@ import android.text.InputType;
 
 public class PaymentActivity extends Activity {
 	RelativeLayout layout;
-	boolean manualInputEntered=false;
-	double unassignedAmount;
-	
+	private boolean manualInputEntered=false;
+	private double debitsTotal;
+	private Collection<Participant> participants;
+	private String TAG = "PaymentActivity"; 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-
-		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
 		
+		//view to hold the unassigned value
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
-        unassigned.setText("$0.00");
-        //unassignedAmount = Item.currentItem.getCost();
-        	
+        //TODO: get the total debt owed by all participants from the transaction/event
+        debitsTotal = -Transaction.current.getDebitsTotal();
+        unassigned.setText(Double.toString(debitsTotal));
+        
+        //get the participants from the transaction/event
+        if(debitsTotal > 0)//we're coming in from txn, there are some items that have been assgnd.
+        	participants = Transaction.current.getParticipants();
+        else
+        	participants = Event.currentEvent.getParticipants();
+        
 		Button doneButton = (Button)findViewById(R.id.item_btnDone);
-		//doneButton.setVisibility(View.GONE);
-		
+		doneButton.setVisibility(View.GONE);
+		doneButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v){
+				Intent intent = new Intent(PaymentActivity.this, EventActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		//view to hold the participants
+		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
+
+		//add participants to the current Payment screen
         generateParticipants();
-        // Show the Up button in the action bar.
+
         setupActionBar();
     }
 
@@ -73,97 +95,74 @@ public class PaymentActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. Use NavUtils to allow users
-                // to navigate up one level in the application structure. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkParticipantsChecked() {
-    	boolean atLeastOneChecked = false;
-    	Button splitButton = null;//(Button)findViewById(R.id.item_btnSplitEvenly);
-		
-		for(int i=0;i<layout.getChildCount();i++){
-			ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
-			if(btnPart.isChecked()){
-				atLeastOneChecked = true;
-				break;
-			}
-		}
-		
-		if(atLeastOneChecked){
-			splitButton.setVisibility(View.VISIBLE);
-		}else{
-			splitButton.setVisibility(View.GONE);
-		}
-	}
     private void generateParticipants() {
 		layout.removeAllViews();
-		
-		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+		int i = 0;
+		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			btnPart.isCheckable = true;
-			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(Event.currentEvent.getParticipants().get(i)));
-			btnPart.setTag(Event.currentEvent.getParticipants().get(i));
-			btnPart.setOnLongClickListener(new View.OnLongClickListener() {
+			btnPart.setName(participant.getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(participant));
+			btnPart.setTag(participant);
+			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
-				public boolean onLongClick(View v) {
+				public void onClick(View v) {
 					
 					final ParticipantView part = (ParticipantView)v;
-					//part.toogleCheck();
 					final EditText input = new EditText(PaymentActivity.this);
+					Participant selectedParticipant = (Participant)part.getTag();
 					
-					input.setHint("Type amount: 0.0");
+					input.setHint("Enter an amount to pay..");
 					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 					AlertDialog.Builder alert;
 					alert = new AlertDialog.Builder(PaymentActivity.this);
 					alert.setView(input);
-					alert.setTitle("Amount");
+					alert.setTitle(selectedParticipant.getName());
 
 					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						
-							if(!manualInputEntered){
-								Transaction.current.debtResetItem(Item.currentItem);
-								uncheckAllParticipants();
-								//checkParticipantsChecked();
-							}
 							Participant p = (Participant)part.getTag();
-							try{
-							Transaction.current.debtSet(Item.currentItem, p, Double.parseDouble(input.getText().toString()));
-							part.setAmount(Double.parseDouble(input.getText().toString()));
-							//unassignedAmount -= Double.parseDouble(input.getText().toString());
-							EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
-					        unassigned.setText("$"+String.valueOf(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)));
-					        manualInputEntered = true;
-					        Button doneButton = (Button)findViewById(R.id.item_btnDone);
-					        if(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)==0){
-					        	doneButton.setVisibility(View.VISIBLE);
-					        }
-					        else
-					        {
-					        	doneButton.setVisibility(View.GONE);
-					        }
-							}catch(Exception e){
-								Toast.makeText(PaymentActivity.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
-							}
-							//myEvent.getParticipantByName(part.getName().toString()).setName(input.getText().toString());
-							//part.setName(input.getText().toString());
+							Button doneButton = (Button)findViewById(R.id.item_btnDone);
 							
-					  }
+							try{
+								double amountEntered = Double.parseDouble(input.getText().toString()); 
+								
+								//TODO: add the payment to the transaction
+								Transaction.current.setCredit(p, amountEntered);
+								
+								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
+								
+								//TODO: get the resulting balance
+								double debitCreditDiff = Transaction.current.getCreditDebitDiff();
+								
+								//find unassigned view
+								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
+								//update it with debitCreditDiff
+								unassigned.setText(""+debitCreditDiff);
 
-					
+								//TODO: check if we are done with the payments, i.e. everything is 0
+								boolean isPaymentComplete = Transaction.current.isPaymentComplete();
+								
+						        if(isPaymentComplete){
+						        	doneButton.setVisibility(View.VISIBLE);
+						        }
+						        else{
+						        	doneButton.setVisibility(View.GONE);
+						        }
+							}catch(Exception e){
+								Log.e(TAG, e.getMessage());
+								Toast.makeText(PaymentActivity.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+							}							
+					  }					
 					});
 
 					alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -173,34 +172,17 @@ public class PaymentActivity extends Activity {
 					});
 					
 					alert.show();
-					
-					return true;
 				}
 			});
 
-			btnPart.setOnClickListener(new OnClickListener() {
-			    
-				@Override
-				public void onClick(View v) {
-					if(!manualInputEntered){
-						ParticipantView part = (ParticipantView)v;
-						part.toogleCheck();
-						//checkParticipantsChecked();
-					}
-				}
-
-				
-			});
-			
-			
 			// setting image resource
-			// imageView.setImageResource(R.drawable.ic_camera);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
 			params.topMargin = i * 90;
+			i++;
 			layout.addView(btnPart, params);
 		}
 	}

@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import billsplit.engine.Account;
 import billsplit.engine.DataCapture;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
+import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
 
 import com.billsplit.R;
@@ -43,7 +45,8 @@ public class NewTransactionActivity extends Activity {
 	private static final String TAG = "TransactionActivity";
 	public static DataCapture dataCapture;
 	private boolean isOCRdone;
-	
+	private Collection<Participant> participants;
+
 	RelativeLayout layout;
 	private ItemAdapter adapter;
 	@Override
@@ -56,11 +59,8 @@ public class NewTransactionActivity extends Activity {
 		TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
 		
 		lblName.setText(Transaction.current.getName());
-		 
-		 
-		
-			//List<Item> list = new ArrayList<Item>();
-			 
+
+		participants = Event.currentEvent.getParticipants();	 
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;
@@ -98,12 +98,14 @@ public class NewTransactionActivity extends Activity {
 	
 	private void generateParticipants() {
 		layout.removeAllViews();
-		
-		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+		int i = 0;
+		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
-			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(Event.currentEvent.getParticipants().get(i)));
+
+			btnPart.setName(participant.getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(participant));
+
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -121,6 +123,7 @@ public class NewTransactionActivity extends Activity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
 			params.topMargin = i * 90;
+			i++;
 			layout.addView(btnPart, params);
 		}
 	}

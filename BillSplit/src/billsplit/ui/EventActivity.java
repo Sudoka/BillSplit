@@ -1,6 +1,7 @@
 package billsplit.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import billsplit.engine.Event;
@@ -45,11 +46,14 @@ public class EventActivity extends Activity {
 	String EventID;
 	RelativeLayout layout;
 	static Event myEvent;
-	
+	private Collection<Participant> participants;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
+		
+		participants = Event.currentEvent.getParticipants();
 		
 		myEvent = Event.currentEvent; //replace this with serializable object
 		// Show the Up button in the action bar.
@@ -90,7 +94,7 @@ public class EventActivity extends Activity {
 						if(newVal < oldVal){
 							
 							}for(int i=0;i<oldVal-newVal;i++){
-								Participant toBeRemoved = myEvent.getParticipants().get(myEvent.getParticipants().size()-1);
+								Participant toBeRemoved = ((ArrayList<Participant>)myEvent.getParticipants()).get(myEvent.getParticipants().size()-1);
 								myEvent.removeParticipant(toBeRemoved);
 							}
 						
@@ -115,8 +119,8 @@ public class EventActivity extends Activity {
 
 	private void generateParticipants() {
 		layout.removeAllViews();
-		
-		for (int i = 0; i < myEvent.getParticipants().size(); i++) {
+		int i = 0;
+		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			
@@ -128,8 +132,9 @@ public class EventActivity extends Activity {
 			btnPart.setText(Html.fromHtml(styledText));
 		    */
 			//btnPart.setText(myEvent.getParticipants().get(i).getName());
-			btnPart.setName(myEvent.getParticipants().get(i).getName());
-			btnPart.setAmount(myEvent.getParticipants().get(i).getBalance());
+
+			btnPart.setName(participant.getName());
+			btnPart.setAmount(participant.getBalance());
 			//btnPart.isCheckable = true;
 			//LinearLayout txt = (LinearLayout)btnPart.findViewById(R.id.customButtonLayout);
 			//btnPart.setClickable(true);
@@ -179,6 +184,7 @@ public class EventActivity extends Activity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
 			params.topMargin = i * 90;
+			i++;
 			layout.addView(btnPart, params);
 		}
 	}
