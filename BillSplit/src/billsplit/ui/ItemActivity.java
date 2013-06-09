@@ -42,7 +42,8 @@ public class ItemActivity extends Activity {
 		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
 		
        // Toast.makeText(this, Item.currentItem.getName(), Toast.LENGTH_LONG).show();
-        
+		participants = Event.currentEvent.getParticipants();
+		
         EditText name = (EditText)findViewById(R.id.item_txtItemName);
         EditText cost = (EditText)findViewById(R.id.item_txtItemCost);
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);

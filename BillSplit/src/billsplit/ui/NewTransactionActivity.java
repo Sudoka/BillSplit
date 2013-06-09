@@ -59,11 +59,8 @@ public class NewTransactionActivity extends Activity {
 		TextView lblName = (TextView) findViewById(R.id.new_transaction_lblTranName);
 		
 		lblName.setText(Transaction.current.getName());
-		 
-		 
-		
-			//List<Item> list = new ArrayList<Item>();
-			 
+
+		participants = Event.currentEvent.getParticipants();	 
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;

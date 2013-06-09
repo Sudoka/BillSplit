@@ -53,6 +53,8 @@ public class EventActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
 		
+		participants = Event.currentEvent.getParticipants();
+		
 		myEvent = Event.currentEvent; //replace this with serializable object
 		// Show the Up button in the action bar.
 		layout = (RelativeLayout) findViewById(R.id.participantsContainer);
