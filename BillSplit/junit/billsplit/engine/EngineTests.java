@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 package billsplit.engine;
 
 import org.junit.runner.RunWith;
@@ -9,3 +11,4 @@ import org.junit.runners.Suite.SuiteClasses;
 public class EngineTests {
 
 }
+>>>>>>> d22fedcac7546430eef1a824521e4256948c15e2

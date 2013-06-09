@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /**
  * 
  */
@@ -109,7 +107,7 @@ public class TransactionTest {
 	@Test
 	public void testDebtItemEvenly() {
 		setUpForDebtTest();
-		/*Participant p1 = transaction.getParticipants().get(0);
+		Participant p1 = transaction.getParticipants().get(0);
 		Participant p2 = transaction.getParticipants().get(1);
 		ArrayList<Participant> ps = new ArrayList<Participant>();
 		ps.add(p1);
@@ -124,14 +122,14 @@ public class TransactionTest {
 		double p2amt = transaction.debtGetItemAmountParticipant(p2, item);
 		
 		assertEquals("person 1 should have $6.25 debt.", correctAmt, p1amt, 0.0);
-		assertEquals("person 2 should have $6.25 debt.", correctAmt, p2amt, 0.0);*/
+		assertEquals("person 2 should have $6.25 debt.", correctAmt, p2amt, 0.0);
 		
-		/*Participant p3 = transaction.getParticipants().get(2);
+		Participant p3 = transaction.getParticipants().get(2);
 		Participant p4 = transaction.getParticipants().get(3);
 		double p3amt = transaction.debtGetItemAmountParticipant(p3, item);
 		double p4amt = transaction.debtGetItemAmountParticipant(p4, item);
 		assertEquals("person 3 should have $0 debt.", 0.0, p3amt, 0.0);
-		assertEquals("person 4 should have $0 debt.", 0.0, p4amt, 0.0);*/
+		assertEquals("person 4 should have $0 debt.", 0.0, p4amt, 0.0);
 	}
 	
 	private void setUpForDebtTest() {
@@ -150,15 +148,15 @@ public class TransactionTest {
 		Participant p3 = new Participant("person3");
 		Participant p4 = new Participant("person4");
 		
-		/*this.transaction.addParticipant(p1);
+		this.transaction.addParticipant(p1);
 		this.transaction.addParticipant(p2);
 		this.transaction.addParticipant(p3);
-		this.transaction.addParticipant(p4);*/
+		this.transaction.addParticipant(p4);
 	}
 	
 	private void setUpForPayTest() {
 		setUpForDebtTest();
-		/*transaction.debtAllEvenly();
+		transaction.debtAllEvenly();
 		transaction.payEvenly();
 		Participant p1 = transaction.getParticipants().get(0);
 		Participant p2 = transaction.getParticipants().get(1);
@@ -166,13 +164,13 @@ public class TransactionTest {
 		Participant p4 = transaction.getParticipants().get(3);
 		Item item = transaction.getItems().get(0);
 		transaction.debtResetItem(item);
-		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item*/
+		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item
 	}
 	
 	@Test
 	public void testPayFairly() {
 		setUpForPayTest();
-		/*Participant p1 = transaction.getParticipants().get(0);
+		Participant p1 = transaction.getParticipants().get(0);
 		Participant p2 = transaction.getParticipants().get(1);
 		Participant p3 = transaction.getParticipants().get(2);
 		Participant p4 = transaction.getParticipants().get(3);
@@ -192,7 +190,7 @@ public class TransactionTest {
 		assertEquals(0, p1amt, 0.0);
 		assertEquals(0, p2amt, 0.0);
 		assertEquals(0, p3amt, 0.0);
-		assertEquals(0, p4amt, 0.0);*/
+		assertEquals(0, p4amt, 0.0);
 	}
 	
 	@Test
@@ -205,7 +203,7 @@ public class TransactionTest {
 		
 		transaction.payEvenly();
 		//payment is $11.125/person
-		/*for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
 		
 		HashMap<Participant,Double> amts = transaction.getAmounts();
 		//make sure all payment amounts are 0 (debt is even, payment is even, so net should be 0)
@@ -247,8 +245,7 @@ public class TransactionTest {
 		// make sure pay amt doesnt change running it again, just for fun.
 		transaction.payEvenly();
 		//payment is $11.125/person
-		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);*/
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
 	}
 
 }
->>>>>>> d22fedcac7546430eef1a824521e4256948c15e2

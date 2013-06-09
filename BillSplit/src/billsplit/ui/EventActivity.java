@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import billsplit.engine.Event;
-import billsplit.engine.GlobalAccount;
 import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
 
@@ -23,22 +22,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v4.app.NavUtils;
-import android.text.Html;
-import android.text.InputType;
 
 public class EventActivity extends Activity {
 
@@ -108,7 +98,7 @@ public class EventActivity extends Activity {
 		
 		lblName.setText(EventID);
 		
-		EditText txtName = (EditText)findViewById(R.id.txtName);
+		//EditText txtName = (EditText)findViewById(R.id.txtName);
 		
 		//GlobalAccount acc = (GlobalAccount) getApplication();
 		
