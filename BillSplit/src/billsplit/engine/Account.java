@@ -153,7 +153,7 @@ public class Account {
 		
 		//totalYouOwe and totalOwedToYou
 		for (Event e : events) {
-			if (e.isParticipant(GID)) {
+			if (e.isParticipantByGID(GID)) {
 				if (e.getParticipantByGID(GID).getBalance() > 0) {
 					totalOwedToYou = totalOwedToYou + e.getParticipantByGID(GID).getBalance(); 
 				} else {

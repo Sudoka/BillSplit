@@ -116,6 +116,7 @@ public class CreateSelectEventActivity extends Activity {
 		//ListView events = (ListView) findViewById(R.id.events_list);
 		super.onResume();
 		adapter.notifyDataSetChanged();
+		Account.getCurrentAccount().updateAccount();
 		
 		TextView lblOWed = (TextView)findViewById(R.id.createselect_lbl_Owed);
 		TextView lblOWing = (TextView)findViewById(R.id.createselect_lbl_Owing);
@@ -124,6 +125,14 @@ public class CreateSelectEventActivity extends Activity {
 		lblOWed.setText("Owed: $"+String.valueOf(Account.getCurrentAccount().getTotalOwed()));
 		lblOWing.setText("Owing: $"+String.valueOf(Account.getCurrentAccount().getTotalYouOwe()));
 		lblBalance.setText("Balance: $"+String.valueOf(Account.getCurrentAccount().getNetBalance()));
+		if(Account.getCurrentAccount().getNetBalance()>=0){
+			//positive balance
+			
+		}
+		else{
+			//negative balance
+		}
+		
 		
 		
 	}
