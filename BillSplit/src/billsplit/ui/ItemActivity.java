@@ -252,5 +252,10 @@ public class ItemActivity extends Activity {
     	finish();
     }
     
+    public void button_done_clicked(View view)
+    {
+    	finish();
+    }
+    
 
 }

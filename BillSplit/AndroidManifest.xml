@@ -152,6 +152,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="billsplit.ui.EventActivity" />
         </activity>
+        <activity
+            android:name="billsplit.ui.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
