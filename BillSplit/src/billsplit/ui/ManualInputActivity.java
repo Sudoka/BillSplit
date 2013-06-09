@@ -29,7 +29,7 @@ public class ManualInputActivity extends Activity {
 		setContentView(R.layout.activity_manual_input);
 		
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
 		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
 		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
 		 items.setAdapter(adapter);
@@ -79,7 +79,7 @@ public class ManualInputActivity extends Activity {
 		
 		Transaction.current.addItem(item);
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
 		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
 		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
 		 items.setAdapter(adapter);

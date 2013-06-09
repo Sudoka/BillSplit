@@ -1,4 +1,5 @@
 package billsplit.ui;
+import java.util.HashMap;
 import java.util.List;
 
 import com.billsplit.R;
@@ -15,13 +16,15 @@ import android.widget.TextView;
 public class ItemAdapter extends ArrayAdapter<Item> {
 
 	List<Item> itemList = null;
+	HashMap<Item, Boolean> itemBoolsList;
 	private Context context;
 	private int layoutResourceId;
 	
 	public ItemAdapter(Context context, int layoutResourceId,
-			List<Item> objects) {
+			List<Item> objects, HashMap<Item,Boolean> itembools) {
 		super(context, layoutResourceId, objects);
 		itemList = objects;
+		itemBoolsList = itembools;
 		this.context = context;
 		this.layoutResourceId = layoutResourceId;
 	}
@@ -45,6 +48,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 		TextView price = (TextView) v.findViewById(R.id.layout_txtPrice);
 		price.setText("$ "+String.valueOf(itemList.get(position).getCost()));
 		v.setTag(itemList.get(position));
+		
+		if(itemBoolsList.get(itemList.get(position))){
+			v.setBackgroundColor(0x0000FF00);
+		}
+		
 		return v;
 	}
 

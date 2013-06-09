@@ -307,6 +307,11 @@ public class Transaction extends BalanceChange {
 			paySetParticipantPayment(p, amt);
 		}
 	}
+	
+	public HashMap<Item, Boolean> getItemsBools() {
+		return new HashMap<Item, Boolean>();
+	}
+	
 	/**
 	 * PaymentMatrix private inner class- only to be used by Transaction. Keeps track of all state
 	 * of payments
