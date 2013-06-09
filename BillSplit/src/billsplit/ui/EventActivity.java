@@ -128,8 +128,8 @@ public class EventActivity extends Activity {
 			btnPart.setText(Html.fromHtml(styledText));
 		    */
 			//btnPart.setText(myEvent.getParticipants().get(i).getName());
-			btnPart.setName(myEvent.getParticipants().get(i).getName());
-			btnPart.setAmount(myEvent.getParticipants().get(i).getBalance());
+			btnPart.setName(((ArrayList<Participant>) myEvent.getParticipants()).get(i).getName());
+			btnPart.setAmount(((ArrayList<Participant>) myEvent.getParticipants()).get(i).getBalance());
 			//btnPart.isCheckable = true;
 			//LinearLayout txt = (LinearLayout)btnPart.findViewById(R.id.customButtonLayout);
 			//btnPart.setClickable(true);

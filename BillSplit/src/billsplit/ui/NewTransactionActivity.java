@@ -11,6 +11,7 @@ import billsplit.engine.Account;
 import billsplit.engine.DataCapture;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
+import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
 
 import com.billsplit.R;
@@ -102,8 +103,8 @@ public class NewTransactionActivity extends Activity {
 		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
-			btnPart.setName(Event.currentEvent.getParticipants().get(i).getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(Event.currentEvent.getParticipants().get(i)));
+			btnPart.setName(((ArrayList<Participant>)Event.currentEvent.getParticipants()).get(i).getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(((ArrayList<Participant>) Event.currentEvent.getParticipants()).get(i)));
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
