@@ -234,6 +234,12 @@ public class Event {
 	 */
 	public void updateBalances(){
 		HashMap<Participant, Double> retAmounts;
+		
+		/* kludgy way of dealing with participant clearing*/
+		for(Participant p : participants){
+			double currentBalance = p.getBalance();
+			p.addToBalance(-currentBalance);
+		}
 		for(BalanceChange b : txns){
 			retAmounts = b.getAmounts();
 			for(Participant p : participants){
@@ -252,7 +258,7 @@ public class Event {
 	 * updateEvents() - currently just updates balance.
 	 *     Should we do more here?
 	 */
-	public void updateEventss(){
+	public void updateEvent(){
 		updateBalances();
 		return;
 	}
