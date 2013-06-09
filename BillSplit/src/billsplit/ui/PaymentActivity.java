@@ -45,7 +45,8 @@ public class PaymentActivity extends Activity {
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = Transaction.current.getDebitCreditDiff();
+        debitsTotal = Transaction.current.getDebitsTotal();//Transaction.current.getDebitCreditDiff();
+        Log.e(TAG, ""+debitsTotal);
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the transaction/event
