@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import billsplit.engine.Account;
@@ -44,7 +45,8 @@ public class NewTransactionActivity extends Activity {
 	private static final String TAG = "TransactionActivity";
 	public static DataCapture dataCapture;
 	private boolean isOCRdone;
-	
+	private Collection<Participant> participants;
+
 	RelativeLayout layout;
 	private ItemAdapter adapter;
 	@Override
@@ -99,12 +101,14 @@ public class NewTransactionActivity extends Activity {
 	
 	private void generateParticipants() {
 		layout.removeAllViews();
-		
-		for (int i = 0; i < Event.currentEvent.getParticipants().size(); i++) {
+		int i = 0;
+		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
-			btnPart.setName(((ArrayList<Participant>)Event.currentEvent.getParticipants()).get(i).getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(((ArrayList<Participant>) Event.currentEvent.getParticipants()).get(i)));
+
+			btnPart.setName(participant.getName());
+			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(participant));
+
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -122,6 +126,7 @@ public class NewTransactionActivity extends Activity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
 			params.topMargin = i * 90;
+			i++;
 			layout.addView(btnPart, params);
 		}
 	}
