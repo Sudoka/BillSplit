@@ -266,6 +266,7 @@ public class NewTransactionActivity extends Activity {
 	}
 	
 	public void btn_pay_clicked(View view){
+		Account.getCurrentAccount().saveAccount();
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Payment Options");
         alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
