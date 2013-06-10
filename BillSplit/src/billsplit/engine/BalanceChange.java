@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Collection;
 
 
-public abstract class BalanceChange {
+public class BalanceChange {
 	private Date date;
 	private String name;
 	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
