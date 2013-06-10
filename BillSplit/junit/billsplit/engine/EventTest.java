@@ -206,7 +206,7 @@ public class EventTest {
 			}
 			if(b == testPayment && testPaymentCheck == false){
 				testPaymentCheck = true;
-			}else if(b == testPaymentCheck){
+			}else if(b == testPayment){
 				fail("testGetBalanceChanges contained testPayment twice");
 			}
 		}
@@ -223,7 +223,7 @@ public class EventTest {
 		
 		Transaction testTxn = new Transaction("addTxnTest", testEvent.getParticipants());
 		testEvent.addBalanceChange(testTxn);
-		Payment testPayment = new Payment("addPaymentTest", testEvent.getParticipants());
+		BalanceChange testPayment = new BalanceChange("addPaymentTest", testEvent.getParticipants());
 		testEvent.addBalanceChange(testPayment);
 		
 		Collection<BalanceChange> balanceChanges = testEvent.getBalanceChanges();
@@ -250,7 +250,7 @@ public class EventTest {
 		
 		Transaction testTxn = new Transaction("addTxnTest", testEvent.getParticipants());
 		testEvent.addBalanceChange(testTxn);
-		Payment testPayment = new Payment("addPaymentTest", testEvent.getParticipants());
+		BalanceChange testPayment = new BalanceChange("addPaymentTest", testEvent.getParticipants());
 		testEvent.addBalanceChange(testPayment);
 		
 		testEvent.removeBalanceChange(testTxn);
