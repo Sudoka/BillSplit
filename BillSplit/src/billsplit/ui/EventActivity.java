@@ -125,6 +125,9 @@ public class EventActivity extends Activity {
 
 			btnPart.setName(participant.getName());
 			btnPart.setAmount(participant.getBalance());
+			btnPart.setBackgroundResource(R.drawable.round_button);
+			
+			
 			//btnPart.isCheckable = true;
 			//LinearLayout txt = (LinearLayout)btnPart.findViewById(R.id.customButtonLayout);
 			//btnPart.setClickable(true);
