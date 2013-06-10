@@ -276,12 +276,12 @@ public class NewTransactionActivity extends Activity {
                 
                 if(items[which].equals("Fairly"))
                 {
-                	Transaction.current.payEvenly();
+                	Transaction.current.payFairly();
                 	finish();
                 }
                 if(items[which].equals("Evenly"))
                 {
-                	Transaction.current.payFairly();     
+                	Transaction.current.payEvenly();     
                 	finish();
                 }
                 if(items[which].equals("Custom"))
