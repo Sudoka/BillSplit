@@ -34,15 +34,15 @@
         android:onClick="ibtn_keyboard_clicked"
         android:src="@drawable/ic_keyboard" />
     
-    <Button
-        android:id="@+id/btn_done"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:onClick="btn_done_clicked"
-        android:layout_below="@+id/ibtn_keyboard"
-        android:text="@string/btn_done" />
+<!--     <Button -->
+<!--         android:id="@+id/btn_done" -->
+<!--         style="?android:attr/buttonStyleSmall" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_centerHorizontal="true" -->
+<!--         android:onClick="btn_done_clicked" -->
+<!--         android:layout_below="@+id/ibtn_keyboard" -->
+<!--         android:text="@string/btn_done" /> -->
     
     <Button
         android:id="@+id/btn_pay"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:onClick="btn_pay_clicked"
-        android:layout_below="@+id/btn_done"
+        android:layout_below="@+id/ibtn_keyboard"
         android:text="Pay" />
 
     

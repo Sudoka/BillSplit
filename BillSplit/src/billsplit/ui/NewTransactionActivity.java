@@ -64,6 +64,10 @@ public class NewTransactionActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		isOCRdone = false;
+		
+		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
+		btnPay.setVisibility(View.GONE);
+		
 	}
 
 	//Once we come back from the OCR world, lets read some data from file and add 
@@ -78,7 +82,7 @@ public class NewTransactionActivity extends Activity {
 			Transaction.current.addItem(item);
 		}
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
 		 ListView items = (ListView) findViewById(R.id.items_list);
 		 OnItemClickListener itemClicked = new OnItemClickListener() {
 				public void onItemClick(AdapterView parent, View v, int position,
@@ -94,8 +98,26 @@ public class NewTransactionActivity extends Activity {
 		 
 		 items.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
+		
+		checkItemsAreDone();
 	}
 	
+	private void checkItemsAreDone() {
+
+
+		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
+		if(Transaction.current.debtAllItemsDone()){
+			btnPay.setVisibility(View.VISIBLE);
+		}
+		else{
+			btnPay.setVisibility(View.GONE);
+		}
+		
+		
+		
+		
+	}
+
 	private void generateParticipants() {
 		layout.removeAllViews();
 		int i = 0;
@@ -244,6 +266,7 @@ public class NewTransactionActivity extends Activity {
 	}
 	
 	public void btn_pay_clicked(View view){
+		//Account.getCurrentAccount().saveAccount();
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Payment Options");
         alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
@@ -254,10 +277,12 @@ public class NewTransactionActivity extends Activity {
                 if(items[which].equals("Fairly"))
                 {
                 	Transaction.current.payEvenly();
+                	finish();
                 }
                 if(items[which].equals("Evenly"))
                 {
-                	Transaction.current.payFairly();                	
+                	Transaction.current.payFairly();     
+                	finish();
                 }
                 if(items[which].equals("Custom"))
                 {

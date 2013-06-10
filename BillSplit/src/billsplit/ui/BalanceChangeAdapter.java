@@ -1,8 +1,6 @@
 package billsplit.ui;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-
 import com.billsplit.R;
 
 import billsplit.engine.BalanceChange;

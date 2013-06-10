@@ -45,7 +45,8 @@ public class PaymentActivity extends Activity {
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
         //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = -Transaction.current.getDebitsTotal();
+        debitsTotal = Transaction.current.getDebitsTotal();//Transaction.current.getDebitCreditDiff();
+        Log.e(TAG, ""+debitsTotal);
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the transaction/event
@@ -61,6 +62,7 @@ public class PaymentActivity extends Activity {
 			public void onClick(View v){
 				Intent intent = new Intent(PaymentActivity.this, EventActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -121,7 +123,7 @@ public class PaymentActivity extends Activity {
 					Participant selectedParticipant = (Participant)part.getTag();
 					
 					input.setHint("Enter an amount to pay..");
-					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
 
 					AlertDialog.Builder alert;
 					alert = new AlertDialog.Builder(PaymentActivity.this);
@@ -132,17 +134,20 @@ public class PaymentActivity extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 							Participant p = (Participant)part.getTag();
 							Button doneButton = (Button)findViewById(R.id.item_btnDone);
-							
+							//ParticipantView btnUpdate = new ParticipantView(getApplicationContext());
 							try{
 								double amountEntered = Double.parseDouble(input.getText().toString()); 
 								
 								//TODO: add the payment to the transaction
-								Transaction.current.setCredit(p, amountEntered);
+								double currentCredit = Transaction.current.getCredit(p);
+								Transaction.current.setCredit(p, amountEntered+currentCredit);
+								//btnUpdate.setAmount(Transaction.current.debtGetTotalAmountParticipant(p));
 								
 								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
+								    
 								
 								//TODO: get the resulting balance
-								double debitCreditDiff = Transaction.current.getCreditDebitDiff();
+								double debitCreditDiff = Transaction.current.getDebitCreditDiff();
 								
 								//find unassigned view
 								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
@@ -158,6 +163,7 @@ public class PaymentActivity extends Activity {
 						        else{
 						        	doneButton.setVisibility(View.GONE);
 						        }
+						        generateParticipants();
 							}catch(Exception e){
 								Log.e(TAG, e.getMessage());
 								Toast.makeText(PaymentActivity.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();

@@ -1,11 +1,14 @@
 package billsplit.engine;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Collection;
 
 
-public class BalanceChange {
+public class BalanceChange implements Serializable {
+	
+	private static final long serialVersionUID = -5917505908728110067L;
 	private Date date;
 	private String name;
 	protected HashMap<Participant,Double> amounts; //unordered (its a hash)
