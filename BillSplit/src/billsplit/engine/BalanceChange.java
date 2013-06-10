@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Collection;
 
 
-public abstract class BalanceChange implements Serializable {
+public class BalanceChange implements Serializable {
 	
 	private static final long serialVersionUID = -5917505908728110067L;
 	private Date date;

@@ -25,7 +25,18 @@ public class TransactionTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.transaction = new Transaction("testTrans", new ArrayList<Participant>());
+		
+		/* moved here since addParticipant not available for v1.0 */
+		ArrayList<Participant> list = new ArrayList<Participant>();
+		Participant p1 = new Participant("person1");
+		list.add(p1);
+		Participant p2 = new Participant("person2");
+		list.add(p2);
+		Participant p3 = new Participant("person3");
+		list.add(p3);
+		Participant p4 = new Participant("person4");
+		list.add(p4);
+		this.transaction = new Transaction("testTrans", list);
 	}
 
 	/**
@@ -107,8 +118,8 @@ public class TransactionTest {
 	@Test
 	public void testDebtItemEvenly() {
 		setUpForDebtTest();
-		Participant p1 = transaction.getParticipants().get(0);
-		Participant p2 = transaction.getParticipants().get(1);
+		Participant p1 = ((ArrayList<Participant>)transaction.getParticipants()).get(0); //dacashman quick cast-fix
+		Participant p2 = ((ArrayList<Participant>)transaction.getParticipants()).get(1);//dacashman quick cast-fix
 		ArrayList<Participant> ps = new ArrayList<Participant>();
 		ps.add(p1);
 		ps.add(p2);
@@ -124,8 +135,8 @@ public class TransactionTest {
 		assertEquals("person 1 should have $6.25 debt.", correctAmt, p1amt, 0.0);
 		assertEquals("person 2 should have $6.25 debt.", correctAmt, p2amt, 0.0);
 		
-		Participant p3 = transaction.getParticipants().get(2);
-		Participant p4 = transaction.getParticipants().get(3);
+		Participant p3 = ((ArrayList<Participant>)transaction.getParticipants()).get(2); //dacashman quick cast-fix
+		Participant p4 = ((ArrayList<Participant>)transaction.getParticipants()).get(3); //dacashman quick cast-fix
 		double p3amt = transaction.debtGetItemAmountParticipant(p3, item);
 		double p4amt = transaction.debtGetItemAmountParticipant(p4, item);
 		assertEquals("person 3 should have $0 debt.", 0.0, p3amt, 0.0);
@@ -143,25 +154,23 @@ public class TransactionTest {
 		this.transaction.addItem(item3);
 		this.transaction.addItem(item4);
 		
-		Participant p1 = new Participant("person1");
-		Participant p2 = new Participant("person2");
-		Participant p3 = new Participant("person3");
-		Participant p4 = new Participant("person4");
 		
+		
+		/* addParticipant not for v1.0
 		this.transaction.addParticipant(p1);
 		this.transaction.addParticipant(p2);
 		this.transaction.addParticipant(p3);
-		this.transaction.addParticipant(p4);
+		this.transaction.addParticipant(p4); */
 	}
 	
 	private void setUpForPayTest() {
 		setUpForDebtTest();
 		transaction.debtAllEvenly();
 		transaction.payEvenly();
-		Participant p1 = transaction.getParticipants().get(0);
-		Participant p2 = transaction.getParticipants().get(1);
-		Participant p3 = transaction.getParticipants().get(2);
-		Participant p4 = transaction.getParticipants().get(3);
+		Participant p1 = ((ArrayList<Participant>)transaction.getParticipants()).get(0);  //dacashman quick cast-fix
+		Participant p2 = ((ArrayList<Participant>)transaction.getParticipants()).get(1);  //dacashman quick cast-fix
+		Participant p3 = ((ArrayList<Participant>)transaction.getParticipants()).get(2);  //dacashman quick cast-fix
+		Participant p4 = ((ArrayList<Participant>)transaction.getParticipants()).get(3);  //dacashman quick cast-fix
 		Item item = transaction.getItems().get(0);
 		transaction.debtResetItem(item);
 		transaction.debtAddParticipant(item, p3); //now user 3 debted for entire item
@@ -170,10 +179,10 @@ public class TransactionTest {
 	@Test
 	public void testPayFairly() {
 		setUpForPayTest();
-		Participant p1 = transaction.getParticipants().get(0);
-		Participant p2 = transaction.getParticipants().get(1);
-		Participant p3 = transaction.getParticipants().get(2);
-		Participant p4 = transaction.getParticipants().get(3);
+		Participant p1 = ((ArrayList<Participant>)transaction.getParticipants()).get(0);  //dacashman quick cast-fix
+		Participant p2 = ((ArrayList<Participant>)transaction.getParticipants()).get(1);  //dacashman quick cast-fix
+		Participant p3 = ((ArrayList<Participant>)transaction.getParticipants()).get(2);  //dacashman quick cast-fix
+		Participant p4 = ((ArrayList<Participant>)transaction.getParticipants()).get(3);  //dacashman quick cast-fix
 		
 		transaction.payFairly();
 		
@@ -182,10 +191,10 @@ public class TransactionTest {
 		double p3amt = transaction.getAmount(p3);
 		double p4amt = transaction.getAmount(p4);
 		
-		assertEquals(4.875,transaction.payGetAmount(p1),0.0);
-		assertEquals(4.875,transaction.payGetAmount(p2),0.0);
-		assertEquals(29.875,transaction.payGetAmount(p3),0.0);
-		assertEquals(4.875,transaction.payGetAmount(p4),0.0);
+		assertEquals(4.875,transaction.getCredit(p1),0.0);
+		assertEquals(4.875,transaction.getCredit(p2),0.0);
+		assertEquals(29.875,transaction.getCredit(p3),0.0);
+		assertEquals(4.875,transaction.getCredit(p4),0.0);
 		
 		assertEquals(0, p1amt, 0.0);
 		assertEquals(0, p2amt, 0.0);
@@ -203,7 +212,7 @@ public class TransactionTest {
 		
 		transaction.payEvenly();
 		//payment is $11.125/person
-		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.getCredit(p),0.0);
 		
 		HashMap<Participant,Double> amts = transaction.getAmounts();
 		//make sure all payment amounts are 0 (debt is even, payment is even, so net should be 0)
@@ -213,10 +222,11 @@ public class TransactionTest {
 		}
 		
 		// now test if debt is uneven. Same even payment, but now one user pays entirely for a $9 item
-		Participant p1 = transaction.getParticipants().get(0);
-		Participant p2 = transaction.getParticipants().get(1);
-		Participant p3 = transaction.getParticipants().get(2);
-		Participant p4 = transaction.getParticipants().get(3);
+		Participant p1 = ((ArrayList<Participant>)transaction.getParticipants()).get(0);  //dacashman quick cast-fix
+		Participant p2 = ((ArrayList<Participant>)transaction.getParticipants()).get(1);  //dacashman quick cast-fix
+		Participant p3 = ((ArrayList<Participant>)transaction.getParticipants()).get(2);  //dacashman quick cast-fix
+		Participant p4 = ((ArrayList<Participant>)transaction.getParticipants()).get(3);  //dacashman quick cast-fix
+		
 		
 		Item item = transaction.getItems().get(0);
 		transaction.debtResetItem(item);
@@ -245,7 +255,7 @@ public class TransactionTest {
 		// make sure pay amt doesnt change running it again, just for fun.
 		transaction.payEvenly();
 		//payment is $11.125/person
-		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.payGetAmount(p),0.0);
+		for (Participant p : transaction.getParticipants()) assertEquals(11.125,transaction.getCredit(p),0.0);
 	}
 
 }
