@@ -51,11 +51,6 @@ public class BalanceChange implements Serializable {
 		return amounts;
 	}
 	
-	
-	public double getAmount(Participant p){
-		return this.amounts.get(p);
-	}
-	
 	public HashMap<Participant,Double> getDebits(){
 		return debits;
 	}

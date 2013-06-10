@@ -111,7 +111,8 @@ public class PaymentActivity extends Activity {
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			btnPart.isCheckable = true;
 			btnPart.setName(participant.getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(participant));
+			double balance = Transaction.current.getDebit(participant) - Transaction.current.getCredit(participant);
+			btnPart.setAmount(balance);
 			btnPart.setTag(participant);
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
@@ -142,7 +143,9 @@ public class PaymentActivity extends Activity {
 								double currentCredit = Transaction.current.getCredit(p);
 								Transaction.current.setCredit(p, amountEntered+currentCredit);
 								//btnUpdate.setAmount(Transaction.current.debtGetTotalAmountParticipant(p));
-								
+								double newDebt = Transaction.current.getDebit(p) - Transaction.current.getCredit(p);
+								Toast.makeText(PaymentActivity.this, "My new balance is "+newDebt, Toast.LENGTH_SHORT).show();
+
 								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
 								    
 								
