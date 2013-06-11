@@ -172,8 +172,10 @@ public class EventActivity extends Activity {
 							if(paymentName != null && !paymentName.equals("")){	
 								Intent intent = new Intent(EventActivity.this, PaymentActivity.class);
 								BalanceChange newBalanceChange = new BalanceChange(paymentName, Event.currentEvent.getParticipants());
+								newBalanceChange.setDate(new Date());
 								//TODO: fix hack from testing
 								BalanceChange.current = newBalanceChange;
+								
 								Event.currentEvent.addBalanceChange(newBalanceChange);
 								startActivity(intent);
 								finish();	

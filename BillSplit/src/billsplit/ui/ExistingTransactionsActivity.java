@@ -61,12 +61,23 @@ public class ExistingTransactionsActivity extends Activity {
         OnItemClickListener transactionClicked = new OnItemClickListener() {
 			public void onItemClick(AdapterView parent, View v, int position,
 					long id) {
-				Intent intent = new Intent(getApplicationContext(),
-						NewTransactionActivity.class);
-				Transaction e = (Transaction) v.getTag();
-				Transaction.current = e;
-				//intent.putExtra(EventActivity.ARG_ID, e.getName());
-				startActivity(intent);
+				if(v.getTag() instanceof Transaction){
+					Intent intent = new Intent(getApplicationContext(),
+							NewTransactionActivity.class);
+					Transaction e = (Transaction) v.getTag();
+					BalanceChange.current = e;
+					//intent.putExtra(EventActivity.ARG_ID, e.getName());
+					startActivity(intent);
+				}else
+				{
+					Intent intent = new Intent(getApplicationContext(),
+							PaymentActivity.class);
+					BalanceChange e = (BalanceChange) v.getTag();
+					BalanceChange.current = e;
+					//intent.putExtra(EventActivity.ARG_ID, e.getName());
+					startActivity(intent);
+				}
+				
 			}
 		};
 
