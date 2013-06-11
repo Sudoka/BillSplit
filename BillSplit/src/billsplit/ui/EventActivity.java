@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import billsplit.engine.Account;
 import billsplit.engine.Event;
 import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
@@ -246,6 +247,10 @@ public class EventActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
+			if(!Account.getCurrentAccount().isEvent(Event.currentEvent.getName()))
+			{
+				Account.getCurrentAccount().createEvent(Event.currentEvent.getName());//  isEvent()
+			}
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
