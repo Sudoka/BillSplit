@@ -182,7 +182,7 @@ public class EventActivity extends Activity {
 									BalanceChange.current = newBalanceChange;
 									Event.currentEvent.addBalanceChange(newBalanceChange);
 									startActivity(intent);
-									//finish();	
+									EventActivity.this.finish();	
 								}else{
 									Toast.makeText(EventActivity.this, "No participants in the event, bro", Toast.LENGTH_SHORT).show();
 								}

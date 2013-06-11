@@ -226,7 +226,7 @@ public class NewTransactionActivity extends Activity {
 		Intent intent = new Intent(this, ManualInputActivity.class);
 		startActivity(intent);
 	}
-	
+	   
 	public void ibtn_camera_clicked(View view)
 	{
 		isOCRdone = true;
