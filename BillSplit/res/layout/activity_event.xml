@@ -7,7 +7,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EventActivity"
-    android:id="@+id/EventMainLayout" >
+    android:id="@+id/EventMainLayout"
+    android:background="#B6D7A8" >
 
     <TextView android:id="@+id/lblName"
         android:layout_width="wrap_content"
@@ -36,7 +37,9 @@
           android:layout_centerHorizontal="true"
           android:layout_marginTop="103dp"
           android:onClick="btn_existing_transactions_clicked"
-          android:text="@string/btn_existing_transactions_text" />
+          android:text="@string/btn_existing_transactions_text"
+          android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black" />
 
       <Button
           android:id="@+id/btn_new_transaction"
@@ -47,7 +50,9 @@
           android:layout_centerHorizontal="true"
           android:layout_marginTop="19dp"
           android:onClick="btn_new_transaction_clicked"
-          android:text="@string/btn_new_transaction_text" />
+          android:text="@string/btn_new_transaction_text"
+          android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black" />
 
       <NumberPicker
           android:id="@+id/picker_participants"

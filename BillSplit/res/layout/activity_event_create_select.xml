@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".CreateSelectEventActivity" >
+    tools:context=".CreateSelectEventActivity"
+    android:background="#B6D7A8" >
 
     <RelativeLayout
         android:id="@+id/balances"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="Owed: $0.00"
-            android:textColor="#00FF00" />
+            android:textColor="#0000FF" />
 
         <TextView
             android:id="@+id/createselect_lbl_Owing"
@@ -46,7 +47,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:onClick="btn_create_event_Clicked"
-        android:text="@string/btn_create_event_text" />
+        android:text="@string/btn_create_event_text"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black" />
 
     <!-- <fragment -->
     <!-- android:id="@+id/events_list" -->

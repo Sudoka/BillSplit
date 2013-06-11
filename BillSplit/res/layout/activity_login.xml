@@ -11,7 +11,9 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone"
+        android:background="#66FF99"
+         >
 
         
         <ProgressBar
@@ -35,7 +37,8 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="#B6D7A8" >
 
         <LinearLayout
             style="@style/LoginFormContainer"
@@ -72,17 +75,16 @@
                 android:singleLine="true"
                 android:layout_marginTop="15dp" />
 
-            
-
             <Button
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_marginTop="16dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_sign_in_register" />
+                android:text="Create Account"
+                android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black" />
             
             <Button
                 android:id="@+id/btn_view_tutorial"
@@ -93,7 +95,10 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/btn_view_tutorial_text"
-                android:onClick="viewTutorial_Clicked" />
+                android:onClick="viewTutorial_Clicked"
+                android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black"
+        android:visibility="invisible"/>"
             
             <Button
                 android:id="@+id/btn_get_started"
@@ -104,7 +109,9 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/btn_get_started_text"
-                android:onClick="getStarted_Clicked" />
+                android:onClick="getStarted_Clicked"
+                android:textColor="#FFFFFF"
+        android:background="@drawable/btn_black" />
             
             
         </LinearLayout>
