@@ -83,8 +83,10 @@ public class Event implements Serializable {
 			/*
 			 * dacashman - getGID() missing from Account contract 
 			 */
-			if(p.getAccount().getGID().equals(gid)){
-				return true;
+			if(p.hasAccount()){
+				if(p.getAccount().getGID().equals(gid)){
+					return true;
+				}
 			}
 		}
 		return false;

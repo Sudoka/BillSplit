@@ -180,7 +180,7 @@ public class EventTest {
 
 	@Test
 	public void testIsParticipantByGID() {
-		if(!this.testEvent.isParticipantByGID(this.testOwner.getName())){
+		if(!this.testEvent.isParticipantByGID(this.testOwner.getGID())){
 			fail("Owner not a participant");
 		}
 		if(this.testEvent.isParticipantByGID("BogusGID")){
@@ -270,10 +270,12 @@ public class EventTest {
 		}
 	}
 
+/*
 	@Test
 	public void testGetBalanceChangesByDate() {
 		fail("Not yet implemented");
 	}
+*/
 
 	@Test
 	public void testGetParticipantByName() {
@@ -292,7 +294,7 @@ public class EventTest {
 	@Test
 	public void testGetParticipantByGID() {
 		//test actual participant
-		Participant ptpt = testEvent.getParticipantByGID("Owner");
+		Participant ptpt = testEvent.getParticipantByGID("owner@gmail.com");
 		if(ptpt == null){
 			fail("Did not successfully retrieve Owner");
 		}
@@ -359,11 +361,11 @@ public class EventTest {
 			fail("Update Balance failed");
 		}
 		if(ptpt2.getBalance() != -14.00){
-			fail("Update Balance failed");
+			fail("Update Balance failed " + ptpt2.getBalance());
 		}
-		if(ptpt2.getBalance() != 19.00){
+		if(ptpt3.getBalance() != 19.00){
 			fail("Update Balance failed");
-		}
+		} 
 		if(ptpt4.getBalance() != -28.00){
 			fail("Update Balance failed");
 		}
