@@ -75,7 +75,12 @@ public class ManualInputActivity extends Activity {
 		EditText description= (EditText)this.findViewById(R.id.manual_input_txtDescription);
 		EditText price= (EditText)this.findViewById(R.id.manual_input_txtPrice);
 		
-		Item item = new Item(description.getText().toString(), Double.valueOf(price.getText().toString()));
+		double itemPrice = 0.0; 
+		if ((price != null) && (price.getText().toString()=="")) {
+			itemPrice = Double.valueOf(price.getText().toString());
+		}
+		
+		Item item = new Item(description.getText().toString(), itemPrice);
 		
 		Transaction.current.addItem(item);
 		
