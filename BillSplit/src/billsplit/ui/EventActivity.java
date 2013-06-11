@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import billsplit.engine.Account;
+import billsplit.engine.BalanceChange;
 import billsplit.engine.Event;
 import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
@@ -19,17 +20,23 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.method.KeyListener;
 
 public class EventActivity extends Activity {
 
@@ -140,14 +147,46 @@ public class EventActivity extends Activity {
 					
 					
 					final ParticipantView part = (ParticipantView)v;
-					//part.toogleCheck();
-					final EditText input = new EditText(EventActivity.this);
 					
+					//create a layout to hold the text boxes and buttons
+					LinearLayout layout = new LinearLayout(EventActivity.this);
+					layout.setOrientation(LinearLayout.VERTICAL);
+					
+					final EditText input = new EditText(EventActivity.this);
 					input.setText(part.getName());
+					layout.addView(input);
 
+					final EditText paymentNameInput = new EditText(EventActivity.this);
+					paymentNameInput.setHint("Set payment name...");
+					paymentNameInput.setId(3536);
+					layout.addView(paymentNameInput);
+
+					final Button paymentButton = new Button(EventActivity.this);
+					paymentButton.setText("Make Payment");
+					//paymentButton.setEnabled(false);
+					paymentButton.setOnClickListener(new Button.OnClickListener() {
+					public void onClick(View v) {
+							myEvent.getParticipantByName(part.getName().toString()).setName(input.getText().toString());
+							part.setName(input.getText().toString());
+							String paymentName = paymentNameInput.getText().toString();
+							if(paymentName != null && !paymentName.equals("")){	
+								Intent intent = new Intent(EventActivity.this, PaymentActivity.class);
+								BalanceChange newBalanceChange = new BalanceChange(paymentName, Event.currentEvent.getParticipants());
+								//TODO: fix hack from testing
+								BalanceChange.currentTest = newBalanceChange;
+								Event.currentEvent.addBalanceChange(newBalanceChange);
+								startActivity(intent);
+								finish();	
+							}else{
+								Toast.makeText(EventActivity.this, "Please enter payment name..", Toast.LENGTH_SHORT).show();
+							}
+					  }
+					});					
+					layout.addView(paymentButton);
+					
 					AlertDialog.Builder alert;
 					alert = new AlertDialog.Builder(EventActivity.this);
-					alert.setView(input);
+					alert.setView(layout);
 					alert.setTitle("Person Name");
 
 					alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -267,8 +306,7 @@ public class EventActivity extends Activity {
 		alert = new AlertDialog.Builder(this);
 		alert.setView(input);
 		alert.setTitle("Event Name");
-
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+     	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 		//  String value = input.getText();
 		  myEvent.setName(input.getText().toString());

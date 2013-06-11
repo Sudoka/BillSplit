@@ -5,6 +5,7 @@ import java.util.Collection;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
 import billsplit.engine.Participant;
+import billsplit.engine.BalanceChange;
 import billsplit.engine.Transaction;
 
 import com.billsplit.R;
@@ -36,22 +37,23 @@ public class PaymentActivity extends Activity {
 	private double debitsTotal;
 	private Collection<Participant> participants;
 	private String TAG = "PaymentActivity"; 
+	private BalanceChange localBalanceChange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-		
+		localBalanceChange = BalanceChange.currentTest;//Transaction.current;//TODO: 
 		//view to hold the unassigned value
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
-        //TODO: get the total debt owed by all participants from the transaction/event
-        debitsTotal = Transaction.current.getDebitsTotal();//Transaction.current.getDebitCreditDiff();
+        //TODO: get the total debt owed by all participants from the BalanceChange/event
+        debitsTotal = localBalanceChange.getDebitsTotal();//localBalanceChange.getDebitCreditDiff();
         Log.e(TAG, ""+debitsTotal);
         unassigned.setText(Double.toString(debitsTotal));
         
-        //get the participants from the transaction/event
+        //get the participants from the BalanceChange/event
         if(debitsTotal > 0)//we're coming in from txn, there are some items that have been assgnd.
-        	participants = Transaction.current.getParticipants();
+        	participants = localBalanceChange.getParticipants();
         else
         	participants = Event.currentEvent.getParticipants();
         
@@ -65,11 +67,12 @@ public class PaymentActivity extends Activity {
 				finish();
 			}
 		});
-
+		
+		aMethodThatAttemptsToEnableTheDoneButton(doneButton);
 		//view to hold the participants
 		layout = (RelativeLayout) findViewById(R.id.item_participantsContainer);
 
-		//add participants to the current Payment screen
+		//add participants to the currentTest Payment screen
         generateParticipants();
 
         setupActionBar();
@@ -111,7 +114,7 @@ public class PaymentActivity extends Activity {
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 			btnPart.isCheckable = true;
 			btnPart.setName(participant.getName());
-			double balance = Transaction.current.getDebit(participant) - Transaction.current.getCredit(participant);
+			double balance = localBalanceChange.getDebit(participant) - localBalanceChange.getCredit(participant);
 			btnPart.setAmount(balance);
 			btnPart.setTag(participant);
 			btnPart.setOnClickListener(new View.OnClickListener() {
@@ -139,33 +142,26 @@ public class PaymentActivity extends Activity {
 							try{
 								double amountEntered = Double.parseDouble(input.getText().toString()); 
 								
-								//TODO: add the payment to the transaction
-								double currentCredit = Transaction.current.getCredit(p);
-								Transaction.current.setCredit(p, amountEntered+currentCredit);
-								//btnUpdate.setAmount(Transaction.current.debtGetTotalAmountParticipant(p));
-								double newDebt = Transaction.current.getDebit(p) - Transaction.current.getCredit(p);
+								//TODO: add the payment to the BalanceChange
+								double currentTestCredit = localBalanceChange.getCredit(p);
+								localBalanceChange.setCredit(p, amountEntered+currentTestCredit);
+								//btnUpdate.setAmount(localBalanceChange.debtGetTotalAmountParticipant(p));
+								double newDebt = localBalanceChange.getDebit(p) - localBalanceChange.getCredit(p);
 								Toast.makeText(PaymentActivity.this, "My new balance is "+newDebt, Toast.LENGTH_SHORT).show();
 
 								EditText temp = (EditText)findViewById(R.id.item_txtUnassigned);
 								    
 								
 								//TODO: get the resulting balance
-								double debitCreditDiff = Transaction.current.getDebitCreditDiff();
+								double debitCreditDiff = localBalanceChange.getDebitCreditDiff();
 								
 								//find unassigned view
 								EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
 								//update it with debitCreditDiff
 								unassigned.setText(""+debitCreditDiff);
-
-								//TODO: check if we are done with the payments, i.e. everything is 0
-								boolean isPaymentComplete = Transaction.current.isPaymentComplete();
 								
-						        if(isPaymentComplete){
-						        	doneButton.setVisibility(View.VISIBLE);
-						        }
-						        else{
-						        	doneButton.setVisibility(View.GONE);
-						        }
+								aMethodThatAttemptsToEnableTheDoneButton(doneButton);
+								
 						        generateParticipants();
 							}catch(Exception e){
 								Log.e(TAG, e.getMessage());
@@ -196,6 +192,19 @@ public class PaymentActivity extends Activity {
 		}
 	}
     
+	private void aMethodThatAttemptsToEnableTheDoneButton(Button doneButton) {
+		//TODO: check if we are done with the payments, i.e. everything is 0
+		boolean isPaymentComplete = localBalanceChange.isPaymentComplete();
+		
+        if(isPaymentComplete){
+        	doneButton.setVisibility(View.VISIBLE);
+        }
+        else{
+        	doneButton.setVisibility(View.GONE);
+        }
+		
+	}
+	
     private void uncheckAllParticipants() {
     	for(int i=0;i<layout.getChildCount();i++){
     		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
