@@ -24,7 +24,7 @@
         android:layout_below="@+id/items_list"
         android:layout_alignRight="@+id/items_list"
         android:onClick="ibtn_camera_clicked"
-        android:src="@drawable/ic_camera"
+        android:src="@drawable/billsplit_camera"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_black" />
 
@@ -35,7 +35,7 @@
 		android:layout_below="@+id/items_list"
 		android:layout_alignLeft="@+id/items_list"
         android:onClick="ibtn_keyboard_clicked"
-        android:src="@drawable/ic_keyboard"
+        android:src="@drawable/billsplit_keyboard"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_black" />
     

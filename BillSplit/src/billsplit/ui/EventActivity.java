@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -133,7 +134,7 @@ public class EventActivity extends Activity {
 
 			btnPart.setName(participant.getName());
 			btnPart.setAmount(participant.getBalance());
-			//btnPart.setBackgroundResource(R.drawable.round_button);
+			btnPart.setBackgroundResource(R.drawable.btn_red);
 			
 			
 			//btnPart.isCheckable = true;
@@ -163,6 +164,8 @@ public class EventActivity extends Activity {
 
 					final Button paymentButton = new Button(EventActivity.this);
 					paymentButton.setText("Make Payment");
+					paymentButton.setBackgroundResource(R.drawable.btn_black);
+					paymentButton.setTextColor(Color.rgb(255,255,255));
 					//paymentButton.setEnabled(false);
 					paymentButton.setOnClickListener(new Button.OnClickListener() {
 					public void onClick(View v) {
@@ -222,7 +225,7 @@ public class EventActivity extends Activity {
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
-			params.topMargin = i * 90;
+			params.topMargin = i * 120;
 			i++;
 			layout.addView(btnPart, params);
 		}
