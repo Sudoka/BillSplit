@@ -51,8 +51,16 @@ public class Participant implements Serializable {
 		spent = 0;
 	}
 
+	/*
+	 * can return null - require check of whether or not participant has
+	 *   an account.
+	 */
+	public boolean hasAccount(){
+		return (associatedAccount != null);
+	}
 	
 	public Account getAccount(){
+		assert(hasAccount());
 		return associatedAccount;
 	}
 	
@@ -69,8 +77,8 @@ public class Participant implements Serializable {
 	
 	
 	public String toString() {
-		String str = String.format("Participant(name=%s)",getName());
-		return str;
+		//String str = String.format("Participant(name=%s)",getName());
+		return getName();
 	}
 
 	
