@@ -290,6 +290,7 @@ public class NewTransactionActivity extends Activity {
                 {
                 	Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
 					startActivity(intent);
+					finish();
                 }
                // Toast.makeText(NewTransactionActivity.this, items[which], Toast.LENGTH_LONG).show();
                 /*

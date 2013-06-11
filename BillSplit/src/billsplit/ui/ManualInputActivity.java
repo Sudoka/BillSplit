@@ -77,8 +77,10 @@ public class ManualInputActivity extends Activity {
 		EditText price= (EditText)this.findViewById(R.id.manual_input_txtPrice);
 		
 		double itemPrice = 0.0; 
-		if ((price != null) && (price.getText().toString()=="")) {
+		try{
 			itemPrice = Double.valueOf(price.getText().toString());
+		}catch(NumberFormatException nfe){
+			itemPrice = 0.0;
 		}
 		
 		Item item = new Item(description.getText().toString(), itemPrice);
@@ -86,12 +88,9 @@ public class ManualInputActivity extends Activity {
 		((Transaction)BalanceChange.current).addItem(item);
 		
 		adapter = new ItemAdapter(this,R.layout.item_description_price_row, ((Transaction)BalanceChange.current).getItems(), ((Transaction)BalanceChange.current).getItemsBools());
-		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
-		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
-		 items.setAdapter(adapter);
-	//	items.add(item);
+		ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
+		items.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
-	//	Toast.makeText(getApplicationContext(), item.getName(), Toast.LENGTH_LONG).show();
 	}
 	
 	public void btnDone_clicked(View view)
