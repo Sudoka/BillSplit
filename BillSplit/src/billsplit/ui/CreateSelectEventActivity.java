@@ -104,14 +104,14 @@ public class CreateSelectEventActivity extends Activity {
 		String eventName = "New Event "+ String.valueOf(Account.getCurrentAccount().getEvents().size()+1);
 
 		//Event newEvent = new Event(Account.getCurrentAccount().getGID(),"New Event"+ Account.getCurrentAccount().getEvents().size()+1);
-		Event newEvent = Account.getCurrentAccount().createEvent(eventName);
+		Event newEvent = Account.getCurrentAccount().createEvent(eventName);	
+		Event.currentEvent = newEvent;
+		newEvent.addParticipant(new Participant(Account.getCurrentAccount()));
+		newEvent.addParticipant(new Participant("Person"+String.valueOf(newEvent.getParticipants().size())));
 		
 		//kmakarov, July 10th, Save/Restore functionality  
 	    Account.getCurrentAccount().saveAccount(this);
 		
-		Event.currentEvent = newEvent;
-		newEvent.addParticipant(new Participant(Account.getCurrentAccount()));
-		newEvent.addParticipant(new Participant("Person"+String.valueOf(newEvent.getParticipants().size())));
 		Intent intent = new Intent(this, EventActivity.class);
 		intent.putExtra(EventActivity.ARG_ID, eventName);
 		startActivity(intent);

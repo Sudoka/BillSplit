@@ -16,7 +16,7 @@
  */
 
 package edu.sfsu.cs.orange.ocr;
- 
+
 import edu.sfsu.cs.orange.ocr.BeepManager;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
