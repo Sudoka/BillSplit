@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -125,7 +126,7 @@ public class NewTransactionActivity extends Activity {
 		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
-
+			btnPart.setBackgroundResource(R.drawable.btn_red);
 			btnPart.setName(participant.getName());
 			btnPart.setAmount(((Transaction)BalanceChange.current).debtGetTotalAmountParticipant(participant));
 
@@ -145,7 +146,7 @@ public class NewTransactionActivity extends Activity {
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
-			params.topMargin = i * 90;
+			params.topMargin = i * 120;
 			i++;
 			layout.addView(btnPart, params);
 		}

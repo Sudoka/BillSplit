@@ -112,6 +112,7 @@ public class PaymentActivity extends Activity {
 		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			btnPart.setBackgroundResource(R.drawable.btn_red);
 			btnPart.isCheckable = true;
 			btnPart.setName(participant.getName());
 			double balance = localBalanceChange.getDebit(participant) - localBalanceChange.getCredit(participant);
@@ -186,7 +187,7 @@ public class PaymentActivity extends Activity {
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
-			params.topMargin = i * 90;
+			params.topMargin = i * 120;
 			i++;
 			layout.addView(btnPart, params);
 		}

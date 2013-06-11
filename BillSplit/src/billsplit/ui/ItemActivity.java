@@ -126,6 +126,7 @@ public class ItemActivity extends Activity {
 		for (Participant participant : participants) {
 
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
+			btnPart.setBackgroundResource(R.drawable.btn_red);
 			btnPart.isCheckable = true;
 			//btnPart.setTextOn(Event.currentEvent.getParticipants().get(i).getName());
 			//btnPart.setTextOff(Event.currentEvent.getParticipants().get(i).getName());
@@ -217,7 +218,7 @@ public class ItemActivity extends Activity {
 					RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 					RelativeLayout.TRUE);
-			params.topMargin = i * 90;
+			params.topMargin = i * 120;
 			i++;
 			layout.addView(btnPart, params);
 		}
