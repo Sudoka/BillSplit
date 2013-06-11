@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import billsplit.engine.BalanceChange;
 import billsplit.engine.Event;
 import billsplit.engine.Participant;
 import billsplit.engine.Transaction;
@@ -295,7 +296,7 @@ public class EventActivity extends Activity {
 		Transaction newTransaction = new Transaction("Transaction"+String.valueOf(myEvent.getBalanceChanges().size()+1), participants);
 		//Set the newTransaction as the current transaction
 		newTransaction.setDate(new Date());
-		Transaction.current = newTransaction;
+		BalanceChange.current = newTransaction;
 		
 		myEvent.addBalanceChange(newTransaction);
 		//Start the new transaction

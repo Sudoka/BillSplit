@@ -91,8 +91,8 @@ public class CreateSelectEventActivity extends Activity {
 	    public boolean onOptionsItemSelected(MenuItem item) {
 	        switch (item.getItemId()) {
 	        case R.id.action_settings:
-	        	Intent settings = new Intent();
-	        	settings.setClassName(/*this*/"billsplit.ui", "billsplit.ui.SettingsActivity"/*SettingsActivity.class*/);
+	        	Intent settings = new Intent(this, SettingsActivity.class);
+	        	//settings.setClassName(/*this*/"billsplit.ui", "billsplit.ui.SettingsActivity"/*SettingsActivity.class*/);
 	        	startActivity(settings);
 	        	return true;
 	        	

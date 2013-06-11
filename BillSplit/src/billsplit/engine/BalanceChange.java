@@ -15,6 +15,7 @@ public class BalanceChange implements Serializable {
 	protected HashMap<Participant,Double> debits; //unordered (its a hash)
 	protected HashMap<Participant,Double> credits; //unordered (its a hash)
 	protected Collection<Participant> participants; //ordered list of participants
+	static public BalanceChange current;
 	
 	protected BalanceChange(String name, Collection<Participant> participants) {
 		// The 'real' constructor that all other constructors call
