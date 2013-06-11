@@ -42,7 +42,7 @@ public class PaymentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-		localBalanceChange = BalanceChange.current;//Transaction.current;//TODO: 
+		localBalanceChange = BalanceChange.current;
 		//view to hold the unassigned value
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         
@@ -52,10 +52,10 @@ public class PaymentActivity extends Activity {
         unassigned.setText(Double.toString(debitsTotal));
         
         //get the participants from the BalanceChange/event
-        if(debitsTotal > 0)//we're coming in from txn, there are some items that have been assgnd.
+        //if(debitsTotal > 0)//we're coming in from txn, there are some items that have been assgnd.
         	participants = localBalanceChange.getParticipants();
-        else
-        	participants = Event.currentEvent.getParticipants();
+        //else
+        //	participants = Event.currentEvent.getParticipants();
         
 		Button doneButton = (Button)findViewById(R.id.item_btnDone);
 		doneButton.setVisibility(View.GONE);

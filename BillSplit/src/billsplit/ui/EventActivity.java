@@ -133,7 +133,7 @@ public class EventActivity extends Activity {
 
 			btnPart.setName(participant.getName());
 			btnPart.setAmount(participant.getBalance());
-			btnPart.setBackgroundResource(R.drawable.round_button);
+			//btnPart.setBackgroundResource(R.drawable.round_button);
 			
 			
 			//btnPart.isCheckable = true;
@@ -171,14 +171,18 @@ public class EventActivity extends Activity {
 							String paymentName = paymentNameInput.getText().toString();
 							if(paymentName != null && !paymentName.equals("")){	
 								Intent intent = new Intent(EventActivity.this, PaymentActivity.class);
-								BalanceChange newBalanceChange = new BalanceChange(paymentName, Event.currentEvent.getParticipants());
-								newBalanceChange.setDate(new Date());
-								//TODO: fix hack from testing
-								BalanceChange.current = newBalanceChange;
-								
-								Event.currentEvent.addBalanceChange(newBalanceChange);
-								startActivity(intent);
-								finish();	
+								Collection<Participant> ppns = Event.currentEvent.getParticipants();
+								int size = ppns.size();
+								if(size > 0){
+									BalanceChange newBalanceChange = new BalanceChange(paymentName, ppns);
+									newBalanceChange.setDate(new Date());
+									BalanceChange.current = newBalanceChange;
+									Event.currentEvent.addBalanceChange(newBalanceChange);
+									startActivity(intent);
+									//finish();	
+								}else{
+									Toast.makeText(EventActivity.this, "No participants in the event, bro", Toast.LENGTH_SHORT).show();
+								}
 							}else{
 								Toast.makeText(EventActivity.this, "Please enter payment name..", Toast.LENGTH_SHORT).show();
 							}
