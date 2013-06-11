@@ -43,12 +43,14 @@ public class SettingsActivity extends PreferenceActivity {
 				SharedPreferences sharedPreferences, String key) {
 			if (key.equals(SettingsActivity.KEY_USER_NAME)) {
 	            String newValue = sharedPreferences.getString(key, "");
-	            Account.getCurrentAccount().setName(newValue);
+	            //kmakarov, July 10th, Save/Restore functionality
+	            Account.getCurrentAccount().setName(newValue, this.getActivity());
 	            //Toast.makeText(getActivity(), newValue, Toast.LENGTH_LONG).show();
 	        }
 			if (key.equals(SettingsActivity.KEY_USER_GID)) {
 	            String newValue = sharedPreferences.getString(key, "");
-	            Account.getCurrentAccount().setGID(newValue);
+	            //kmakarov, July 10th, Save/Restore functionality
+	            Account.getCurrentAccount().setGID(newValue, this.getActivity());
 	            //Toast.makeText(getActivity(), newValue, Toast.LENGTH_LONG).show();
 	        }
 			
