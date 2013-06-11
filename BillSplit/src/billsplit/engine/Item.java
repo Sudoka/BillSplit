@@ -3,6 +3,8 @@ package billsplit.engine;
 import java.io.Serializable;
 
 public class Item implements Serializable {
+
+	private static final long serialVersionUID = 1955490332935909886L;
 	public static Item currentItem;
 	private String name;
 	private double cost;

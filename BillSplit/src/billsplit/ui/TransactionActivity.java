@@ -32,7 +32,6 @@ public class TransactionActivity extends Activity {
 		setupActionBar();
 	}
  
-
 	@Override
 	protected void onResume() {
 		super.onResume();

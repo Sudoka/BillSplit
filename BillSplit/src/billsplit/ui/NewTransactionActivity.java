@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import billsplit.engine.Account;
+import billsplit.engine.BalanceChange;
 import billsplit.engine.DataCapture;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
@@ -79,17 +80,17 @@ public class NewTransactionActivity extends Activity {
 		generateParticipants();
 	    ArrayList<Item> newItems = getItemList();
 		for(Item item : newItems){
-			Transaction.current.addItem(item);
+			((Transaction)BalanceChange.current).addItem(item);
 		}
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, ((Transaction)BalanceChange.current).getItems(), ((Transaction)BalanceChange.current).getItemsBools());
 		 ListView items = (ListView) findViewById(R.id.items_list);
 		 OnItemClickListener itemClicked = new OnItemClickListener() {
 				public void onItemClick(AdapterView parent, View v, int position,
 						long id) {
 					Intent intent = new Intent(getApplicationContext(),
 							ItemActivity.class);
-					Item.currentItem = Transaction.current.getItems().get(position);
+					Item.currentItem = ((Transaction)BalanceChange.current).getItems().get(position);
 					startActivity(intent);
 				}
 			};
@@ -106,7 +107,7 @@ public class NewTransactionActivity extends Activity {
 
 
 		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
-		if(Transaction.current.debtAllItemsDone()){
+		if(((Transaction)BalanceChange.current).debtAllItemsDone() && ((Transaction)BalanceChange.current).getItems().size()>0){
 			btnPay.setVisibility(View.VISIBLE);
 		}
 		else{
@@ -126,7 +127,7 @@ public class NewTransactionActivity extends Activity {
 			ParticipantView btnPart = new ParticipantView(getApplicationContext());
 
 			btnPart.setName(participant.getName());
-			btnPart.setAmount(Transaction.current.debtGetTotalAmountParticipant(participant));
+			btnPart.setAmount(((Transaction)BalanceChange.current).debtGetTotalAmountParticipant(participant));
 
 			btnPart.setOnClickListener(new View.OnClickListener() {
 				
@@ -266,7 +267,8 @@ public class NewTransactionActivity extends Activity {
 	}
 	
 	public void btn_pay_clicked(View view){
-		//Account.getCurrentAccount().saveAccount();
+		//kmakarov July 10th, Save/Restore functionality
+		Account.getCurrentAccount().saveAccount(this);
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Payment Options");
         alert.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener() {
@@ -276,12 +278,12 @@ public class NewTransactionActivity extends Activity {
                 
                 if(items[which].equals("Fairly"))
                 {
-                	Transaction.current.payFairly();
+                	((Transaction)BalanceChange.current).payFairly();
                 	finish();
                 }
                 if(items[which].equals("Evenly"))
                 {
-                	Transaction.current.payEvenly();     
+                	((Transaction)BalanceChange.current).payEvenly();     
                 	finish();
                 }
                 if(items[which].equals("Custom"))

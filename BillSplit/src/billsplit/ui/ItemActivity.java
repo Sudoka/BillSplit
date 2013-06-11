@@ -1,6 +1,7 @@
 package billsplit.ui;
 import java.util.Collection;
 
+import billsplit.engine.BalanceChange;
 import billsplit.engine.Event;
 import billsplit.engine.Item;
 import billsplit.engine.Participant;
@@ -59,7 +60,7 @@ public class ItemActivity extends Activity {
 		Button doneButton = (Button)findViewById(R.id.item_btnDone);
 		doneButton.setVisibility(View.GONE);
 		
-		Transaction.current.debtResetItem(Item.currentItem);
+		((Transaction)BalanceChange.current).debtResetItem(Item.currentItem);
 		
         generateParticipants();
         // Show the Up button in the action bar.
@@ -151,20 +152,20 @@ public class ItemActivity extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
 							if(!manualInputEntered){
-								Transaction.current.debtResetItem(Item.currentItem);
+								((Transaction)BalanceChange.current).debtResetItem(Item.currentItem);
 								uncheckAllParticipants();
 								checkParticipantsChecked();
 							}
 							Participant p = (Participant)part.getTag();
 							try{
-							Transaction.current.debtSet(Item.currentItem, p, Double.parseDouble(input.getText().toString()));
+								((Transaction)BalanceChange.current).debtSet(Item.currentItem, p, Double.parseDouble(input.getText().toString()));
 							part.setAmount(Double.parseDouble(input.getText().toString()));
 							//unassignedAmount -= Double.parseDouble(input.getText().toString());
 							EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
-					        unassigned.setText("$"+String.valueOf(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)));
+					        unassigned.setText("$"+String.valueOf(((Transaction)BalanceChange.current).debtGetItemDebtRemaining(Item.currentItem)));
 					        manualInputEntered = true;
 					        Button doneButton = (Button)findViewById(R.id.item_btnDone);
-					        if(Transaction.current.debtGetItemDebtRemaining(Item.currentItem)==0){
+					        if(((Transaction)BalanceChange.current).debtGetItemDebtRemaining(Item.currentItem)==0){
 					        	doneButton.setVisibility(View.VISIBLE);
 					        }
 					        else
@@ -236,7 +237,7 @@ public class ItemActivity extends Activity {
     		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				Participant p = (Participant)btnPart.getTag();
-				Transaction.current.debtAddParticipant(Item.currentItem, p);
+				((Transaction)BalanceChange.current).debtAddParticipant(Item.currentItem, p);
 			}
     	}
     	
@@ -245,7 +246,7 @@ public class ItemActivity extends Activity {
     		ParticipantView btnPart = (ParticipantView)layout.getChildAt(i);
 			if(btnPart.isChecked()){
 				Participant p = (Participant)btnPart.getTag();
-				btnPart.setAmount(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem));
+				btnPart.setAmount(((Transaction)BalanceChange.current).debtGetItemAmountParticipant(p, Item.currentItem));
 				/*btnPart.setText(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
 				btnPart.setTextOn(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));
 				btnPart.setTextOff(p.getName()+" $"+String.valueOf(Transaction.current.debtGetItemAmountParticipant(p, Item.currentItem)));

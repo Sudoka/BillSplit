@@ -37,7 +37,8 @@ public class CreateSelectEventActivity extends Activity {
 		String userName = settings.getString(SettingsActivity.KEY_USER_NAME, SettingsActivity.DEFAULT_VALUE_USER_NAME);
 		
 		//Toast.makeText(getApplicationContext(), GID, Toast.LENGTH_LONG).show();
-		Account.setCurrentAccount(Account.createNewAccount(GID, userName));
+		//kmakarov, July 10th, Save/Restore functionality
+		Account.setCurrentAccount(Account.createNewAccount(GID, userName, this));
 		
 		  //Test code 
 		/*
@@ -91,6 +92,7 @@ public class CreateSelectEventActivity extends Activity {
 	        switch (item.getItemId()) {
 	        case R.id.action_settings:
 	        	Intent settings = new Intent(this, SettingsActivity.class);
+	        	//settings.setClassName(/*this*/"billsplit.ui", "billsplit.ui.SettingsActivity"/*SettingsActivity.class*/);
 	        	startActivity(settings);
 	        	return true;
 	        	
@@ -103,7 +105,10 @@ public class CreateSelectEventActivity extends Activity {
 
 		//Event newEvent = new Event(Account.getCurrentAccount().getGID(),"New Event"+ Account.getCurrentAccount().getEvents().size()+1);
 		Event newEvent = Account.getCurrentAccount().createEvent(eventName);
-	//	Account.getCurrentAccount().saveAccount();
+		
+		//kmakarov, July 10th, Save/Restore functionality  
+	    Account.getCurrentAccount().saveAccount(this);
+		
 		Event.currentEvent = newEvent;
 		newEvent.addParticipant(new Participant(Account.getCurrentAccount()));
 		newEvent.addParticipant(new Participant("Person"+String.valueOf(newEvent.getParticipants().size())));

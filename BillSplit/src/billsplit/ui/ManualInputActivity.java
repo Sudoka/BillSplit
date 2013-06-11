@@ -3,6 +3,7 @@ package billsplit.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import billsplit.engine.BalanceChange;
 import billsplit.engine.Item;
 import billsplit.engine.Transaction;
 
@@ -29,7 +30,7 @@ public class ManualInputActivity extends Activity {
 		setContentView(R.layout.activity_manual_input);
 		
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, ((Transaction)BalanceChange.current).getItems(), ((Transaction)BalanceChange.current).getItemsBools());
 		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
 		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
 		 items.setAdapter(adapter);
@@ -75,11 +76,16 @@ public class ManualInputActivity extends Activity {
 		EditText description= (EditText)this.findViewById(R.id.manual_input_txtDescription);
 		EditText price= (EditText)this.findViewById(R.id.manual_input_txtPrice);
 		
-		Item item = new Item(description.getText().toString(), Double.valueOf(price.getText().toString()));
+		double itemPrice = 0.0; 
+		if ((price != null) && (price.getText().toString()=="")) {
+			itemPrice = Double.valueOf(price.getText().toString());
+		}
 		
-		Transaction.current.addItem(item);
+		Item item = new Item(description.getText().toString(), itemPrice);
 		
-		adapter = new ItemAdapter(this,R.layout.item_description_price_row, Transaction.current.getItems(), Transaction.current.getItemsBools());
+		((Transaction)BalanceChange.current).addItem(item);
+		
+		adapter = new ItemAdapter(this,R.layout.item_description_price_row, ((Transaction)BalanceChange.current).getItems(), ((Transaction)BalanceChange.current).getItemsBools());
 		//adapter = new ItemAdapter(this,android.R.layout.simple_list_item_1, items);
 		 ListView items = (ListView) findViewById(R.id.manual_input_itemlist);
 		 items.setAdapter(adapter);

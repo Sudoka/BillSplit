@@ -42,7 +42,7 @@ public class PaymentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-		localBalanceChange = BalanceChange.currentTest;//Transaction.current;//TODO: 
+		localBalanceChange = BalanceChange.current;//Transaction.current;//TODO: 
 		//view to hold the unassigned value
         EditText unassigned = (EditText)findViewById(R.id.item_txtUnassigned);
         

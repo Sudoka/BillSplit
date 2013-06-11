@@ -5,6 +5,8 @@ package billsplit.engine;
 import java.util.*;
 import java.io.*;
 
+import android.content.Context;
+
 /**
  * @author kmakarov
  *
@@ -166,6 +168,45 @@ public class Account implements Serializable {
 		}
 	}
 	
+	/*a new version of createNewAccount that also takes in a context*/
+	public static Account createNewAccount(String GID, String name, Context activity) {
+		
+		String[] emailParts = GID.split("@"); 
+		
+		//Check if this Account is already stored
+		String fileName = name + "_" + emailParts[0] + "_" + emailParts[1]; 
+		
+		File f = new File(activity.getFilesDir(), fileName);
+		
+		if(f.exists()) {
+		    try {
+		        //use buffering
+		        FileInputStream fis = activity.openFileInput(fileName);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				try {
+					Account recoveredAccount = (Account) ois.readObject();
+					currentAccount = recoveredAccount;
+			        return recoveredAccount;
+				}
+		        finally {
+		        	ois.close();
+		        }
+		      }
+		    
+		    catch(ClassNotFoundException ex){
+		    	System.out.println("Cannot perform input. Class not found.");
+		    	return createAndStoreAccount(fileName, GID, name);
+		    }
+		    catch(IOException ex){
+		        System.out.println("Cannot perform input.");
+		        return createAndStoreAccount(fileName, GID, name);
+		    }
+		    
+		} else {
+			return createAndStoreAccount(fileName, GID, name, activity);
+		}
+	}
+	
 	private static Account createAndStoreAccount(String fileName, String GID, String name) {
 		Account newAccount = new Account(GID, name); 
 		Account.currentAccount = newAccount;
@@ -180,6 +221,30 @@ public class Account implements Serializable {
 	        }
 	        finally {
 	        	output.close();
+	        }
+	      }  
+	      catch(IOException ex){
+	        System.out.println("Cannot perform output.");
+	      }
+		
+		return newAccount;
+	}
+	
+	/*updated createNewAccount helper which takes in the activity*/
+	private static Account createAndStoreAccount(String fileName, String GID, String name, Context activity) {
+		Account newAccount = new Account(GID, name); 
+		Account.currentAccount = newAccount;
+		
+	    try {
+	        //use buffering
+	        FileOutputStream fos = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(newAccount); 
+	        try {
+	        	oos.writeObject(newAccount);
+	        }
+	        finally {
+	        	oos.close();
 	        }
 	      }  
 	      catch(IOException ex){
@@ -248,6 +313,20 @@ public class Account implements Serializable {
 		this.name = name;
 		saveAccount();
 	}
+	
+	public void setName(String name, Context activity) {
+		
+		String[] emailParts = GID.split("@");
+		//Recover the original file name
+		String fileName = this.name + "_" + emailParts[0] + "_" + emailParts[1];
+
+		File f = new File(activity.getFilesDir(), fileName);
+		if (f.exists()) {
+			f.delete();
+		} 
+		this.name = name;
+		saveAccount(activity);
+	}
 
 	/*
 	 * ensure Account.GID == GID
@@ -264,6 +343,19 @@ public class Account implements Serializable {
 		} 
 		this.GID = GID;
 		saveAccount();
+	}
+	
+	public void setGID(String GID, Context activity) {
+		String[] emailParts = this.GID.split("@");
+		//Recover the original file name
+		String fileName = this.name + "_" + emailParts[0] + "_" + emailParts[1];
+
+		File f = new File(activity.getFilesDir(), fileName);
+		if (f.exists()) {
+			f.delete();
+		} 
+		this.GID = GID;
+		saveAccount(activity);
 	}
 
 	/*
@@ -288,6 +380,30 @@ public class Account implements Serializable {
 	        }
 	        finally {
 	        	output.close();
+	        }
+	      }
+	    
+	      catch(IOException ex){
+	    	  System.out.println("Cannot perform output.");
+	      }
+	}
+	
+	public void saveAccount(Context activity) {
+		
+		String[] emailParts = GID.split("@");
+		//Recover the file name
+		String fileName = name + "_" + emailParts[0] + "_" + emailParts[1];
+		
+	    try {
+	        //use buffering
+			FileOutputStream fos = activity.openFileOutput(fileName, Context.MODE_PRIVATE);
+			ObjectOutputStream oos = new ObjectOutputStream(fos); 
+	        
+	        try {
+	        	oos.writeObject(this);
+	        }
+	        finally {
+	        	oos.close();
 	        }
 	      }
 	    

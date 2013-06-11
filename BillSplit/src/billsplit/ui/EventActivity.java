@@ -173,7 +173,7 @@ public class EventActivity extends Activity {
 								Intent intent = new Intent(EventActivity.this, PaymentActivity.class);
 								BalanceChange newBalanceChange = new BalanceChange(paymentName, Event.currentEvent.getParticipants());
 								//TODO: fix hack from testing
-								BalanceChange.currentTest = newBalanceChange;
+								BalanceChange.current = newBalanceChange;
 								Event.currentEvent.addBalanceChange(newBalanceChange);
 								startActivity(intent);
 								finish();	
@@ -338,7 +338,7 @@ public class EventActivity extends Activity {
 		Transaction newTransaction = new Transaction("Transaction"+String.valueOf(myEvent.getBalanceChanges().size()+1), participants);
 		//Set the newTransaction as the current transaction
 		newTransaction.setDate(new Date());
-		Transaction.current = newTransaction;
+		BalanceChange.current = newTransaction;
 		
 		myEvent.addBalanceChange(newTransaction);
 		//Start the new transaction
