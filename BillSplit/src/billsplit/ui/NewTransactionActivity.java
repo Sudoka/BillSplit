@@ -106,7 +106,7 @@ public class NewTransactionActivity extends Activity {
 
 
 		Button btnPay = (Button)this.findViewById(R.id.btn_pay);
-		if(Transaction.current.debtAllItemsDone()){
+		if(Transaction.current.debtAllItemsDone() && Transaction.current.getItems().size()>0){
 			btnPay.setVisibility(View.VISIBLE);
 		}
 		else{
